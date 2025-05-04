@@ -1,0 +1,217 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .buttonHelp {
+    color: wheat;
+    background-image: linear-gradient(180deg, green, lightgreen);
+  
+    text-align: center;
+    text-shadow: 1px 1px 4px black;
+    border-color: pink;
+    border-radius: 10px;
+    float: right;
+  }
+  
+  
+  .buttonNone {
+    display: none;
+  }
+  
+  .divDisplayBlock {
+    width: 100%;
+    background-color: lightblue;
+    margin-top: 20px;
+    display: block;
+  }
+  
+  .divDisplayNone {
+    width: 100%;
+    background-color: lightblue;
+    margin-top: 20px;
+    display: none;
+  }
+  /* Modal.css */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modalHeight {
+    min-height: 500px;
+    width: 330px;
+  }
+  
+  .modalHit {
+    color: peachpuff;
+  
+    background-image: linear-gradient(180deg, lightgreen, green);
+    text-align: center;
+    text-shadow: 1px 1px 9px black;
+    border-color: orange;
+    border-radius: 10px;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 75px;
+  }
+  
+  .modalHit p {
+    margin: 3px;
+  }
+  
+  .modalHit :last-child {
+    margin-bottom: 10px;
+  }
+  
+  .seriesLine{
+    font-size: 16px;
+    color:blueviolet;
+    text-shadow: -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
+  }
+  
+  .splashQuote {
+    width: 300px;
+    height: 45px;
+  
+    background-image: linear-gradient(180deg, lightgrey, lightgrey);
+    text-align: center;
+    vertical-align: middle;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: bold;
+    color: darkgreen;
+    text-shadow: 1px 2px 2px slate;
+    border-width: 3px;
+    border-color: lightgrey;
+  }
+  
+  .starting9Start {
+    color: black;
+    background-color: yellow;
+    text-align: center;
+    font-weight: bold;
+    border-color: black;
+    border-radius: 10px;
+  }
+  
+  .starting9Title {
+    color: white;
+    background-image: linear-gradient(160deg, green, lightgreen);
+    text-align: center;
+    text-shadow: 1px 1px 4px purple;
+    border-color: darkgreen;
+    border-radius: 10px;
+  }
+  
+  .statTable {
+    border-collapse: collapse;
+    border-radius: 5px;
+  }
+  
+  .alignRight {
+    text-align: right;
+  }
+  
+  .alignLeft {
+    text-align: left;
+  }
+  
+  p {
+    margin: 0.5em 0; 
+  }
+  
+  table {
+    border-collapse: collapse;
+    border: 2px solid darkgreen;
+  }
+  
+  .td-atBatHeader {
+    background-color: lightgrey;
+    width: 320px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryTeam {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    width: 200px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryTeamLoser {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    background-color: red;
+    width: 200px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryResult {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    width: 100px;
+    height: 10px;
+    font-weight: bold;
+  }
+  
+  .td-statHeader {
+    background-color: lightgrey;
+    width: 275px;
+    height: 10px;
+  }
+  
+  .td-statBox td {
+    border: 1px solid black;
+  }
+  
+  .td-posNewSelected {
+    height: 15px;
+    background-color: lightgray;
+    font-size: 15px;
+  
+    font-weight: bolder;
+    color: blueviolet;
+    text-shadow: -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white;
+  }
+  
+  .td-posSelected {
+    height: 15px;
+    background-color: lightgray;
+    font-size: 15px;
+  
+    font-weight: bolder;
+    color: darkgreen;
+    text-shadow: 1px 2px 2px white;
+  }
+  
+  .td-posUnSelected {
+    height: 15px;
+    background-color: white;
+    font-size: 15px;
+    visibility: hidden;
+  }
+  
