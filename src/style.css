@@ -214,4 +214,34 @@
     font-size: 15px;
     visibility: hidden;
   }
+
+  .td-vennMiss {
+    background-color: lightgray;
+    background-image: linear-gradient(180deg, lightgrey, grey);
+    height: 35px;
+    border-radius: 20px;
+    width: 100px;
+  }
   
+  .td-vennMatch {
+    background-color: lightgreen, yellow;
+    background-image: linear-gradient(180deg, lightgreen, yellow);
+  
+    border-radius: 20px;
+    height: 35px;
+    width: 100px;
+  }
+  
+  .td-wineMiss {
+    height: 25px;
+    background-color: lightgray;
+  }
+  
+  .td-wineMatch {
+    height: 25px;
+    background-color: lightgray;
+    font-size: 19px;
+    font-style: italic;
+    color: green;
+    text-shadow: 1px 1px 1px black;
+  }
