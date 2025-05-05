@@ -1,473 +1,247 @@
 .App {
-  font-family: sans-serif;
-  text-align: center;
-}
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .buttonHelp {
+    color: wheat;
+    background-image: linear-gradient(180deg, green, lightgreen);
+  
+    text-align: center;
+    text-shadow: 1px 1px 4px black;
+    border-color: pink;
+    border-radius: 10px;
+    float: right;
+  }
+  
+  
+  .buttonNone {
+    display: none;
+  }
+  
+  .divDisplayBlock {
+    width: 100%;
+    background-color: lightblue;
+    margin-top: 20px;
+    display: block;
+  }
+  
+  .divDisplayNone {
+    width: 100%;
+    background-color: lightblue;
+    margin-top: 20px;
+    display: none;
+  }
+  /* Modal.css */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modalHeight {
+    min-height: 500px;
+    width: 330px;
+  }
+  
+  .modalHit {
+    color: peachpuff;
+  
+    background-image: linear-gradient(180deg, lightgreen, green);
+    text-align: center;
+    text-shadow: 1px 1px 9px black;
+    border-color: orange;
+    border-radius: 10px;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 75px;
+  }
+  
+  .modalHit p {
+    margin: 3px;
+  }
+  
+  .modalHit :last-child {
+    margin-bottom: 10px;
+  }
+  
+  .seriesLine{
+    font-size: 16px;
+    color:blueviolet;
+    text-shadow: -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
+  }
+  
+  .splashQuote {
+    width: 300px;
+    height: 45px;
+  
+    background-image: linear-gradient(180deg, lightgrey, lightgrey);
+    text-align: center;
+    vertical-align: middle;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: bold;
+    color: darkgreen;
+    text-shadow: 1px 2px 2px slate;
+    border-width: 3px;
+    border-color: lightgrey;
+  }
+  
+  .starting9Start {
+    color: black;
+    background-color: yellow;
+    text-align: center;
+    font-weight: bold;
+    border-color: black;
+    border-radius: 10px;
+  }
+  
+  .starting9Title {
+    color: white;
+    background-image: linear-gradient(160deg, green, lightgreen);
+    text-align: center;
+    text-shadow: 1px 1px 4px purple;
+    border-color: darkgreen;
+    border-radius: 10px;
+  }
+  
+  .statTable {
+    border-collapse: collapse;
+    border-radius: 5px;
+  }
+  
+  .alignRight {
+    text-align: right;
+  }
+  
+  .alignLeft {
+    text-align: left;
+  }
+  
+  p {
+    margin: 0.5em 0; 
+  }
+  
+  table {
+    border-collapse: collapse;
+    border: 2px solid darkgreen;
+  }
+  
+  .td-atBatHeader {
+    background-color: lightgrey;
+    width: 320px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryTeam {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    width: 200px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryTeamLoser {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    background-color: red;
+    width: 200px;
+    height: 10px;
+  }
+  
+  .td-atBatHistoryResult {
+    font-size: 11px;
+    border: 2px solid darkgreen;
+    width: 100px;
+    height: 10px;
+    font-weight: bold;
+  }
+  
+  .td-statHeader {
+    background-color: lightgrey;
+    width: 275px;
+    height: 10px;
+  }
+  
+  .td-statBox td {
+    border: 1px solid black;
+  }
+  
+  .td-posNewSelected {
+    height: 15px;
+    background-color: lightgray;
+    font-size: 15px;
+  
+    font-weight: bolder;
+    color: blueviolet;
+    text-shadow: -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white;
+  }
+  
+  .td-posSelected {
+    height: 15px;
+    background-color: lightgray;
+    font-size: 15px;
+  
+    font-weight: bolder;
+    color: darkgreen;
+    text-shadow: 1px 2px 2px white;
+  }
+  
+  .td-posUnSelected {
+    height: 15px;
+    background-color: white;
+    font-size: 15px;
+    visibility: hidden;
+  }
 
-button {
-  height: 30px;
-  font-weight: bold;
-}
-
-.button_container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.buttonOFF {
-  width: 30px;
-  background-color: lightgrey;
-  font-weight: normal;
-}
-
-.buttonName {
-  width: 85px;
-}
-
-.buttonYear {
-  width: 50px;
-}
-
-.buttonFlight {
-  width: 30px;
-}
-
-.buttonGOOD {
-  background-color: lightgreen;
-}
-.buttonBAD {
-  background-color: red;
-}
-.buttonLOW {
-  background-color: red;
-}
-.buttonHI {
-  background-color: yellow;
-}
-
-#divHide {
-  width: 100%;
-  background-color: lightblue;
-  margin-top: 20px;
-  display: block;
-}
-
-.divDisplayBlock {
-  width: 100%;
-  background-color: lightblue;
-  margin-top: 20px;
-  display: block;
-}
-
-.divDisplayNone {
-  width: 100%;
-  background-color: lightblue;
-  margin-top: 20px;
-  display: none;
-}
-.dropdown {
-  position: relative;
-  color: #333;
-  cursor: default;
-}
-
-.dropdown .arrow {
-  border-color: #999 transparent transparent;
-  border-style: solid;
-  border-width: 5px 5px 0;
-  content: " ";
-  display: block;
-  height: 0;
-  margin-top: 0.3rem;
-  position: absolute;
-  right: 10px;
-  top: 14px;
-  width: 0;
-}
-
-.dropdown .arrow.open {
-  border-color: transparent transparent #999;
-  border-width: 0 5px 5px;
-}
-
-.dropdown .selected-value input {
-  line-height: 1.5;
-  font-size: 1rem;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  box-sizing: border-box;
-  cursor: default;
-  outline: none;
-  padding: 8px 52px 8px 10px;
-  transition: all 200ms ease;
-  width: 100%;
-}
-
-.dropdown .options {
-  display: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-  box-sizing: border-box;
-  margin-top: -1px;
-  max-height: 200px;
-  overflow-y: auto;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  z-index: 1000;
-  -webkit-overflow-scrolling: touch;
-}
-
-.dropdown .options.open {
-  display: block;
-}
-
-.dropdown .option {
-  box-sizing: border-box;
-  color: rgba(51, 51, 51, 0.8);
-  cursor: pointer;
-  display: block;
-  padding: 8px 10px;
-}
-
-.dropdown .option.selected,
-.dropdown .option:hover {
-  background-color: #f2f9fc;
-  color: #333;
-}
-
-/* Modal.css */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.notesTable {
-  border: 0;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.resetButton {
-  color: black;
-  background-color: lightgrey;
-
-  text-align: center;
-  text-shadow: 1px 1px 4px white;
-
-  border-radius: 10px;
-}
-
-.sofaSommTitle {
-  color: peachpuff;
-  background-color: orangered;
-  background-image: linear-gradient(180deg, pink, purple);
-  text-align: center;
-  text-shadow: 1px 1px 4px black;
-  border-color: orange;
-  border-radius: 10px;
-}
-
-.sofaSommStart {
-  color: black;
-  background-color: yellow;
-  text-align: center;
-  text-shadow: 1px 1px 4px white;
-  border-color: black;
-  border-radius: 10px;
-}
-
-.sofaSommHelp {
-  color: peachpuff;
-  background-image: linear-gradient(180deg, pink, purple);
-
-  text-align: center;
-  text-shadow: 1px 1px 4px black;
-  border-color: orange;
-  border-radius: 10px;
-  float: right;
-}
-
-table {
-  border: 2px solid darkgreen;
-}
-
-tr-venn {
-  border: 2px solid forestgreen;
-  height: 70px;
-}
-
-tr-wine {
-  border: 2px solid forestgreen;
-  height: 50px;
-}
-
-th {
-  border-bottom: 1px solid black;
-}
-
-td {
-  border: 2px solid forestgreen;
-  background-color: lightgray;
-  text-align: center;
-  width: 99px;
-  height: 40px;
-}
-
-.h1-background-bubbles {
-  width: 220px;
-  height: 45px;
-  background-image: url(https://media.tenor.com/XvRpz6YSnKYAAAAj/ludwigundich-ludwigvon-kapff.gif);
-}
-
-.h1-background-bottle-glass {
-}
-
-.td-wineStyle {
-  background-color: peachpuff;
-  font-size: 17px;
-  font-style: italic;
-  text-shadow: 1px 9px 4px orange;
-}
-
-.tdBlue {
-  background-color: blue;
-}
-
-.td-wineMiss {
-  height: 25px;
-  background-color: lightgray;
-}
-
-.td-wineMatch {
-  height: 25px;
-  background-color: lightgray;
-  font-size: 19px;
-  font-style: italic;
-  color: green;
-  text-shadow: 1px 1px 1px black;
-}
-
-.sofaJPG {
-  filter: contrast(75%);
-  width: 320px;
-
-  font-size: 17px;
-  font-weight: bold;
-  color: black;
-}
-.splashQuote {
-  width: 300px;
-  height: 45px;
-  background-color: orangered;
-  background-image: linear-gradient(180deg, pink, orange);
-  text-align: center;
-  vertical-align: middle;
-  font-size: 17px;
-  font-style: italic;
-  color: blue;
-  text-shadow: 1px 2px 2px lightgreen;
-  border-width: 3px;
-  border-color: lightgrey;
-}
-
-.td-backColorWhtite {
-  background-color: white;
-  width: 30px;
-  border: none;
-}
-
-.td-vennMiss {
-  background-color: lightgray;
-  background-image: linear-gradient(180deg, lightgrey, grey);
-  height: 35px;
-  border-radius: 20px;
-  width: 100px;
-}
-
-.td-vennMatch {
-  background-color: lightgreen, yellow;
-  background-image: linear-gradient(180deg, lightgreen, yellow);
-
-  border-radius: 20px;
-  height: 35px;
-  width: 100px;
-}
-
-.td-bottleHistory {
-  width: 310px;
-  height: 20px;
-}
-
-.td-modalStats {
-  width: 153px;
-  border: none;
-}
-.td-modalWineScore {
-  width: 310px;
-  border: none;
-}
-
-.modalTable {
-  border-radius: 5px;
-}
-td-good {
-  border: 2px solid forestgreen;
-  background-color: forestgreen;
-  text-align: center;
-  width: 99px;
-}
-
-.td-wineStyle td {
-  background-color: forestgreen;
-}
-
-.venn-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  width: 280px;
-}
-
-.venn-buttonA {
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 20%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.venn-buttonB {
-  background-color: Red;
-  color: white;
-  border: none;
-  border-radius: 20%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.venn-buttonC {
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 20%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.venn-buttonAB {
-  background-color: blue;
-  color: white;
-  border: none;
-  border-radius: 40%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  left: 1;
-  top: 0;
-}
-
-.venn-buttonAC {
-  background-color: blue;
-  color: white;
-  border: none;
-  border-radius: 40%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  left: 0;
-  top: 1;
-}
-
-.venn-buttonBC {
-  background-color: blue;
-  color: white;
-  border: none;
-  border-radius: 40%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 1;
-}
-
-.venn-buttonABC {
-  background-color: darkgreen;
-  color: white;
-  border: none;
-  border-radius: 100%;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  position: absolute;
-  right: 60;
-  top: 3;
-}
-
-.venn-circle {
-  position: absolute;
-  border: 2px dashed #333;
-  border-radius: 50%;
-}
-
-#circleTopLeft {
-  width: 200px;
-  height: 160px;
-  left: 0;
-  top: 1;
-}
-
-#circleTopRight {
-  width: 200px;
-  height: 160px;
-  right: 0;
-  top: 1;
-}
-
-#circleBottom {
-  width: 200px;
-  height: 160px;
-  left: 120;
-  bottom: 0;
-}
+  .td-vennMiss {
+    background-color: lightgray;
+    background-image: linear-gradient(180deg, lightgrey, grey);
+    height: 35px;
+    border-radius: 20px;
+    width: 100px;
+  }
+  
+  .td-vennMatch {
+    background-color: lightgreen, yellow;
+    background-image: linear-gradient(180deg, lightgreen, yellow);
+  
+    border-radius: 20px;
+    height: 35px;
+    width: 100px;
+  }
+  
+  .td-wineMiss {
+    height: 25px;
+    background-color: lightgray;
+  }
+  
+  .td-wineMatch {
+    height: 25px;
+    background-color: lightgray;
+    font-size: 19px;
+    font-style: italic;
+    color: green;
+    text-shadow: 1px 1px 1px black;
+  }
