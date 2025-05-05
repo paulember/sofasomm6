@@ -187,6 +187,224 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (game !== null) {
+      if (game > 0) {
+        setStartMsg("");
+        setStartButtonLabel("Tasting: ");
+      }
+      let newVennKey = [
+        [getVennGame(game).venn_0],
+        [getVennGame(game).venn_1],
+        [getVennGame(game).venn_2],
+        [getVennGame(game).venn_3],
+        [getVennGame(game).venn_4],
+        [getVennGame(game).venn_5]
+      ];
+      setVennKey(newVennKey);
+
+      const tempArray = [];
+      for (let i = 0; i < 6; i++) {
+        tempArray[i] = "td-vennMiss";
+      }
+
+      setVenntdClass([
+        tempArray[0],
+        tempArray[1],
+        tempArray[2],
+        tempArray[3],
+        tempArray[4],
+        tempArray[5]
+      ]);
+
+      setSelectWineDisabled(true);
+      setSelectedStyle("Select a Wine Style...");
+      setDropStyle("Select a Bottle of Wine...");
+      setWineScore(99);
+      setGameBottle(0);
+      setGameSpills(0);
+
+      setLSTotalNotes(localStorage.getItem("TotalNotes"));
+      setLSTotalScore(localStorage.getItem("TotalScore"));
+      setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
+      setLSTastingCount(localStorage.getItem("TastingCount"));
+
+      if (LSTotalNotes == null) {
+        localStorage.setItem("TotalNotes", 0);
+        setLSTotalNotes(localStorage.getItem("TotalNotes"));
+      }
+      if (LSTotalScore == null) {
+        localStorage.setItem("TotalScore", 0);
+        setLSTotalScore(localStorage.getItem("TotalScore"));
+      }
+      if (LSBalthazarCount == null) {
+        localStorage.setItem("BalthazarCount", 0);
+        setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
+      }
+      if (LSTastingCount == null) {
+        localStorage.setItem("TastingCount", 0);
+        setLSTastingCount(0);
+      }
+      setDusanBottle(null);
+      setBottleHistory([]);
+      setShowHideBottleDiv("Show ");
+      setDivBlockNone("divDisplayNone");
+      setTastingButton("sofaSommTitle");
+    }
+  }, [game]);
+
+  useEffect(() => {
+    if (vennKey[0] === undefined) {
+      vennKey[0] = null;
+    }
+    if (vennKey[1] === undefined) {
+      vennKey[1] = null;
+    }
+    if (vennKey[2] === undefined) {
+      vennKey[2] = null;
+    }
+    if (vennKey[0] !== null && vennKey[1] !== null && vennKey[2] !== null) {
+      // Initialize vennCriteria as an empty array
+
+      const criteria = [];
+      const labels = [];
+      const los = [];
+      const his = [];
+
+      const wineDataLength = wineData.length;
+      const dusanArray = new Array(wineDataLength).fill(0);
+
+      for (let i = 0; i <= 5; i++) {
+        criteria[i] =
+          vennCriteria.find((vennSet) => vennSet.key == vennKey[i]) || null;
+
+        if ((criteria[i].label == null) | (criteria[i].label == undefined)) {
+          labels[i] = criteria[i].key;
+          los[i] = criteria[i].key;
+          his[i] = criteria[i].key;
+        } else {
+          labels[i] = criteria[i].label;
+          los[i] = criteria[i].lo;
+          his[i] = criteria[i].hi;
+        }
+
+        for (let j = 0; j < wineDataLength; j++) {
+          if (wineData[j].tastingNote1 == labels[i]) {
+            dusanArray[j]++;
+          }
+          if (wineData[j].tastingNote2 == labels[i]) {
+            dusanArray[j]++;
+          }
+          if (wineData[j].tastingNote3 == labels[i]) {
+            dusanArray[j]++;
+          }
+          if (wineData[j].tastingNote4 == labels[i]) {
+            dusanArray[j]++;
+          }
+          if (wineData[j].tastingNote5 == labels[i]) {
+            dusanArray[j]++;
+          }
+        }
+
+        let largestNumber = dusanArray[0];
+        let largestIndex = 0;
+        for (let k = 1; k < dusanArray.length; k++) {
+          if (dusanArray[k] > largestNumber) {
+            largestNumber = dusanArray[k];
+            largestIndex = k;
+          }
+        }
+
+        setDusanBottle(wineData[largestIndex].style);
+        setDusanLink(
+          "https://winefolly.com/grapes/" + wineData[largestIndex].style
+        );
+
+        setDusanNotes(
+          "(" +
+            largestNumber +
+            ") - " +
+            wineData[largestIndex].tastingNote1 +
+            ", " +
+            wineData[largestIndex].tastingNote2 +
+            ", " +
+            wineData[largestIndex].tastingNote3 +
+            ", " +
+            wineData[largestIndex].tastingNote4 +
+            ", " +
+            wineData[largestIndex].tastingNote5
+        );
+      }
+
+      setVennLabel([
+        labels[0],
+        labels[1],
+        labels[2],
+        labels[3],
+        labels[4],
+        labels[5]
+      ]);
+    }
+  }, [vennKey]);
+
+  useEffect(() => {
+    if (selectedStyle !== null) {
+      const selectedWine =
+        wineData.find((wine) => wine.style == selectedStyle) || null;
+
+      if (selectedWine !== null) {
+        const tastingNotes = [];
+
+        appendBottleHistory(selectedStyle);
+        tastingNotes[0] = selectedWine.tastingNote1;
+        tastingNotes[1] = selectedWine.tastingNote2;
+        tastingNotes[2] = selectedWine.tastingNote3;
+        tastingNotes[3] = selectedWine.tastingNote4;
+        tastingNotes[4] = selectedWine.tastingNote5;
+
+        setWineNotes([
+          tastingNotes[0],
+          tastingNotes[1],
+          tastingNotes[2],
+          tastingNotes[3],
+          tastingNotes[4]
+        ]);
+        setGameBottle(gameBottle + 1);
+      }
+    }
+  }, [selectedStyle]);
+
+  useEffect(() => {
+    switch (true) {
+      case wineScore > 94:
+        setWineScoreLabel("Exceptional");
+        break;
+      case wineScore > 89:
+        setWineScoreLabel("Superior");
+        break;
+      case wineScore > 84:
+        setWineScoreLabel("Very Good");
+        break;
+      case wineScore > 79:
+        setWineScoreLabel("Good");
+        break;
+      case wineScore > 71:
+        setWineScoreLabel("Above Average");
+        break;
+      case wineScore > 66:
+        setWineScoreLabel("Meh");
+        break;
+      case wineScore > 61:
+        setWineScoreLabel("flawed");
+        break;
+      case wineScore > 50:
+        setWineScoreLabel("...drinkable");
+        break;
+      default:
+        setWineScoreLabel("Are you a Bot?");
+    }
+  }, [wineScore]);
+
+  useEffect(() => {
     const tempArray = [];
     for (let i = 0; i < 6; i++) {
       tempArray[i] = "td-vennMiss";
