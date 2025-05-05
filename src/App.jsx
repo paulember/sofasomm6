@@ -675,23 +675,93 @@ export default function App() {
   }, []);
 
   return (
+    
+
+
+
     <div className="App">
+      <div>
+        <p>
+          <h2 class="sofaSommTitle ">
+            {" "}
+            <b>
+              {" "}
+              <i> Sofa Somm </i>
+              &emsp;&emsp;
+            </b>
+            <button class={tastingButton} onClick={handleClickNext}>
+              {" "}
+              {startButtonLabel} {game}
+            </button>
+            &emsp;
+            <button class="sofaSommHelp" onClick={handleClickHelp}>
+              about
+            </button>
+          </h2>
+        </p>
+      </div>
+      <div>
+        <SplashDiv />
+      </div>     
+     
+
+      <div>
+        <b> Find Wines that Match these Tasting Notes </b>
+      </div>
       <div>
         <div>
           <table class="notesTable">
             <tr>
-            <td class={venntdClass[0]}> lab1 </td>
-            <td class={venntdClass[1]}> lab2 </td>
-            <td class={venntdClass[2]}> lab3 </td>
+              <td class={venntdClass[0]}> {vennLabel[0]} </td>
+              <td class={venntdClass[1]}> {vennLabel[1]} </td>
+              <td class={venntdClass[2]}> {vennLabel[2]} </td>
             </tr>
             <tr>
-            <td class={venntdClass[3]}> lab4 </td>
-            <td class={venntdClass[4]}> lab5 </td>
-            <td class={venntdClass[5]}>  lab6 </td>
+              <td class={venntdClass[3]}> {vennLabel[3]} </td>
+              <td class={venntdClass[4]}> {vennLabel[4]} </td>{" "}
+              <td class={venntdClass[5]}> {vennLabel[5]} </td>
             </tr>
           </table>
         </div>
       </div>
+     
+   
+   <div id="dropdownIn">
+        <SearchableDropdown
+          width="100"
+          options={wineData}
+          label="style"
+          id="id"
+          selectedVal={dropStyle}
+          handleChange={(val) => BuildSelectionRow(val)}
+        />
+
+        <div>
+          <SelectButton
+            value={"Open Bottle?"}
+            onSelectWineClick={() => handleWineSelection({ dropStyle })}
+          />
+        </div>
+      </div>
+
+      <WineSelection winePropValue={selectedStyle} />
+      <div>________________________________________</div>
+      <div>
+        <table>
+          <tr>
+            {" "}
+            <td class="td-bottleHistory"> Bottles Opened </td>{" "}
+          </tr>
+
+          <tr class="td-bottleHistory"> Bottle 1: {bottleHistory[0]} </tr>
+          <tr class="td-bottleHistory"> Bottle 2: {bottleHistory[1]} </tr>
+          <tr class="td-bottleHistory"> Bottle 3: {bottleHistory[2]} </tr>
+          <tr class="td-bottleHistory"> Bottle 4: {bottleHistory[3]} </tr>
+          <tr class="td-bottleHistory"> Bottle 5: {bottleHistory[4]} </tr>
+          <tr class="td-bottleHistory"> Bottle 6: {bottleHistory[5]} </tr>
+        </table>
+      </div>
+
       <div>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
         <p>
           GitHub Codespaces <span className="heart">♥️</span> React
