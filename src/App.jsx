@@ -642,6 +642,19 @@ export default function App() {
     }
   }
 
+  function handleWineSelection({ dropStyle }) {
+    setSelectedStyle(dropStyle);
+  }
+
+  function toggleBottleDiv() {
+    if (divBlockNone != "divDisplayNone") {
+      setShowHideBottleDiv("Show ");
+      setDivBlockNone("divDisplayNone");
+    } else {
+      setShowHideBottleDiv("Hide ");
+      setDivBlockNone("divDisplayBlock");
+    }
+  }
 //* ############################################
 //* delete the ue[] below whenever the notes get officially set 
 //* ############################################
