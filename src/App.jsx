@@ -405,6 +405,247 @@ export default function App() {
   }, [wineScore]);
 
   useEffect(() => {
+    ``;
+  }, [wineScoreLabel]);
+
+  const openModal = () => {
+    localStorage.setItem("LastGame", game);
+    if (LSTastingCount == null) {
+      localStorage.setItem("TastingCount", 1);
+      setLSTastingCount(1);
+    } else {
+      setLSTastingCount((prevCount) => parseInt(prevCount) + parseInt(1));
+    }
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    localStorage.setItem(
+      "TotalNotes",
+      parseInt(LSTotalNotes) + parseInt(gameNotesAcquired)
+    );
+
+    if (gameNotesAcquired > 5) {
+      if (isNaN(LSBalthazarCount)) {
+        localStorage.setItem("BalthazarCount", 1);
+      } else {
+        localStorage.setItem(
+          "BalthazarCount",
+          parseInt(LSBalthazarCount) + parseInt(1)
+        );
+      }
+    }
+
+    localStorage.setItem(
+      "TotalScore",
+      parseInt(LSTotalScore) + parseInt(wineScore)
+    );
+    localStorage.setItem("TastingCount", LSTastingCount);
+
+    setIsModalOpen(false);
+    handleClickNext();
+  };
+
+  useEffect(() => {
+    if (gameBottle > 5) {
+      let baseScore = 63;
+      switch (gameNotesAcquired) {
+        case 5:
+          baseScore = 85;
+          break;
+        case 4:
+          baseScore = 81;
+          break;
+        case 3:
+          baseScore = 76;
+          break;
+        case 2:
+          baseScore = 71;
+          break;
+        case 1:
+          baseScore = 66;
+          break;
+        default:
+          baseScore = 61;
+      }
+
+      setWineScore(baseScore - gameSpills * 2);
+
+      openModal();
+    }
+  }, [gameBottle]);
+
+  useEffect(() => {
+    let matchCount = 0;
+    for (let i = 0; i < 6; i++) {
+      if (venntdClass[i] == "td-vennMatch") {
+        matchCount++;
+      }
+    }
+    setGameNotesAcquired(matchCount);
+    if (matchCount > 5) {
+      let baseScore = 90;
+      switch (gameBottle) {
+        case 1:
+          baseScore = 100;
+          break;
+        case 2:
+          baseScore = 99;
+          break;
+        case 3:
+          baseScore = 96;
+          break;
+        case 4:
+          baseScore = 93;
+          break;
+        case 5:
+          baseScore = 89;
+          break;
+        default:
+          baseScore = 85;
+      }
+
+      setWineScore(baseScore - gameSpills * 3);
+
+      if (gameBottle < 6) {
+        openModal();
+      }
+    }
+  }, [venntdClass]);
+
+  useEffect(() => {
+    const temptdWineArray = [];
+    for (let i = 0; i < 5; i++) {
+      temptdWineArray[i] = "td-wineMiss";
+    }
+    setWinetdClass([
+      temptdWineArray[0],
+      temptdWineArray[1],
+      temptdWineArray[2],
+      temptdWineArray[3],
+      temptdWineArray[4],
+      temptdWineArray[5]
+    ]);
+    const matchingElements = vennLabel.filter((value) =>
+      wineNotes.includes(value)
+    );
+
+    let matchLength = matchingElements.length;
+    const tempArray = Array.from(venntdClass);
+
+    if (matchLength < 1) {
+      setGameSpills(gameSpills + 1);
+    }
+
+    // setWineScore(wineScore - (6 - matchLength));
+
+    for (let i = 0; i < matchLength; i++) {
+      for (let j = 0; j < 6; j++) {
+        if (vennLabel[j] == matchingElements[i]) {
+          tempArray[j] = "td-vennMatch";
+        }
+      }
+      for (let k = 0; k < 5; k++) {
+        if (wineNotes[k] == matchingElements[i]) {
+          temptdWineArray[k] = "td-wineMatch";
+        }
+      }
+    }
+
+    setVenntdClass([
+      tempArray[0],
+      tempArray[1],
+      tempArray[2],
+      tempArray[3],
+      tempArray[4],
+      tempArray[5]
+    ]);
+
+    setWinetdClass([
+      temptdWineArray[0],
+      temptdWineArray[1],
+      temptdWineArray[2],
+      temptdWineArray[3],
+      temptdWineArray[4]
+    ]);
+  }, [wineNotes]);
+
+  function SelectButton({ value, onSelectWineClick }) {
+    return (
+      <button disabled={selectWineDisabled} onClick={onSelectWineClick}>
+        {value}
+      </button>
+    );
+  }
+
+  function SplashDiv() {
+    if (game == null) {
+      return (
+        <div>
+          <h3> Welcome Sofa Sommelier! </h3>
+          <p> Sofa Somm is a tool to help build your wine tasting skills. </p>
+          <p> Begin your tasting by clicking the Yellow START button above. </p>
+          <table>
+            <td class="splashQuote">
+              "Sofa Somm is Better Than A Chiefs Game" - Taylor S.
+            </td>
+          </table>
+          <p>
+            {" "}
+            Each TASTING consists of 6 notes displayed at the top of the screen.{" "}
+          </p>
+          <p>
+            Find these tasting notes by SELECTING and OPENING a BOTTLE from the
+            Wine(Varietal) list dropdown.{" "}
+          </p>
+          <p> Notes that MATCH the opened bottle will switch to GREEN. </p>
+          <p>
+            {" "}
+            Your goal is to find all 6 Notes in as few bottles as possible.{" "}
+          </p>
+          <p>You can open up to 6 bottles for each tasting. </p>
+          <h2> Happy Tasting!!! </h2>
+          <div>
+            Data Source: &nbsp;
+            <a
+              href="https://winefolly.com/grapes"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Wine Folly{" "}
+            </a>{" "}
+            {""}
+          </div>
+          <div>
+            Additional Graphics: &nbsp;
+            <a href="https://tenor.com/" target="_blank" rel="noreferrer">
+              tenor.com{" "}
+            </a>{" "}
+          </div>
+          <h2 class="sofaSommTitle ">
+            {" "}
+            <b>
+              {" "}
+              <i> Sofa Somm </i>
+            </b>
+          </h2>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <button class="resetButton" onClick={handleClearClick}>
+            {" "}
+            CC
+          </button>
+        </div>
+      );
+    }
+  }
+
+//* ############################################
+//* delete the ue[] below whenever the notes get officially set 
+//* ############################################
+  useEffect(() => {
     const tempArray = [];
     for (let i = 0; i < 6; i++) {
       tempArray[i] = "td-vennMiss";
