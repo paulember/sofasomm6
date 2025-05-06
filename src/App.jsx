@@ -655,30 +655,9 @@ export default function App() {
       setDivBlockNone("divDisplayBlock");
     }
   }
-//* ############################################
-//* delete the ue[] below whenever the notes get officially set 
-//* ############################################
-  useEffect(() => {
-    const tempArray = [];
-    for (let i = 0; i < 6; i++) {
-      tempArray[i] = "td-vennMiss";
-    }
-
-    setVenntdClass([
-      tempArray[0],
-      tempArray[1],
-      tempArray[2],
-      tempArray[3],
-      tempArray[4],
-      tempArray[5]
-    ]);
-  }, []);
 
   return (
     
-
-
-
     <div className="App">
       <div>
         <p>
@@ -762,7 +741,156 @@ export default function App() {
         </table>
       </div>
 
-      <div>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
+      <div>_ _ new logic starts here  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
+
+      <div>
+        <table>
+          <tr>
+            <td class="td-bottleHistory"> Sommelier Credentials </td>
+          </tr>
+        </table>
+        <table class="sofaJPG">
+          <tr>
+            Sofa Somm Rating: {(LSTotalScore / LSTastingCount).toFixed(1)}
+          </tr>
+          <tr>
+            Balthazars: {LSBalthazarCount} &emsp; Rate:{" "}
+            {((LSBalthazarCount / LSTastingCount) * 100).toFixed(0)}%
+          </tr>
+          <tr>
+            Notes/Tasting: {(LSTotalNotes / LSTastingCount).toFixed(1)} &nbsp;
+            Total Notes: {LSTotalNotes}
+          </tr>
+          <tr>
+            SommPoints: {LSTotalScore} &nbsp; Tastings: {LSTastingCount}
+          </tr>
+        </table>
+      </div>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 class="sofaSommTitle">
+          <b>
+            <i> Sofa Somm </i>{" "}
+          </b>{" "}
+          &emsp;&emsp;
+          <button class="sofaSommTitle" onClick={closeModal}>
+            Next Game
+          </button>
+        </h2>
+        <h1 class="h1-background-bubbles">CHEERS!!! </h1>
+        <table class="modalTable">
+          <tr>
+            <td class="td-modalWineScore">
+              {" "}
+              <b> Wine Score </b> &nbsp;
+              <b>{wineScore} </b> &emsp; {wineScoreLabel}
+            </td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td class="td-modalStats">Bottles Opened: {gameBottle}</td>
+
+            <td class="td-modalStats">Glasses Spilled: {gameSpills} </td>
+          </tr>
+        </table>
+        <p></p>
+        <div>
+          <table>
+            <div>
+              Tasting #{game} - Notes Found: {gameNotesAcquired}
+              <div class="button_container">
+                <button
+                  class={venntdClass[0]}
+                  onClick={() => handleClickTastingNote(0)}
+                >
+                  {" "}
+                  {vennLabel[0]}
+                </button>
+                <button
+                  class={venntdClass[1]}
+                  onClick={() => handleClickTastingNote(1)}
+                >
+                  {" "}
+                  {vennLabel[1]}
+                </button>
+                <button
+                  class={venntdClass[2]}
+                  onClick={() => handleClickTastingNote(2)}
+                >
+                  {" "}
+                  {vennLabel[2]}
+                </button>
+              </div>
+              <div class="button_container">
+                <button
+                  class={venntdClass[3]}
+                  onClick={() => handleClickTastingNote(3)}
+                >
+                  {" "}
+                  {vennLabel[3]}
+                </button>
+                <button
+                  class={venntdClass[4]}
+                  onClick={() => handleClickTastingNote(4)}
+                >
+                  {" "}
+                  {vennLabel[4]}
+                </button>
+                <button
+                  class={venntdClass[5]}
+                  onClick={() => handleClickTastingNote(5)}
+                >
+                  {" "}
+                  {vennLabel[5]}
+                </button>
+              </div>
+              Click Tasting Notes for Bottle Info
+            </div>
+          </table>
+        </div>
+        <div>
+          <button onClick={() => toggleBottleDiv()}>
+            {showHideBottleDiv} Bottle Details
+          </button>
+        </div>
+        <div class={divBlockNone}>
+          <table>
+            <tr>
+              <td class="td-bottleHistory">
+                {" "}
+                Magnum Bottle:{" "}
+                <a href={dusanLink} target="_blank" rel="noreferrer">
+                  {dusanBottle}{" "}
+                </a>{" "}
+                {dusanNotes}{" "}
+              </td>
+            </tr>
+            <tr>
+              {" "}
+              <td class="td-bottleHistory"> Bottles Opened </td>{" "}
+            </tr>
+            <tr class="td-bottleHistory"> Bottle 1: {bottleHistory[0]} </tr>
+            <tr class="td-bottleHistory"> Bottle 2: {bottleHistory[1]} </tr>
+            <tr class="td-bottleHistory"> Bottle 3: {bottleHistory[2]} </tr>
+            <tr class="td-bottleHistory"> Bottle 4: {bottleHistory[3]} </tr>
+            <tr class="td-bottleHistory"> Bottle 5: {bottleHistory[4]} </tr>
+            <tr class="td-bottleHistory"> Bottle 6: {bottleHistory[5]} </tr>
+          </table>
+        </div>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>.<p></p>.<p></p>.
+      </Modal>
+      
+      
+      
+      
+      
+      
+      
+      <div>_ _ _ _ new logic ends here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
         <p>
           GitHub Codespaces <span className="heart">♥️</span> React
         </p>
