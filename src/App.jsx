@@ -6,7 +6,7 @@ import { wineData } from "./data/wineData";
 import { vennCriteria } from "./data/vennCategory";
 import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
-const gameTotal = 20;
+const gameTotal = 21;
 
 import useFetchWine from "./component/useFetchWine";
 
