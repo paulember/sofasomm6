@@ -1,6 +1,7 @@
 import './App.css';
 import "./styles.css";
 import SearchableDropdown from "./searchableDropdown";
+import getTargetNotes6 from "./component/getTargetNotes6";
 import Modal from "./Modal";
 import { wineData } from "./data/wineData";
 import { vennCriteria } from "./data/vennCategory";
@@ -12,6 +13,9 @@ import useFetchWine from "./component/useFetchWine";
 
 export default function App() {
   const { wineData, loading, error } = useFetchWine();
+
+  const [targetNotes, setTargetNotes] = useState([Array(6).fill("newNote")]);
+
   const [venntdClass, setVenntdClass] = useState([Array(6).fill(null)]);
 
   const [startButtonLabel, setStartButtonLabel] = useState("Start");
@@ -185,6 +189,11 @@ export default function App() {
     }
     alert(wineMatchList);
   }
+
+  useEffect(() => {
+    setTargetNotes(getTargetNotes6);
+    console.log("keyDate in App" + targetNotes[1]);
+  }, []);
 
   useEffect(() => {
     if (game !== null) {
@@ -582,6 +591,26 @@ export default function App() {
     if (game == null) {
       return (
         <div>
+
+                <div>
+            <div>
+              <table class="notesTable">
+                <tr>
+                  <td> {targetNotes[0]}</td>
+                  <td> {targetNotes[1]}</td>
+                  <td> {targetNotes[2]}</td>
+                </tr>
+                <tr>
+                  <td> {targetNotes[3]}</td>
+                  <td> {targetNotes[4]}</td>
+                  <td> {targetNotes[5]}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+
+
           <h3> Welcome Sofa Sommelier! </h3>
           <p> Sofa Somm is a tool to help build your wine tasting skills. </p>
           <p> Begin your tasting by clicking the Yellow START button above. </p>
