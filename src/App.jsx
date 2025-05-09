@@ -191,8 +191,13 @@ export default function App() {
   }
 
   useEffect(() => {
-    setTargetNotes(getTargetNotes6);
-    console.log("keyDate in App" + targetNotes[1]);
+    const fetchNotes = async () => {
+      const result = await getTargetNotes6();
+      setTargetNotes(result);
+      console.log("keyDate in App:", result[1]);
+    };
+
+    fetchNotes();
   }, []);
 
   useEffect(() => {

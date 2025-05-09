@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import getWineOIDfunc from "./getWineOIDfunc";
 
 function getJulianDate(date) {
   const startOfYear = new Date(date.getFullYear(), 0, 1);
@@ -7,9 +8,14 @@ function getJulianDate(date) {
   return dayOfYear;
 }
 
-function getTargetNotes6() {
+async function getTargetNotes6() {
   const keyDate = getJulianDate(new Date());
-
+  const oid72red = await getWineOIDfunc(keyDate, "red");
+  const oid72white = await getWineOIDfunc(keyDate, "white");
+  const oid72split = await getWineOIDfunc(keyDate, "split");
+    console.log("keyDate:" + keyDate);
+  return [keyDate, oid72red, oid72white, oid72split, keyDate, keyDate];
+}
   /*
   useEffect(() => {
     const fetchWineData = async () => {
@@ -37,8 +43,6 @@ function getTargetNotes6() {
     fetchWineData();
   }, []);
   */
-  console.log("keyDate:" + keyDate);
-  return [keyDate, keyDate,keyDate,keyDate,keyDate,keyDate];
-}
+
 
 export default getTargetNotes6;

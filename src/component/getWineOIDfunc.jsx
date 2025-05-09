@@ -1,48 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { fetchDataByOid } from "./util";
+import { fetchDataByOid } from "./fetchDataByOid";
 
-function getWineOIDfunc(oid, oidType) {
-  const [wineOIDs, setWineOIDs] = useState(null);
-  const [error, setError] = useState(null);
+const getWineOIDfunc = async (oid, oidType) => {
+  const url =
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/datedWineOIDs";
 
-  console.log("getWineOIDfunc start oid:" + oid + ":::oidType:" + oidType);
+  try {
+    const data = await fetchDataByOid(url, oid);
+    if (!data) throw new Error(`No data for oid: ${oid}`);
 
-  useEffect(() => {
-    const getWineOID = async () => {
-      const url =
-        "https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/datedWineOIDs";
-
-      try {
-        const data = await fetchDataByOid(url, oid);
-        if (data) {
-          setWineOIDs(data);
-          console.log("getWineOIDfunc good data:" + data);
-        } else {
-          setError(
-            "Failed to fetch data in getWineOidfunc, oid: " +
-              oid +
-              " oidType: " +
-              oidType
-          );
-        }
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    getWineOID();
-  }, [oid]);
-
-  if (error) {
-    return <div>Error: {error}</div>;
+    if (oidType === "split") return data.split_oid;
+    if (oidType === "red") return data.red_oid;
+    return data.white_oid;
+  } catch (err) {
+    console.error("getWineOIDfunc error:", err.message);
+    throw err;
   }
-
-  if (!wineOIDs) {
-    return <div>Loading...</div>;
-  }
-  if (oidType == "split") return wineOIDs.split_oid;
-  else if (oidType == "red") return wineOIDs.red_oid;
-  else return wineOIDs.white_oid;
-}
+};
 
 export default getWineOIDfunc;
