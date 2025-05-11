@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import getWineOIDfunc from "./getWineOIDfunc";
+import getMajorWineOIDs from "./getMajorWineOIDs";
 
 function getJulianDate(date) {
   const startOfYear = new Date(date.getFullYear(), 0, 1);
@@ -13,9 +13,28 @@ async function getTargetNotes6() {
   const oid72red = await getWineOIDfunc(keyDate, "red");
   const oid72white = await getWineOIDfunc(keyDate, "white");
   const oid72split = await getWineOIDfunc(keyDate, "split");
-    console.log("keyDate:" + keyDate);
-  return [keyDate, oid72red, oid72white, oid72split, keyDate, keyDate];
-}
+  const redWineMajorURL =
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor.json";
+  const whiteWineMajorURL =
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor.json";
+
+  const redWineData = await getMajorWineOIDs(redWineMajorURL, 7);
+
+  const whiteWineData = await getMajorWineOIDs(whiteWineMajorURL, 7);
+
+  console.log("keyDate:", keyDate);
+  // console.log("p72:", pick72);
+  return [
+    keyDate,
+    oid72red,
+    oid72white,
+    oid72split,
+    redWineData[0],
+    whiteWineData[6],
+  ];
+  /*  
+  const pick72oid = await getWineOIDfunc(keyDate, "red");
+  const pick72 = pick72oid.toString().slice(0, 2);
   /*
   useEffect(() => {
     const fetchWineData = async () => {
@@ -43,6 +62,6 @@ async function getTargetNotes6() {
     fetchWineData();
   }, []);
   */
-
+}
 
 export default getTargetNotes6;

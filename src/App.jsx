@@ -2,7 +2,6 @@ import './App.css';
 import "./styles.css";
 import SearchableDropdown from "./searchableDropdown";
 import getTargetNotes6 from "./component/getTargetNotes6";
-import getMajorWineOIDs from "./component/getMajorWineOIDs";
 
 import Modal from "./Modal";
 import { wineData } from "./data/wineData";
@@ -17,15 +16,7 @@ export default function App() {
   const { wineData, loading, error } = useFetchWine();
 
   const [targetNotes, setTargetNotes] = useState([Array(6).fill("newNote")]);
-  const [dataRedWineTable, setDataRedWineTable] = useState(Array(7).fill(null));
-  const [dataWhiteWineTable, setDataWhiteWineTable] = useState(
-    Array(7).fill(null)
-  );
-  const redWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor.json";
-  const whiteWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor.json";
-
+ 
   const [venntdClass, setVenntdClass] = useState([Array(6).fill(null)]);
 
   const [startButtonLabel, setStartButtonLabel] = useState("Start");
@@ -200,20 +191,14 @@ export default function App() {
     alert(wineMatchList);
   }
 
-
   const fetchNotes = async () => {
     const result = await getTargetNotes6();
     setTargetNotes(result);
-    console.log("TargetNotes_1 in App:", result[1]);
   };
 
   useEffect(() => {
     async function fetchData() {
       await fetchNotes();
-      const redWineData = await getMajorWineOIDs(redWineMajorURL, 7);
-      setDataRedWineTable(redWineData);
-      const whiteWineData = await getMajorWineOIDs(whiteWineMajorURL, 7);
-      setDataWhiteWineTable(whiteWineData);
     }
     fetchData();
   }, []);
@@ -620,12 +605,12 @@ export default function App() {
               <table class="notesTable">
                 <tr>
                   <td> {targetNotes[0]}</td>
-                  <td> {dataWhiteWineTable[2]}</td>
+                  <td> {targetNotes[1]}</td>
                   <td> {targetNotes[2]}</td>
                 </tr>
                 <tr>
                   <td> {targetNotes[3]}</td>
-                  <td> {dataRedWineTable[5]}</td>
+                  <td> {targetNotes[4]}</td>
                   <td> {targetNotes[5]}</td>
                 </tr>
               </table>
