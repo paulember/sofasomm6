@@ -8,15 +8,17 @@ import { wineData } from "./data/wineData";
 import { vennCriteria } from "./data/vennCategory";
 import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
-const gameTotal = 21;
+const gameTotal = 3;
 
 import useFetchWine from "./component/useFetchWine";
 
 export default function App() {
   const { wineData, loading, error } = useFetchWine();
 
-  const [targetNotes, setTargetNotes] = useState([Array(6).fill("newNote")]);
- 
+  const [targetNotes, setTargetNotes] = useState(() =>
+    Array.from({ length: 3 }, () => new Array(6).fill("nullTargetNote"))
+  );
+
   const [venntdClass, setVenntdClass] = useState([Array(6).fill(null)]);
 
   const [startButtonLabel, setStartButtonLabel] = useState("Start");
@@ -195,8 +197,11 @@ export default function App() {
     if (!Array.isArray(wineData) || wineData.length === 0) return;
 
     const fetchData = async () => {
-      const result = await getTargetNotes6(wineData, "WHITE");
-      setTargetNotes(result);
+      const target0 = await getTargetNotes6(wineData, "WHITE");
+      const target1 = await getTargetNotes6(wineData, "RED");
+      const target2 = await getTargetNotes6(wineData, "SPLIT");
+      const resultArray = [target0, target1, target2];
+      setTargetNotes(resultArray);
     };
 
     fetchData();
@@ -206,15 +211,24 @@ export default function App() {
     if (game !== null) {
       if (game > 0) {
         setStartMsg("");
-        setStartButtonLabel("Tasting: ");
+        switch (game) {
+          case 3:
+            setStartButtonLabel("Rando");
+            break;
+          case 2:
+            setStartButtonLabel("RED Wine Tasting");
+            break;
+          default:
+            setStartButtonLabel("WHITE Wine Tasting");
+        }
       }
       let newVennKey = [
-        [getVennGame(game).venn_0],
-        [getVennGame(game).venn_1],
-        [getVennGame(game).venn_2],
-        [getVennGame(game).venn_3],
-        [getVennGame(game).venn_4],
-        [getVennGame(game).venn_5]
+        [targetNotes[game - 1][0]],
+        [targetNotes[game - 1][1]],
+        [targetNotes[game - 1][2]],
+        [targetNotes[game - 1][3]],
+        [targetNotes[game - 1][4]],
+        [targetNotes[game - 1][5]],
       ];
       setVennKey(newVennKey);
 
@@ -598,26 +612,6 @@ export default function App() {
     if (game == null) {
       return (
         <div>
-
-                <div>
-            <div>
-              <table class="notesTable">
-                <tr>
-                  <td> {targetNotes[0]}</td>
-                  <td> {targetNotes[1]}</td>
-                  <td> {targetNotes[2]}</td>
-                </tr>
-                <tr>
-                  <td> {targetNotes[3]}</td>
-                  <td> {targetNotes[4]}</td>
-                  <td> {targetNotes[5]}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-
-
-
           <h3> Welcome Sofa Sommelier! </h3>
           <p> Sofa Somm is a tool to help build your wine tasting skills. </p>
           <p> Begin your tasting by clicking the Yellow START button above. </p>
@@ -668,7 +662,45 @@ export default function App() {
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
+          <div>
+            <table className="notesTable">
+              <tr>
+                <td>{targetNotes[0][0]}</td>
+                <td>{targetNotes[0][1]}</td>
+                <td>{targetNotes[0][2]}</td>
+              </tr>
+              <tr>
+                <td>{targetNotes[0][3]}</td>
+                <td>{targetNotes[0][4]}</td>
+                <td>{targetNotes[0][5]}</td>
+              </tr>
+            </table>
 
+            <table className="notesTable">
+              <tr>
+                <td>{targetNotes[1][0]}</td>
+                <td>{targetNotes[1][1]}</td>
+                <td>{targetNotes[1][2]}</td>
+              </tr>
+              <tr>
+                <td>{targetNotes[1][3]}</td>
+                <td>{targetNotes[1][4]}</td>
+                <td>{targetNotes[1][5]}</td>
+              </tr>
+            </table>
+            <table class="notesTable">
+              <tr>
+                <td>{targetNotes[2][0]}</td>
+                <td>{targetNotes[2][1]}</td>
+                <td>{targetNotes[2][2]}</td>
+              </tr>
+              <tr>
+                <td>{targetNotes[2][3]}</td>
+                <td>{targetNotes[2][4]}</td>
+                <td>{targetNotes[2][5]}</td>
+              </tr>
+            </table>
+          </div>
           <button class="resetButton" onClick={handleClearClick}>
             {" "}
             CC
@@ -706,7 +738,7 @@ export default function App() {
             </b>
             <button class={tastingButton} onClick={handleClickNext}>
               {" "}
-              {startButtonLabel} {game}
+              {game}: {startButtonLabel} 
             </button>
             &emsp;
             <button class="sofaSommHelp" onClick={handleClickHelp}>
