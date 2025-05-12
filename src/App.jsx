@@ -191,17 +191,16 @@ export default function App() {
     alert(wineMatchList);
   }
 
-  const fetchNotes = async () => {
-    const result = await getTargetNotes6();
-    setTargetNotes(result);
-  };
-
   useEffect(() => {
-    async function fetchData() {
-      await fetchNotes();
-    }
+    if (!Array.isArray(wineData) || wineData.length === 0) return;
+
+    const fetchData = async () => {
+      const result = await getTargetNotes6(wineData, "WHITE");
+      setTargetNotes(result);
+    };
+
     fetchData();
-  }, []);
+  }, [wineData]);
 
   useEffect(() => {
     if (game !== null) {

@@ -1,5 +1,6 @@
 import getWineOIDfunc from "./getWineOIDfunc";
 import getMajorWineOIDs from "./getMajorWineOIDs";
+import { getOid72_From72Key, getOid53_From53Key } from "./getGroupPicks";
 
 function getJulianDate(date) {
   const startOfYear = new Date(date.getFullYear(), 0, 1);
@@ -8,60 +9,73 @@ function getJulianDate(date) {
   return dayOfYear;
 }
 
-async function getTargetNotes6() {
+async function getTargetNotes6(wineData, redOrWhite) {
   const keyDate = getJulianDate(new Date());
-  const oid72red = await getWineOIDfunc(keyDate, "red");
-  const oid72white = await getWineOIDfunc(keyDate, "white");
-  const oid72split = await getWineOIDfunc(keyDate, "split");
   const redWineMajorURL =
     "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor.json";
   const whiteWineMajorURL =
     "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor.json";
 
-  const redWineData = await getMajorWineOIDs(redWineMajorURL, 7);
+  const oid72in = await getWineOIDfunc(keyDate, redOrWhite);
 
-  const whiteWineData = await getMajorWineOIDs(whiteWineMajorURL, 7);
+  let wineMajorURLA = whiteWineMajorURL;
+  let wineMajorURLB = whiteWineMajorURL;
 
-  console.log("keyDate:", keyDate);
-  // console.log("p72:", pick72);
-  return [
-    keyDate,
-    oid72red,
-    oid72white,
-    oid72split,
-    redWineData[0],
-    whiteWineData[6],
+  switch (redOrWhite) {
+    case "RED":
+      wineMajorURLA = redWineMajorURL;
+      wineMajorURLB = redWineMajorURL;
+      break;
+    case "SPLIT":
+      wineMajorURLA = whiteWineMajorURL;
+      wineMajorURLB = redWineMajorURL;
+      break;
+    default:
+      wineMajorURLA = whiteWineMajorURL;
+      wineMajorURLB = whiteWineMajorURL;
+  }
+
+  const wineA7 = await getMajorWineOIDs(wineMajorURLA, 7);
+  const wineB7 = await getMajorWineOIDs(wineMajorURLB, 7);
+  const index7A = getOid72_From72Key("1", oid72in.slice(0, 2));
+  const index7B = getOid72_From72Key("2", oid72in.slice(0, 2));
+  const targetABCindex = getOid53_From53Key(oid72in.charAt(2));
+  const targetDEFindex = getOid53_From53Key(oid72in.charAt(3));
+  const ATarget_Notes = [
+    wineData[wineA7[index7A]].tastingNote1,
+    wineData[wineA7[index7A]].tastingNote2,
+    wineData[wineA7[index7A]].tastingNote3,
+    wineData[wineA7[index7A]].tastingNote4,
+    wineData[wineA7[index7A]].tastingNote5,
   ];
-  /*  
-  const pick72oid = await getWineOIDfunc(keyDate, "red");
-  const pick72 = pick72oid.toString().slice(0, 2);
-  /*
-  useEffect(() => {
-    const fetchWineData = async () => {
-      try {
-        // const response = await fetch('https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/wineData.json');
-        const response = await fetch(
-          "https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/wineData30.json"
-        );
+  const BTarget_Notes = [
+    wineData[wineB7[index7B]].tastingNote1,
+    wineData[wineB7[index7B]].tastingNote2,
+    wineData[wineB7[index7B]].tastingNote3,
+    wineData[wineB7[index7B]].tastingNote4,
+    wineData[wineB7[index7B]].tastingNote5,
+  ];
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+  const targetAIndices = targetABCindex.split("").slice(0, 3);
+  const targetBIndices = targetDEFindex.split("").slice(0, 3);
+  const targetANotes = targetAIndices.map((i) => ATarget_Notes[Number(i)]);
+  const targetBNotes = targetBIndices.map((i) => BTarget_Notes[Number(i)]);
 
-        const dataWines = await response.json();
-        setWineData(dataWines); // Store the entire wine object
-        console.log("Fetch of Wine Data completed at:", new Date());
-      } catch (error) {
-        console.error("Error fetching wine data:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const tempCombinedNotes = [...targetANotes, ...targetBNotes].filter(Boolean);
+  const combinedNotes = tempCombinedNotes.sort((a, b) => a.localeCompare(b));
+  console.log("keyDate:", keyDate);
 
-    fetchWineData();
-  }, []);
-  */
+  return [
+    combinedNotes[0],
+    combinedNotes[1],
+    combinedNotes[2],
+    combinedNotes[3],
+    combinedNotes[4],
+    combinedNotes[5],
+
+    wineData[2].tastingNote3,
+    combinedNotes[1],
+  ];
 }
 
 export default getTargetNotes6;
