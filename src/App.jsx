@@ -40,6 +40,20 @@ export default function App() {
   const [LSBalthazarCount, setLSBalthazarCount] = useState(0);
   const [LSTastingCount, setLSTastingCount] = useState(0);
 
+  const LSBaseTastingCount =
+    parseInt(localStorage.getItem("baseTastingCount") ?? "0", 10) || 0;
+  const LSBaseTotalNotes =
+    parseInt(localStorage.getItem("baseTotalNotes") ?? "0", 10) || 0;
+  const LSBaseTotalScore =
+    parseInt(localStorage.getItem("baseTotalScore") ?? "0", 10) || 0;
+  const LSBaseBalthazarCount =
+    parseInt(localStorage.getItem("baseBalthazar") ?? "0", 10) || 0;
+
+  const todayTastingCount = LSTastingCount - LSBaseTastingCount;
+  const todayTotalNotes = LSTotalNotes - LSBaseTotalNotes;
+  const todayTotalScore = LSTotalScore - LSBaseTotalScore;
+  const todayBalthazarCount = LSBalthazarCount - LSBaseBalthazarCount;
+
   const [tastingButton, setTastingButton] = useState("sofaSommStart");
 
   const [gameBottle, setGameBottle] = useState(0);
@@ -213,13 +227,13 @@ export default function App() {
         setStartMsg("");
         switch (game) {
           case 3:
-            setStartButtonLabel("Rando");
+            setStartButtonLabel("tasting3: COMBO");
             break;
           case 2:
-            setStartButtonLabel("RED Wine Tasting");
+            setStartButtonLabel("tasting2: RED wine");
             break;
           default:
-            setStartButtonLabel("WHITE Wine Tasting");
+            setStartButtonLabel("tasting1: WHITE wine");
         }
       }
       let newVennKey = [
@@ -274,6 +288,14 @@ export default function App() {
         localStorage.setItem("TastingCount", 0);
         setLSTastingCount(0);
       }
+
+      if (game == 1) {
+        localStorage.setItem("baseTastingCount", LSTastingCount);
+        localStorage.setItem("baseTotalNotes", LSTotalNotes);
+        localStorage.setItem("baseTotalScore", LSTotalScore);
+        localStorage.setItem("baseBalthazar", LSBalthazarCount);
+      }
+
       setDusanBottle(null);
       setBottleHistory([]);
       setShowHideBottleDiv("Show ");
@@ -738,7 +760,7 @@ export default function App() {
             </b>
             <button class={tastingButton} onClick={handleClickNext}>
               {" "}
-              {game}: {startButtonLabel} 
+               {startButtonLabel} 
             </button>
             &emsp;
             <button class="sofaSommHelp" onClick={handleClickHelp}>
@@ -817,22 +839,53 @@ export default function App() {
             <td class="td-bottleHistory"> Sommelier Credentials </td>
           </tr>
         </table>
-        <table class="sofaJPG">
+        
+       <table class="statTable td-statBox  alignRight">
           <tr>
-            Sofa Somm Rating: {(LSTotalScore / LSTastingCount).toFixed(1)}
+            <td> Tastings: {LSTastingCount} </td>
+            <td> Somm Rating </td>
+            <td> Balthazar </td>
+            <td> Notes </td>
           </tr>
           <tr>
-            Balthazars: {LSBalthazarCount} &emsp; Rate:{" "}
-            {((LSBalthazarCount / LSTastingCount) * 100).toFixed(0)}%
+            <td> Today Avg </td>
+            <td> {(todayTotalScore / todayTastingCount).toFixed(1)} </td>
+
+            <td>
+              {" "}
+              {((todayBalthazarCount / todayTastingCount) * 100).toFixed(
+                0
+              )}%{" "}
+            </td>
+            <td> {(todayTotalNotes / todayTastingCount).toFixed(1)} </td>
           </tr>
           <tr>
-            Notes/Tasting: {(LSTotalNotes / LSTastingCount).toFixed(1)} &nbsp;
-            Total Notes: {LSTotalNotes}
+            <td> Today Tot</td>
+            <td> {todayTotalScore} </td>
+
+            <td> {todayBalthazarCount} </td>
+            <td> {todayTotalNotes} </td>
           </tr>
+
           <tr>
-            SommPoints: {LSTotalScore} &nbsp; Tastings: {LSTastingCount}
+            <td> Career Avg </td>
+            <td> {(LSTotalScore / LSTastingCount).toFixed(1)} </td>
+            <td> {((LSBalthazarCount / LSTastingCount) * 100).toFixed(0)}% </td>
+            <td> {(LSTotalNotes / LSTastingCount).toFixed(1)} </td>
           </tr>
+
+          <tr>
+            <td> Totals </td>
+            <td> {LSTotalScore} </td>
+            <td> {LSBalthazarCount} </td>
+            <td> {LSTotalNotes} </td>
+          </tr>
+          <tr></tr>
+
+          <tr></tr>
+          <tr></tr>
         </table>
+
       </div>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>

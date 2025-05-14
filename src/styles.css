@@ -257,6 +257,17 @@ td {
   background-color: blue;
 }
 
+.td-statBox td {
+  border: 1px solid black;
+  height: 20px;
+  width: 74px;
+}
+td-statHeader {
+  background-color: lightgrey;
+  width: 275px;
+  height: 10px;
+}
+
 .td-wineMiss {
   height: 25px;
   background-color: lightgray;
