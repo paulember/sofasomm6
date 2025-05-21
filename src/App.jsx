@@ -1,18 +1,20 @@
-import './App.css';
+import "./App.css";
 import "./styles.css";
 import SearchableDropdown from "./searchableDropdown";
-import getTargetNotes6 from "./component/getTargetNotes6";
+import { getTargetNotes6, getJulianDate } from "./component/getTargetNotes6";
 
 import Modal from "./Modal";
-import { wineData } from "./data/wineData";
+
 import { vennCriteria } from "./data/vennCategory";
 import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
+import getSommCredentials from "./component/getSommCredentials";
 const gameTotal = 3;
 
 import useFetchWine from "./component/useFetchWine";
 
 export default function App() {
+  const julianDate = new Date().getFullYear() + "_" + getJulianDate(new Date());
   const { wineData, loading, error } = useFetchWine();
 
   const [targetNotes, setTargetNotes] = useState(() =>
@@ -130,7 +132,7 @@ export default function App() {
     setSelectedStyle(null);
     setDropStyle(val);
   }
- 
+
   function getVennGame() {
     //let newRet = vennGames.find((vennSet) => vennSet.id === game) || null;
     //console.log ("newRet: " + newRet.venn_A)
@@ -257,7 +259,7 @@ export default function App() {
         tempArray[2],
         tempArray[3],
         tempArray[4],
-        tempArray[5]
+        tempArray[5],
       ]);
 
       setSelectWineDisabled(true);
@@ -393,7 +395,7 @@ export default function App() {
         labels[2],
         labels[3],
         labels[4],
-        labels[5]
+        labels[5],
       ]);
     }
   }, [vennKey]);
@@ -418,7 +420,7 @@ export default function App() {
           tastingNotes[1],
           tastingNotes[2],
           tastingNotes[3],
-          tastingNotes[4]
+          tastingNotes[4],
         ]);
         setGameBottle(gameBottle + 1);
       }
@@ -460,6 +462,15 @@ export default function App() {
     ``;
   }, [wineScoreLabel]);
 
+  useEffect(() => {
+    if ((gameNotesAcquired > 5) | (gameBottle > 5)) {
+      localStorage.setItem(
+        "TotalNotes",
+        parseInt(LSTotalNotes) + parseInt(gameNotesAcquired)
+      );
+    }
+  }, [gameNotesAcquired]);
+
   const openModal = () => {
     localStorage.setItem("LastGame", game);
     if (LSTastingCount == null) {
@@ -472,11 +483,6 @@ export default function App() {
   };
 
   const closeModal = () => {
-    localStorage.setItem(
-      "TotalNotes",
-      parseInt(LSTotalNotes) + parseInt(gameNotesAcquired)
-    );
-
     if (gameNotesAcquired > 5) {
       if (isNaN(LSBalthazarCount)) {
         localStorage.setItem("BalthazarCount", 1);
@@ -576,7 +582,7 @@ export default function App() {
       temptdWineArray[2],
       temptdWineArray[3],
       temptdWineArray[4],
-      temptdWineArray[5]
+      temptdWineArray[5],
     ]);
     const matchingElements = vennLabel.filter((value) =>
       wineNotes.includes(value)
@@ -610,7 +616,7 @@ export default function App() {
       tempArray[2],
       tempArray[3],
       tempArray[4],
-      tempArray[5]
+      tempArray[5],
     ]);
 
     setWinetdClass([
@@ -618,7 +624,7 @@ export default function App() {
       temptdWineArray[1],
       temptdWineArray[2],
       temptdWineArray[3],
-      temptdWineArray[4]
+      temptdWineArray[4],
     ]);
   }, [wineNotes]);
 
@@ -747,7 +753,6 @@ export default function App() {
   }
 
   return (
-    
     <div className="App">
       <div>
         <p>
@@ -760,7 +765,7 @@ export default function App() {
             </b>
             <button class={tastingButton} onClick={handleClickNext}>
               {" "}
-               {startButtonLabel} 
+              {startButtonLabel}
             </button>
             &emsp;
             <button class="sofaSommHelp" onClick={handleClickHelp}>
@@ -771,8 +776,7 @@ export default function App() {
       </div>
       <div>
         <SplashDiv />
-      </div>     
-     
+      </div>
 
       <div>
         <b> Find Wines that Match these Tasting Notes </b>
@@ -793,9 +797,8 @@ export default function App() {
           </table>
         </div>
       </div>
-     
-   
-   <div id="dropdownIn">
+
+      <div id="dropdownIn">
         <SearchableDropdown
           width="100"
           options={wineData}
@@ -813,7 +816,7 @@ export default function App() {
         </div>
       </div>
 
- <WineSelection winePropValue={selectedStyle} />
+      <WineSelection winePropValue={selectedStyle} />
       <div>________________________________________</div>
       <div>
         <table>
@@ -831,64 +834,48 @@ export default function App() {
         </table>
       </div>
 
-      <div>_ _ new logic starts here  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
+      <div>
+        _ _ new logic starts here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _{" "}
+      </div>
 
       <div>
         <table>
           <tr>
-            <td class="td-bottleHistory"> Sommelier Credentials </td>
-          </tr>
-        </table>
-        
-       <table class="statTable td-statBox  alignRight">
-          <tr>
-            <td> Tastings: {LSTastingCount} </td>
-            <td> Somm Rating </td>
-            <td> Balthazar </td>
-            <td> Notes </td>
-          </tr>
-          <tr>
-            <td> Today Avg </td>
-            <td> {(todayTotalScore / todayTastingCount).toFixed(1)} </td>
-
-            <td>
+            <td class="td-bottleHistory">
               {" "}
-              {((todayBalthazarCount / todayTastingCount) * 100).toFixed(
-                0
-              )}%{" "}
+              Sommelier Credentials {todayTotalScore}{" "}
             </td>
-            <td> {(todayTotalNotes / todayTastingCount).toFixed(1)} </td>
           </tr>
-          <tr>
-            <td> Today Tot</td>
-            <td> {todayTotalScore} </td>
-
-            <td> {todayBalthazarCount} </td>
-            <td> {todayTotalNotes} </td>
-          </tr>
-
-          <tr>
-            <td> Career Avg </td>
-            <td> {(LSTotalScore / LSTastingCount).toFixed(1)} </td>
-            <td> {((LSBalthazarCount / LSTastingCount) * 100).toFixed(0)}% </td>
-            <td> {(LSTotalNotes / LSTastingCount).toFixed(1)} </td>
-          </tr>
-
-          <tr>
-            <td> Totals </td>
-            <td> {LSTotalScore} </td>
-            <td> {LSBalthazarCount} </td>
-            <td> {LSTotalNotes} </td>
-          </tr>
-          <tr></tr>
-
-          <tr></tr>
-          <tr></tr>
         </table>
 
+        <div>
+          {getSommCredentials({
+            LSTastingCount,
+            todayTotalScore,
+            todayTastingCount,
+            todayBalthazarCount,
+            todayTotalNotes,
+            LSTotalScore,
+            LSBalthazarCount,
+            LSTotalNotes,
+          })}
+        </div>
+
+        <table>
+          <tr>
+            <td> {vennLabel[0]} </td>
+            <td> {vennLabel[1]} </td>
+            <td> {vennLabel[2]} </td>
+          </tr>
+          <tr>
+            <td class={venntdClass[3]}> {vennLabel[3]} </td>
+            <td class={venntdClass[4]}> {vennLabel[4]} </td>{" "}
+            <td class={venntdClass[5]}> {vennLabel[5]} </td>
+          </tr>
+        </table>
       </div>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 class="sofaSommTitle">
           <b>
             <i> Sofa Somm </i>{" "}
@@ -968,6 +955,18 @@ export default function App() {
               </div>
               Click Tasting Notes for Bottle Info
             </div>
+            <div>
+              {getSommCredentials({
+                LSTastingCount,
+                todayTotalScore,
+                todayTastingCount,
+                todayBalthazarCount,
+                todayTotalNotes,
+                LSTotalScore,
+                LSBalthazarCount,
+                LSTotalNotes,
+              })}
+            </div>
           </table>
         </div>
         <div>
@@ -1004,31 +1003,26 @@ export default function App() {
         <p></p>
         <p></p>.<p></p>.<p></p>.
       </Modal>
-      
-      
-      
-      
-      
-      
-      
-      <div>_ _ _ _ new logic ends here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </div>
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
 
+      <div>
+        _ _ _ _ new logic ends here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _{" "}
+      </div>
+      <p>
+        GitHub Codespaces <span className="heart">♥️</span> React
+      </p>
+      <p className="small">
+        Edit <code>src/App.jsx</code> and save to reload.
+      </p>
+      <p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </p>
     </div>
   );
 }

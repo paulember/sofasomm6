@@ -78,4 +78,4 @@ async function getTargetNotes6(wineData, redOrWhite) {
   ];
 }
 
-export default getTargetNotes6;
+export { getTargetNotes6, getJulianDate };
