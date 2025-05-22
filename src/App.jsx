@@ -41,6 +41,7 @@ export default function App() {
   const [LSTotalScore, setLSTotalScore] = useState(0);
   const [LSBalthazarCount, setLSBalthazarCount] = useState(0);
   const [LSTastingCount, setLSTastingCount] = useState(0);
+  const [resetStats, setResetStats] = useState(0);
 
   const LSBaseTastingCount =
     parseInt(localStorage.getItem("baseTastingCount") ?? "0", 10) || 0;
@@ -61,6 +62,8 @@ export default function App() {
   const [gameBottle, setGameBottle] = useState(0);
   const [gameSpills, setGameSpills] = useState(0);
   const [gameNotesAcquired, setGameNotesAcquired] = useState(0);
+
+  const [gameNotesAdded_Bottle6, setGameNotesAdded_Bottle6] = useState(0);
 
   const [vennKey, setVennKey] = useState([Array(6).fill(null)]);
 
@@ -298,6 +301,8 @@ export default function App() {
         localStorage.setItem("baseBalthazar", LSBalthazarCount);
       }
 
+      setGameNotesAdded_Bottle6(0);
+      setWineScoreLabel(null);
       setDusanBottle(null);
       setBottleHistory([]);
       setShowHideBottleDiv("Show ");
@@ -459,17 +464,13 @@ export default function App() {
   }, [wineScore]);
 
   useEffect(() => {
-    ``;
-  }, [wineScoreLabel]);
-
-  useEffect(() => {
-    if ((gameNotesAcquired > 5) | (gameBottle > 5)) {
-      localStorage.setItem(
-        "TotalNotes",
-        parseInt(LSTotalNotes) + parseInt(gameNotesAcquired)
-      );
-    }
-  }, [gameNotesAcquired]);
+    localStorage.setItem("TotalNotes", LSTotalNotes);
+    localStorage.setItem("BalthazarCount", LSBalthazarCount);
+    localStorage.setItem(
+      "TotalScore",
+      parseInt(LSTotalScore) + parseInt(wineScore)
+    );
+  }, [isModalOpen]);
 
   const openModal = () => {
     localStorage.setItem("LastGame", game);
@@ -483,21 +484,6 @@ export default function App() {
   };
 
   const closeModal = () => {
-    if (gameNotesAcquired > 5) {
-      if (isNaN(LSBalthazarCount)) {
-        localStorage.setItem("BalthazarCount", 1);
-      } else {
-        localStorage.setItem(
-          "BalthazarCount",
-          parseInt(LSBalthazarCount) + parseInt(1)
-        );
-      }
-    }
-
-    localStorage.setItem(
-      "TotalScore",
-      parseInt(LSTotalScore) + parseInt(wineScore)
-    );
     localStorage.setItem("TastingCount", LSTastingCount);
 
     setIsModalOpen(false);
@@ -506,8 +492,11 @@ export default function App() {
 
   useEffect(() => {
     if (gameBottle > 5) {
+      setGameNotesAdded_Bottle6(gameNotesAcquired);
+      setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
+
       let baseScore = 63;
-      switch (gameNotesAcquired) {
+      switch (gameNotesAdded_Bottle6) {
         case 5:
           baseScore = 85;
           break;
@@ -565,9 +554,19 @@ export default function App() {
 
       setWineScore(baseScore - gameSpills * 3);
 
-      if (gameBottle < 6) {
-        openModal();
+      setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
+
+      if (gameBottle > 5) {
+        setLSTotalNotes(
+          parseInt(LSTotalNotes) +
+            parseInt(matchCount) -
+            parseInt(gameNotesAdded_Bottle6)
+        );
+      } else {
+        setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(matchCount));
       }
+
+      openModal();
     }
   }, [venntdClass]);
 
@@ -843,7 +842,7 @@ export default function App() {
           <tr>
             <td class="td-bottleHistory">
               {" "}
-              Sommelier Credentials {todayTotalScore}{" "}
+              Sommelier Credentials {resetStats}{" "}
             </td>
           </tr>
         </table>
