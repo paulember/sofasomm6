@@ -467,23 +467,20 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("TotalNotes", LSTotalNotes);
     localStorage.setItem("BalthazarCount", LSBalthazarCount);
-    localStorage.setItem(
-      "TotalScore",
-      parseInt(LSTotalScore) + parseInt(wineScore)
-    );
+    localStorage.setItem("TastingCount", LSTastingCount);
+    localStorage.setItem("TotalScore", LSTotalScore);
   }, [isModalOpen]);
 
   const openModal = () => {
-    setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
+    if (!isModalOpen) {
+      setResetStats((prevCount) => parseInt(prevCount) + parseInt(1));
+      setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
+      setLSTastingCount(parseInt(LSTastingCount) + parseInt(1));
+      setLSTotalScore(parseInt(LSTotalScore) + parseInt(wineScore));
+      localStorage.setItem("LastGame", game);
 
-    localStorage.setItem("LastGame", game);
-    if (LSTastingCount == null) {
-      localStorage.setItem("TastingCount", 1);
-      setLSTastingCount(1);
-    } else {
-      setLSTastingCount((prevCount) => parseInt(prevCount) + parseInt(1));
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -548,11 +545,15 @@ export default function App() {
 
       setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
 
-      openModal();
+      if (!isModalOpen) {
+        openModal();
+      }
     }
 
     if (gameBottle > 5) {
-      openModal();
+      if (!isModalOpen) {
+        openModal();
+      }
     }
   }, [venntdClass, runVenntdClass]);
 
@@ -828,7 +829,7 @@ export default function App() {
           <tr>
             <td class="td-bottleHistory">
               {" "}
-              Sommelier Credentials {gameBottle} {String(runVenntdClass)}
+              Sommelier Credentials {resetStats}
             </td>
           </tr>
         </table>
