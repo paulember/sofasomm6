@@ -22,6 +22,7 @@ export default function App() {
   );
 
   const [venntdClass, setVenntdClass] = useState([Array(6).fill(null)]);
+  const [runVenntdClass, setRunVenntdClass] = useState(false);
 
   const gameNotesAcquired = venntdClass.filter(
     (cls) => cls === "td-vennMatch"
@@ -65,8 +66,6 @@ export default function App() {
 
   const [gameBottle, setGameBottle] = useState(0);
   const [gameSpills, setGameSpills] = useState(0);
-
-  const [gameNotesAdded_Bottle6, setGameNotesAdded_Bottle6] = useState(0);
 
   const [vennKey, setVennKey] = useState([Array(6).fill(null)]);
 
@@ -304,7 +303,6 @@ export default function App() {
         localStorage.setItem("baseBalthazar", LSBalthazarCount);
       }
 
-      setGameNotesAdded_Bottle6(0);
       setWineScoreLabel(null);
       setDusanBottle(null);
       setBottleHistory([]);
@@ -476,6 +474,8 @@ export default function App() {
   }, [isModalOpen]);
 
   const openModal = () => {
+    setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
+
     localStorage.setItem("LastGame", game);
     if (LSTastingCount == null) {
       localStorage.setItem("TastingCount", 1);
@@ -495,11 +495,8 @@ export default function App() {
 
   useEffect(() => {
     if (gameBottle > 5) {
-      setGameNotesAdded_Bottle6(gameNotesAcquired);
-      setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
-
       let baseScore = 63;
-      switch (gameNotesAdded_Bottle6) {
+      switch (gameNotesAcquired) {
         case 5:
           baseScore = 85;
           break;
@@ -520,20 +517,12 @@ export default function App() {
       }
 
       setWineScore(baseScore - gameSpills * 2);
-
-      openModal();
+      setRunVenntdClass((prev) => !prev);
     }
   }, [gameBottle]);
 
   useEffect(() => {
-    let matchCount = 0;
-    for (let i = 0; i < 6; i++) {
-      if (venntdClass[i] == "td-vennMatch") {
-        matchCount++;
-      }
-    }
-
-    if (matchCount > 5) {
+    if (gameNotesAcquired > 5) {
       let baseScore = 90;
       switch (gameBottle) {
         case 1:
@@ -559,19 +548,13 @@ export default function App() {
 
       setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
 
-      if (gameBottle > 5) {
-        setLSTotalNotes(
-          parseInt(LSTotalNotes) +
-            parseInt(gameNotesAcquired) -
-            parseInt(gameNotesAdded_Bottle6)
-        );
-      } else {
-        setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
-      }
-
       openModal();
     }
-  }, [venntdClass]);
+
+    if (gameBottle > 5) {
+      openModal();
+    }
+  }, [venntdClass, runVenntdClass]);
 
   useEffect(() => {
     const temptdWineArray = [];
@@ -845,7 +828,7 @@ export default function App() {
           <tr>
             <td class="td-bottleHistory">
               {" "}
-              Sommelier Credentials {resetStats}{" "}
+              Sommelier Credentials {gameBottle} {String(runVenntdClass)}
             </td>
           </tr>
         </table>
