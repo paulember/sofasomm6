@@ -23,6 +23,10 @@ export default function App() {
 
   const [venntdClass, setVenntdClass] = useState([Array(6).fill(null)]);
 
+  const gameNotesAcquired = venntdClass.filter(
+    (cls) => cls === "td-vennMatch"
+  ).length;
+
   const [startButtonLabel, setStartButtonLabel] = useState("Start");
   const [startMsg, setStartMsg] = useState(" <-- click 'Tasting' to start");
   const [selectedStyle, setSelectedStyle] = useState("");
@@ -61,7 +65,6 @@ export default function App() {
 
   const [gameBottle, setGameBottle] = useState(0);
   const [gameSpills, setGameSpills] = useState(0);
-  const [gameNotesAcquired, setGameNotesAcquired] = useState(0);
 
   const [gameNotesAdded_Bottle6, setGameNotesAdded_Bottle6] = useState(0);
 
@@ -529,7 +532,7 @@ export default function App() {
         matchCount++;
       }
     }
-    setGameNotesAcquired(matchCount);
+
     if (matchCount > 5) {
       let baseScore = 90;
       switch (gameBottle) {
@@ -559,11 +562,11 @@ export default function App() {
       if (gameBottle > 5) {
         setLSTotalNotes(
           parseInt(LSTotalNotes) +
-            parseInt(matchCount) -
+            parseInt(gameNotesAcquired) -
             parseInt(gameNotesAdded_Bottle6)
         );
       } else {
-        setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(matchCount));
+        setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
       }
 
       openModal();
