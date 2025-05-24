@@ -274,27 +274,10 @@ export default function App() {
       setGameBottle(0);
       setGameSpills(0);
 
-      setLSTotalNotes(localStorage.getItem("TotalNotes"));
-      setLSTotalScore(localStorage.getItem("TotalScore"));
-      setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
-      setLSTastingCount(localStorage.getItem("TastingCount"));
-
-      if (LSTotalNotes == null) {
-        localStorage.setItem("TotalNotes", 0);
-        setLSTotalNotes(localStorage.getItem("TotalNotes"));
-      }
-      if (LSTotalScore == null) {
-        localStorage.setItem("TotalScore", 0);
-        setLSTotalScore(localStorage.getItem("TotalScore"));
-      }
-      if (LSBalthazarCount == null) {
-        localStorage.setItem("BalthazarCount", 0);
-        setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
-      }
-      if (LSTastingCount == null) {
-        localStorage.setItem("TastingCount", 0);
-        setLSTastingCount(0);
-      }
+      setLSTotalNotes(localStorage.getItem("TotalNotes") || 0);
+      setLSTotalScore(localStorage.getItem("TotalScore") || 0);
+      setLSBalthazarCount(localStorage.getItem("BalthazarCount") || 0);
+      setLSTastingCount(localStorage.getItem("TastingCount") || 0);
 
       if (game == 1) {
         localStorage.setItem("baseTastingCount", LSTastingCount);
@@ -465,10 +448,12 @@ export default function App() {
   }, [wineScore]);
 
   useEffect(() => {
-    localStorage.setItem("TotalNotes", LSTotalNotes);
-    localStorage.setItem("BalthazarCount", LSBalthazarCount);
-    localStorage.setItem("TastingCount", LSTastingCount);
-    localStorage.setItem("TotalScore", LSTotalScore);
+    if (isModalOpen) {
+      localStorage.setItem("TotalNotes", LSTotalNotes);
+      localStorage.setItem("BalthazarCount", LSBalthazarCount);
+      localStorage.setItem("TastingCount", LSTastingCount);
+      localStorage.setItem("TotalScore", LSTotalScore);
+    }
   }, [isModalOpen]);
 
   const openModal = () => {
