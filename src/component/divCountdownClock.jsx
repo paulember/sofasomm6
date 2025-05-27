@@ -1,4 +1,4 @@
-divCountdownClock.jsxfunction divCountdownClock({
+function divCountdownClock({
   timeLeftHH,
   timeLeftMM,
   timeLeftSS,

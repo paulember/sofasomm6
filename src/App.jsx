@@ -2,6 +2,7 @@ import "./App.css";
 import "./styles.css";
 import SearchableDropdown from "./searchableDropdown";
 import { getTargetNotes6, getJulianDate } from "./component/getTargetNotes6";
+import { getTimeUntilDailyReset } from "./component/getTimeUntilDailyReset";
 
 import Modal from "./Modal";
 
@@ -9,12 +10,39 @@ import { vennCriteria } from "./data/vennCategory";
 import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
 import getSommCredentials from "./component/getSommCredentials";
+import divCountdownClock from "./component/divCountdownClock";
+
 const gameTotal = 3;
 
 import useFetchWine from "./component/useFetchWine";
 
 export default function App() {
   const julianDate = new Date().getFullYear() + "_" + getJulianDate(new Date());
+  const lastJulianPlayed =
+    localStorage.getItem("lastJulianPlayed") ?? "0000_000";
+
+  const currentTime = new Date();
+
+  const [timeLeftSS, setTimeLeftSS] = useState(0);
+  const [timeLeftMM, setTimeLeftMM] = useState(0);
+  const [timeLeftHH, setTimeLeftHH] = useState(0);
+
+  function pad(value) {
+    return value.toString().padStart(2, "0");
+  }
+
+  let time = getTimeUntilDailyReset();
+  const countdown = setInterval(() => {
+    time = getTimeUntilDailyReset();
+    setTimeLeftSS(pad(time.seconds));
+    setTimeLeftMM(pad(time.minutes));
+    setTimeLeftHH(pad(time.hours));
+  }, 5000);
+
+  const hh = pad(currentTime.getHours());
+  const mm = pad(currentTime.getMinutes());
+  const ss = pad(currentTime.getSeconds());
+
   const { wineData, loading, error } = useFetchWine();
 
   const [targetNotes, setTargetNotes] = useState(() =>
@@ -463,7 +491,9 @@ export default function App() {
       setLSTastingCount(parseInt(LSTastingCount) + parseInt(1));
       setLSTotalScore(parseInt(LSTotalScore) + parseInt(wineScore));
       localStorage.setItem("LastGame", game);
-
+      if (game >= 3) {
+        localStorage.setItem("lastJulianPlayed", julianDate);
+      }
       setIsModalOpen(true);
     }
   };
@@ -664,14 +694,18 @@ export default function App() {
           <div>
             <table className="notesTable">
               <tr>
-                <td>{targetNotes[0][0]}</td>
-                <td>{targetNotes[0][1]}</td>
-                <td>{targetNotes[0][2]}</td>
+                <td>lastJulPlayed-julianDate</td>
+                <td>####{lastJulianPlayed}</td>
+                <td>####{julianDate}</td>
               </tr>
               <tr>
-                <td>{targetNotes[0][3]}</td>
-                <td>{targetNotes[0][4]}</td>
-                <td>{targetNotes[0][5]}</td>
+                <td>###currentTime:</td>
+                <td>
+                  {hh}
+                  {mm}
+                  {ss}
+                </td>
+                <td>{`${timeLeftHH}:${timeLeftMM}:${timeLeftSS}`}</td>
               </tr>
             </table>
 
@@ -814,7 +848,8 @@ export default function App() {
           <tr>
             <td class="td-bottleHistory">
               {" "}
-              Sommelier Credentials {resetStats}
+              Sommelier Credentials #### julPlayed:{lastJulianPlayed}
+              ####julDate:{julianDate}
             </td>
           </tr>
         </table>
@@ -939,6 +974,15 @@ export default function App() {
               })}
             </div>
           </table>
+          <div>
+            {divCountdownClock({
+              timeLeftHH,
+              timeLeftMM,
+              timeLeftSS,
+              julianDate,
+              lastJulianPlayed,
+            })}
+          </div>
         </div>
         <div>
           <button onClick={() => toggleBottleDiv()}>
@@ -978,22 +1022,6 @@ export default function App() {
       <div>
         _ _ _ _ new logic ends here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _{" "}
       </div>
-      <p>
-        GitHub Codespaces <span className="heart">♥️</span> React
-      </p>
-      <p className="small">
-        Edit <code>src/App.jsx</code> and save to reload.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </p>
     </div>
   );
 }
