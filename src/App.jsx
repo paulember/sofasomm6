@@ -173,14 +173,19 @@ export default function App() {
   }
 
   function handleClickNext() {
-    setLSLastGame(localStorage.getItem("LastGame"));
-    setGame(localStorage.getItem("LastGame"));
-    setGame((prevGame) => (prevGame % gameTotal) + 1);
+    if ((game >= 3) | (julianDate == lastJulianPlayed)) {
+      alertCountDown();
+    } else {
+      setLSLastGame(localStorage.getItem("LastGame"));
+      setGame(localStorage.getItem("LastGame"));
+      setGame((prevGame) => (prevGame % gameTotal) + 1);
 
-    setLSTastingCount(localStorage.getItem("TastingCount"));
-    setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
-    setLSTotalScore(localStorage.getItem("TotalScore"));
-    setLSTotalNotes(localStorage.getItem("TotalNotes"));
+      setLSTastingCount(localStorage.getItem("TastingCount"));
+      setLSBalthazarCount(localStorage.getItem("BalthazarCount"));
+      setLSTotalScore(localStorage.getItem("TotalScore"));
+      setLSTotalNotes(localStorage.getItem("TotalNotes"));
+      setIsModalOpen(false);
+    }
   }
 
   function handleClearClick() {
@@ -189,11 +194,7 @@ export default function App() {
         "Press OK to Clear Your SofaSomm Cache.\n \n THIS WILL REMOVE ALL RECORDS OF YOUR PREVIOUS TASTINGS. \n \n Press Cancel to return to the Splash Screen. "
       )
     ) {
-      localStorage.removeItem("BalthazarCount", 0);
-      localStorage.removeItem("TastingCount", 0);
-      localStorage.removeItem("LastGame", 0);
-      localStorage.removeItem("TotalScore", 0);
-      localStorage.removeItem("TotalNotes", 0);
+      localStorage.removeItem("lastJulianPlayed", 0);
     } else {
     }
   }
@@ -219,6 +220,14 @@ export default function App() {
     helpText += "tenor.com\n \n";
 
     alert(helpText);
+  }
+
+  function alertCountDown() {
+    let countDownText = "Today's Tasting is completed\n \n";
+    countDownText += "Next Tasting \n \n";
+    countDownText += `${timeLeftHH} : ${timeLeftMM} : ${timeLeftSS}`;
+
+    alert(countDownText);
   }
 
   function handleClickTastingNote(i) {
@@ -501,7 +510,6 @@ export default function App() {
   const closeModal = () => {
     localStorage.setItem("TastingCount", LSTastingCount);
 
-    setIsModalOpen(false);
     handleClickNext();
   };
 
