@@ -173,7 +173,7 @@ export default function App() {
   }
 
   function handleClickNext() {
-    if ((game >= 3) | (julianDate == lastJulianPlayed)) {
+    if (julianDate == lastJulianPlayed) {
       alertCountDown();
     } else {
       setLSLastGame(localStorage.getItem("LastGame"));
