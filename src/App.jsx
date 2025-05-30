@@ -64,7 +64,7 @@ export default function App() {
 
   const [game, setGame] = useState(null);
   const [LSLastGame, setLSLastGame] = useState(0);
-  const [wineScore, setWineScore] = useState(99);
+  const [wineScore, setWineScore] = useState(5);
   const [wineScoreLabel, setWineScoreLabel] = useState(null);
   const [dusanBottle, setDusanBottle] = useState(null);
   const [dusanNotes, setDusanNotes] = useState(null);
@@ -75,6 +75,8 @@ export default function App() {
   const [LSBalthazarCount, setLSBalthazarCount] = useState(0);
   const [LSTastingCount, setLSTastingCount] = useState(0);
   const [resetStats, setResetStats] = useState(0);
+
+  const [LSTotalScoreUpdate, setLSTotalScoreUpdate] = useState(false);
 
   const LSBaseTastingCount =
     parseInt(localStorage.getItem("baseTastingCount") ?? "0", 10) || 0;
@@ -307,7 +309,6 @@ export default function App() {
       setSelectWineDisabled(true);
       setSelectedStyle("Select a Wine Style...");
       setDropStyle("Select a Bottle of Wine...");
-      setWineScore(99);
       setGameBottle(0);
       setGameSpills(0);
 
@@ -482,14 +483,27 @@ export default function App() {
       default:
         setWineScoreLabel("Are you a Bot?");
     }
+    const calcTotalScore = parseInt(LSTotalScore) + parseInt(wineScore);
+    setLSTotalScore(calcTotalScore);
+    if (calcTotalScore > 0) {
+      setLSTotalScoreUpdate(true);
+    }
   }, [wineScore]);
+
+  useEffect(() => {
+    if (LSTotalScoreUpdate) {
+      if (LSTotalScore > 10) {
+        localStorage.setItem("TotalScore", LSTotalScore);
+      }
+      setLSTotalScoreUpdate(false);
+    }
+  }, [LSTotalScoreUpdate]);
 
   useEffect(() => {
     if (isModalOpen) {
       localStorage.setItem("TotalNotes", LSTotalNotes);
       localStorage.setItem("BalthazarCount", LSBalthazarCount);
       localStorage.setItem("TastingCount", LSTastingCount);
-      localStorage.setItem("TotalScore", LSTotalScore);
     }
   }, [isModalOpen]);
 
@@ -498,7 +512,6 @@ export default function App() {
       setResetStats((prevCount) => parseInt(prevCount) + parseInt(1));
       setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
       setLSTastingCount(parseInt(LSTastingCount) + parseInt(1));
-      setLSTotalScore(parseInt(LSTotalScore) + parseInt(wineScore));
       localStorage.setItem("LastGame", game);
       if (game >= 3) {
         localStorage.setItem("lastJulianPlayed", julianDate);
@@ -515,28 +528,6 @@ export default function App() {
 
   useEffect(() => {
     if (gameBottle > 5) {
-      let baseScore = 63;
-      switch (gameNotesAcquired) {
-        case 5:
-          baseScore = 85;
-          break;
-        case 4:
-          baseScore = 81;
-          break;
-        case 3:
-          baseScore = 76;
-          break;
-        case 2:
-          baseScore = 71;
-          break;
-        case 1:
-          baseScore = 66;
-          break;
-        default:
-          baseScore = 61;
-      }
-
-      setWineScore(baseScore - gameSpills * 2);
       setRunVenntdClass((prev) => !prev);
     }
   }, [gameBottle]);
@@ -571,11 +562,13 @@ export default function App() {
       if (!isModalOpen) {
         openModal();
       }
-    }
+    } else {
+      if (gameBottle > 5) {
+        setWineScore(53);
 
-    if (gameBottle > 5) {
-      if (!isModalOpen) {
-        openModal();
+        if (!isModalOpen) {
+          openModal();
+        }
       }
     }
   }, [venntdClass, runVenntdClass]);
@@ -603,8 +596,6 @@ export default function App() {
     if (matchLength < 1) {
       setGameSpills(gameSpills + 1);
     }
-
-    // setWineScore(wineScore - (6 - matchLength));
 
     for (let i = 0; i < matchLength; i++) {
       for (let j = 0; j < 6; j++) {
