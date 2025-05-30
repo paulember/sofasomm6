@@ -228,7 +228,14 @@ export default function App() {
     let countDownText = "Today's Tasting is completed\n \n";
     countDownText += "Next Tasting \n \n";
     countDownText += `${timeLeftHH} : ${timeLeftMM} : ${timeLeftSS}`;
-
+    countDownText += " \n \n";
+    countDownText += "Today's Stats \n \n";
+    countDownText +=
+      "Average Score: " + (todayTotalScore / todayTastingCount).toFixed(1);
+    countDownText += " \n \n";
+    countDownText += "Total Notes: " + todayTotalNotes;
+    countDownText += " \n \n";
+    countDownText += "Bathazar: " + todayBalthazarCount;
     alert(countDownText);
   }
 
