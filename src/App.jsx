@@ -316,6 +316,7 @@ export default function App() {
       setSelectWineDisabled(true);
       setSelectedStyle("Select a Wine Style...");
       setDropStyle("Select a Bottle of Wine...");
+      setWineScore(5);
       setGameBottle(0);
       setGameSpills(0);
 
@@ -462,38 +463,40 @@ export default function App() {
   }, [selectedStyle]);
 
   useEffect(() => {
-    switch (true) {
-      case wineScore > 94:
-        setWineScoreLabel("Exceptional");
-        break;
-      case wineScore > 89:
-        setWineScoreLabel("Superior");
-        break;
-      case wineScore > 84:
-        setWineScoreLabel("Very Good");
-        break;
-      case wineScore > 79:
-        setWineScoreLabel("Good");
-        break;
-      case wineScore > 71:
-        setWineScoreLabel("Above Average");
-        break;
-      case wineScore > 66:
-        setWineScoreLabel("Meh");
-        break;
-      case wineScore > 61:
-        setWineScoreLabel("flawed");
-        break;
-      case wineScore > 50:
-        setWineScoreLabel("...drinkable");
-        break;
-      default:
-        setWineScoreLabel("Are you a Bot?");
-    }
-    const calcTotalScore = parseInt(LSTotalScore) + parseInt(wineScore);
-    setLSTotalScore(calcTotalScore);
-    if (calcTotalScore > 0) {
-      setLSTotalScoreUpdate(true);
+    if (wineScore > 10) {
+      switch (true) {
+        case wineScore > 94:
+          setWineScoreLabel("Exceptional");
+          break;
+        case wineScore > 89:
+          setWineScoreLabel("Superior");
+          break;
+        case wineScore > 84:
+          setWineScoreLabel("Very Good");
+          break;
+        case wineScore > 79:
+          setWineScoreLabel("Good");
+          break;
+        case wineScore > 71:
+          setWineScoreLabel("Above Average");
+          break;
+        case wineScore > 66:
+          setWineScoreLabel("Meh");
+          break;
+        case wineScore > 61:
+          setWineScoreLabel("flawed");
+          break;
+        case wineScore > 50:
+          setWineScoreLabel("...drinkable");
+          break;
+        default:
+          setWineScoreLabel("Are you a Bot?");
+      }
+      const calcTotalScore = parseInt(LSTotalScore) + parseInt(wineScore);
+      setLSTotalScore(calcTotalScore);
+      if (calcTotalScore > 0) {
+        setLSTotalScoreUpdate(true);
+      }
     }
   }, [wineScore]);
 
@@ -571,7 +574,28 @@ export default function App() {
       }
     } else {
       if (gameBottle > 5) {
-        setWineScore(53);
+        let baseScore = 63;
+        switch (gameNotesAcquired) {
+          case 5:
+            baseScore = 85;
+            break;
+          case 4:
+            baseScore = 81;
+            break;
+          case 3:
+            baseScore = 76;
+            break;
+          case 2:
+            baseScore = 71;
+            break;
+          case 1:
+            baseScore = 66;
+            break;
+          default:
+            baseScore = 61;
+        }
+
+        setWineScore(baseScore - gameSpills * 2);
 
         if (!isModalOpen) {
           openModal();
