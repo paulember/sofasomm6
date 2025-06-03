@@ -11,6 +11,7 @@ import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
 import getSommCredentials from "./component/getSommCredentials";
 import divCountdownClock from "./component/divCountdownClock";
+import SplashDiv from "./component/splashDiv";
 
 const gameTotal = 3;
 
@@ -91,6 +92,7 @@ export default function App() {
   const todayTotalNotes = LSTotalNotes - LSBaseTotalNotes;
   const todayTotalScore = LSTotalScore - LSBaseTotalScore;
   const todayBalthazarCount = LSBalthazarCount - LSBaseBalthazarCount;
+  const todayAVGScore = (todayTotalScore / todayTastingCount).toFixed(1);
 
   const [tastingButton, setTastingButton] = useState("sofaSommStart");
 
@@ -190,17 +192,6 @@ export default function App() {
     }
   }
 
-  function handleClearClick() {
-    if (
-      confirm(
-        "Press OK to Clear Your SofaSomm Cache.\n \n THIS WILL REMOVE ALL RECORDS OF YOUR PREVIOUS TASTINGS. \n \n Press Cancel to return to the Splash Screen. "
-      )
-    ) {
-      localStorage.removeItem("lastJulianPlayed", 0);
-    } else {
-    }
-  }
-
   function handleClickHelp() {
     let helpText = "Welcome to Sofa Sommelier! \n \n";
     helpText +=
@@ -230,8 +221,7 @@ export default function App() {
     countDownText += `${timeLeftHH} : ${timeLeftMM} : ${timeLeftSS}`;
     countDownText += " \n \n";
     countDownText += "Today's Stats \n \n";
-    countDownText +=
-      "Average Score: " + (todayTotalScore / todayTastingCount).toFixed(1);
+    countDownText += "Average Score: " + todayAVGScore;
     countDownText += " \n \n";
     countDownText += "Total Notes: " + todayTotalNotes;
     countDownText += " \n \n";
@@ -667,112 +657,6 @@ export default function App() {
     );
   }
 
-  function SplashDiv() {
-    if (game == null) {
-      return (
-        <div>
-          <h3> Welcome Sofa Sommelier! </h3>
-          <p> Sofa Somm is a tool to help build your wine tasting skills. </p>
-          <p> Begin your tasting by clicking the Yellow START button above. </p>
-          <table>
-            <td class="splashQuote">
-              "Sofa Somm is Better Than A Chiefs Game" - Taylor S.
-            </td>
-          </table>
-          <p>
-            {" "}
-            Each TASTING consists of 6 notes displayed at the top of the screen.{" "}
-          </p>
-          <p>
-            Find these tasting notes by SELECTING and OPENING a BOTTLE from the
-            Wine(Varietal) list dropdown.{" "}
-          </p>
-          <p> Notes that MATCH the opened bottle will switch to GREEN. </p>
-          <p>
-            {" "}
-            Your goal is to find all 6 Notes in as few bottles as possible.{" "}
-          </p>
-          <p>You can open up to 6 bottles for each tasting. </p>
-          <h2> Happy Tasting!!! </h2>
-          <div>
-            Data Source: &nbsp;
-            <a
-              href="https://winefolly.com/grapes"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Wine Folly{" "}
-            </a>{" "}
-            {""}
-          </div>
-          <div>
-            Additional Graphics: &nbsp;
-            <a href="https://tenor.com/" target="_blank" rel="noreferrer">
-              tenor.com{" "}
-            </a>{" "}
-          </div>
-          <h2 class="sofaSommTitle ">
-            {" "}
-            <b>
-              {" "}
-              <i> Sofa Somm </i>
-            </b>
-          </h2>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <div>
-            <table className="notesTable">
-              <tr>
-                <td>lastJulPlayed-julianDate</td>
-                <td>####{lastJulianPlayed}</td>
-                <td>####{julianDate}</td>
-              </tr>
-              <tr>
-                <td>###currentTime:</td>
-                <td>
-                  {hh}
-                  {mm}
-                  {ss}
-                </td>
-                <td>{`${timeLeftHH}:${timeLeftMM}:${timeLeftSS}`}</td>
-              </tr>
-            </table>
-
-            <table className="notesTable">
-              <tr>
-                <td>{targetNotes[1][0]}</td>
-                <td>{targetNotes[1][1]}</td>
-                <td>{targetNotes[1][2]}</td>
-              </tr>
-              <tr>
-                <td>{targetNotes[1][3]}</td>
-                <td>{targetNotes[1][4]}</td>
-                <td>{targetNotes[1][5]}</td>
-              </tr>
-            </table>
-            <table class="notesTable">
-              <tr>
-                <td>{targetNotes[2][0]}</td>
-                <td>{targetNotes[2][1]}</td>
-                <td>{targetNotes[2][2]}</td>
-              </tr>
-              <tr>
-                <td>{targetNotes[2][3]}</td>
-                <td>{targetNotes[2][4]}</td>
-                <td>{targetNotes[2][5]}</td>
-              </tr>
-            </table>
-          </div>
-          <button class="resetButton" onClick={handleClearClick}>
-            {" "}
-            CC
-          </button>
-        </div>
-      );
-    }
-  }
-
   function handleWineSelection({ dropStyle }) {
     setSelectedStyle(dropStyle);
   }
@@ -810,105 +694,89 @@ export default function App() {
         </p>
       </div>
       <div>
-        <SplashDiv />
+        <SplashDiv game={game} julianDate={julianDate} />
       </div>
 
       <div>
-        <b> Find Wines that Match these Tasting Notes </b>
-      </div>
-      <div>
-        <div>
-          <table class="notesTable">
-            <tr>
-              <td class={venntdClass[0]}> {vennLabel[0]} </td>
-              <td class={venntdClass[1]}> {vennLabel[1]} </td>
-              <td class={venntdClass[2]}> {vennLabel[2]} </td>
-            </tr>
-            <tr>
-              <td class={venntdClass[3]}> {vennLabel[3]} </td>
-              <td class={venntdClass[4]}> {vennLabel[4]} </td>{" "}
-              <td class={venntdClass[5]}> {vennLabel[5]} </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+        {game != null ? (
+          <div>
+            <div>
+              <b> Find Wines that Match these Tasting Notes </b>
+            </div>
+            <div>
+              <div>
+                <table class="notesTable">
+                  <tr>
+                    <td class={venntdClass[0]}> {vennLabel[0]} </td>
+                    <td class={venntdClass[1]}> {vennLabel[1]} </td>
+                    <td class={venntdClass[2]}> {vennLabel[2]} </td>
+                  </tr>
+                  <tr>
+                    <td class={venntdClass[3]}> {vennLabel[3]} </td>
+                    <td class={venntdClass[4]}> {vennLabel[4]} </td>{" "}
+                    <td class={venntdClass[5]}> {vennLabel[5]} </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
 
-      <div id="dropdownIn">
-        <SearchableDropdown
-          width="100"
-          options={wineData}
-          label="style"
-          id="id"
-          selectedVal={dropStyle}
-          handleChange={(val) => BuildSelectionRow(val)}
-        />
+            <div id="dropdownIn">
+              <SearchableDropdown
+                width="100"
+                options={wineData}
+                label="style"
+                id="id"
+                selectedVal={dropStyle}
+                handleChange={(val) => BuildSelectionRow(val)}
+              />
 
-        <div>
-          <SelectButton
-            value={"Open Bottle?"}
-            onSelectWineClick={() => handleWineSelection({ dropStyle })}
-          />
-        </div>
-      </div>
+              <div>
+                <SelectButton
+                  value={"Open Bottle?"}
+                  onSelectWineClick={() => handleWineSelection({ dropStyle })}
+                />
+              </div>
+            </div>
 
-      <WineSelection winePropValue={selectedStyle} />
-      <div>________________________________________</div>
-      <div>
-        <table>
-          <tr>
-            {" "}
-            <td class="td-bottleHistory"> Bottles Opened </td>{" "}
-          </tr>
+            <WineSelection winePropValue={selectedStyle} />
+            <div>________________________________________</div>
+            <div>
+              <table>
+                <tr>
+                  {" "}
+                  <td class="td-bottleHistory"> Bottles Opened </td>{" "}
+                </tr>
 
-          <tr class="td-bottleHistory"> Bottle 1: {bottleHistory[0]} </tr>
-          <tr class="td-bottleHistory"> Bottle 2: {bottleHistory[1]} </tr>
-          <tr class="td-bottleHistory"> Bottle 3: {bottleHistory[2]} </tr>
-          <tr class="td-bottleHistory"> Bottle 4: {bottleHistory[3]} </tr>
-          <tr class="td-bottleHistory"> Bottle 5: {bottleHistory[4]} </tr>
-          <tr class="td-bottleHistory"> Bottle 6: {bottleHistory[5]} </tr>
-        </table>
-      </div>
+                <tr class="td-bottleHistory"> Bottle 1: {bottleHistory[0]} </tr>
+                <tr class="td-bottleHistory"> Bottle 2: {bottleHistory[1]} </tr>
+                <tr class="td-bottleHistory"> Bottle 3: {bottleHistory[2]} </tr>
+                <tr class="td-bottleHistory"> Bottle 4: {bottleHistory[3]} </tr>
+                <tr class="td-bottleHistory"> Bottle 5: {bottleHistory[4]} </tr>
+                <tr class="td-bottleHistory"> Bottle 6: {bottleHistory[5]} </tr>
+              </table>
+            </div>
 
-      <div>
-        _ _ new logic starts here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _{" "}
-      </div>
-
-      <div>
-        <table>
-          <tr>
-            <td class="td-bottleHistory">
-              {" "}
-              Sommelier Credentials #### julPlayed:{lastJulianPlayed}
-              ####julDate:{julianDate}
-            </td>
-          </tr>
-        </table>
-
-        <div>
-          {getSommCredentials({
-            LSTastingCount,
-            todayTotalScore,
-            todayTastingCount,
-            todayBalthazarCount,
-            todayTotalNotes,
-            LSTotalScore,
-            LSBalthazarCount,
-            LSTotalNotes,
-          })}
-        </div>
-
-        <table>
-          <tr>
-            <td> {vennLabel[0]} </td>
-            <td> {vennLabel[1]} </td>
-            <td> {vennLabel[2]} </td>
-          </tr>
-          <tr>
-            <td class={venntdClass[3]}> {vennLabel[3]} </td>
-            <td class={venntdClass[4]}> {vennLabel[4]} </td>{" "}
-            <td class={venntdClass[5]}> {vennLabel[5]} </td>
-          </tr>
-        </table>
+            <div>
+              <div>
+                {getSommCredentials({
+                  LSTastingCount,
+                  todayTotalScore,
+                  todayAVGScore,
+                  todayTastingCount,
+                  todayBalthazarCount,
+                  todayTotalNotes,
+                  LSTotalScore,
+                  LSBalthazarCount,
+                  LSTotalNotes,
+                  julianDate,
+                  lastJulianPlayed,
+                })}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>No game yet.</div>
+        )}
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -995,12 +863,15 @@ export default function App() {
               {getSommCredentials({
                 LSTastingCount,
                 todayTotalScore,
+                todayAVGScore,
                 todayTastingCount,
                 todayBalthazarCount,
                 todayTotalNotes,
                 LSTotalScore,
                 LSBalthazarCount,
                 LSTotalNotes,
+                lastJulianPlayed,
+                julianDate,
               })}
             </div>
           </table>
@@ -1048,10 +919,6 @@ export default function App() {
         <p></p>
         <p></p>.<p></p>.<p></p>.
       </Modal>
-
-      <div>
-        _ _ _ _ new logic ends here _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _{" "}
-      </div>
     </div>
   );
 }
