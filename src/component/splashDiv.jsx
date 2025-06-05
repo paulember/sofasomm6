@@ -1,3 +1,5 @@
+import React from 'react';
+
 function handleClearClick() {
   if (
     confirm(
@@ -12,7 +14,13 @@ function handleClearClick() {
 const QRCodeDiv = () => {
   return (
     <div>
-   
+      <a
+        href="https://sofasomm.vercel.app/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        https://sofasomm.vercel.app/{" "}
+      </a>{" "}
     </div>
   );
 };
