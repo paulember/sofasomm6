@@ -178,10 +178,14 @@ export default function App() {
 
   function handleClickNext() {
     if (julianDate == lastJulianPlayed) {
-      alertCountDown();
+      if (isModalOpen) {
+        alertCountDown();
+      } else {
+        openModal();
+      }
     } else {
-      setLSLastGame(localStorage.getItem("LastGame"));
-      setGame(localStorage.getItem("LastGame"));
+      setLSLastGame(parseInt(localStorage.getItem("LastGame") ?? "0", 10) || 0);
+      setGame(parseInt(localStorage.getItem("LastGame") ?? "0", 10) || 0);
       setGame((prevGame) => (prevGame % gameTotal) + 1);
 
       setLSTastingCount(localStorage.getItem("TastingCount"));
@@ -279,6 +283,7 @@ export default function App() {
             setStartButtonLabel("tasting1: WHITE wine");
         }
       }
+
       let newVennKey = [
         [targetNotes[game - 1][0]],
         [targetNotes[game - 1][1]],
@@ -330,6 +335,22 @@ export default function App() {
       setTastingButton("sofaSommTitle");
     }
   }, [game]);
+
+  useEffect(() => {
+    parseInt(localStorage.getItem("baseTastingCount") ?? "0", 10) || 0;
+    setLSTastingCount(
+      parseInt(localStorage.getItem("TastingCount") ?? "0", 10) || 0
+    );
+    setLSBalthazarCount(
+      parseInt(localStorage.getItem("BalthazarCount") ?? "0", 10) || 0
+    );
+    setLSTotalScore(
+      parseInt(localStorage.getItem("TotalScore") ?? "0", 10) || 0
+    );
+    setLSTotalNotes(
+      parseInt(localStorage.getItem("TotalNotes") ?? "0", 10) || 0
+    );
+  }, []);
 
   useEffect(() => {
     if (vennKey[0] === undefined) {
@@ -511,7 +532,9 @@ export default function App() {
     if (!isModalOpen) {
       setResetStats((prevCount) => parseInt(prevCount) + parseInt(1));
       setLSTotalNotes(parseInt(LSTotalNotes) + parseInt(gameNotesAcquired));
-      setLSTastingCount(parseInt(LSTastingCount) + parseInt(1));
+      if (game > 0) {
+        setLSTastingCount(parseInt(LSTastingCount) + parseInt(1));
+      }
       localStorage.setItem("LastGame", game);
       if (game >= 3) {
         localStorage.setItem("lastJulianPlayed", julianDate);
@@ -882,6 +905,7 @@ export default function App() {
               timeLeftSS,
               julianDate,
               lastJulianPlayed,
+              game,
             })}
           </div>
         </div>

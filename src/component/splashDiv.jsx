@@ -9,6 +9,14 @@ function handleClearClick() {
   }
 }
 
+const QRCodeDiv = () => {
+  return (
+    <div>
+   
+    </div>
+  );
+};
+
 function SplashDiv({ game, julianDate }) {
   if (game == null) {
     return (
@@ -33,6 +41,7 @@ function SplashDiv({ game, julianDate }) {
         <p> Your goal is to find all 6 Notes in as few bottles as possible. </p>
         <p>You can open up to 6 bottles for each tasting. </p>
         <h2> Happy Tasting!!! </h2>
+        <QRCodeDiv />
         <div>
           Data Source: &nbsp;
           <a

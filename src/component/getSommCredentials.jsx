@@ -1,20 +1,27 @@
-function copyText(todayBalthazarCount, todayAVGScore, todayTotalNotes) {
+import { getSommelierTitle } from "./switchFunctions";
+
+function copyText(
+  todayBalthazarCount,
+  todayAVGScore,
+  todayTotalNotes,
+  sommTitle
+) {
   let line = "?⬛?";
   switch (todayBalthazarCount) {
     case 1:
-      line = "🍷⬛⬛";
+      line = "🍷⬜ ⬜ ";
       break;
     case 2:
-      line = "🍷🍷⬛";
+      line = "🍷🍷⬜ ";
       break;
     case 3:
       line = "🍷🍷🍷";
       break;
     default:
-      line = "⬛⬛⬛";
+      line = "⬜ ⬜ ⬜";
   }
 
-  const avgScoreText = "Daily Score: " + todayAVGScore;
+  const avgScoreText = "Daily Score: " + todayAVGScore + " - " + sommTitle;
   const totalNotesText = "Daily Notes: " + todayTotalNotes;
 
   const shareLink = `https://sofasomm.vercel.app/`;
@@ -38,6 +45,20 @@ function copyText(todayBalthazarCount, todayAVGScore, todayTotalNotes) {
     });
 }
 
+function ShareButton({ todayBalthazarCount, todayAVGScore, todayTotalNotes }) {
+  const sommTitle = getSommelierTitle(todayAVGScore);
+  return (
+    <button
+      className="sofaSommHelp"
+      onClick={() =>
+        copyText(todayBalthazarCount, todayAVGScore, todayTotalNotes, sommTitle)
+      }
+    >
+      Share
+    </button>
+  );
+}
+
 function getSommCredentials({
   LSTastingCount,
   todayTotalScore,
@@ -51,6 +72,7 @@ function getSommCredentials({
   lastJulianPlayed,
   julianDate,
 }) {
+  const sommTitle = getSommelierTitle(todayAVGScore);
   return (
     <div>
       <table>
@@ -72,7 +94,9 @@ function getSommCredentials({
           </tr>
           <tr>
             <td>Today Avg</td>
-            <td>{todayAVGScore}</td>
+            <td>
+              {todayAVGScore} -{sommTitle}
+            </td>
             <td>
               {((todayBalthazarCount / todayTastingCount) * 100).toFixed(0)}%
             </td>
@@ -98,14 +122,11 @@ function getSommCredentials({
           </tr>
           <tr>
             <td>
-              <button
-                className="sofaSommHelp"
-                onClick={() =>
-                  copyText(todayBalthazarCount, todayAVGScore, todayTotalNotes)
-                }
-              >
-                Share
-              </button>
+              <ShareButton
+                todayBalthazarCount={todayBalthazarCount}
+                todayAVGScore={todayAVGScore}
+                todayTotalNotes={todayTotalNotes}
+              />
             </td>
           </tr>
         </tbody>
