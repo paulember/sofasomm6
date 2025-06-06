@@ -1,0 +1,112 @@
+import React from "react";
+import "./../App.css";
+import "./../styles.css";
+
+function handleClickTastingNote(i, wineData, vennLabel) {
+  const matchingWines = wineData.filter(
+    (wine) =>
+      wine.tastingNote1 === vennLabel[i] ||
+      wine.tastingNote2 === vennLabel[i] ||
+      wine.tastingNote3 === vennLabel[i] ||
+      wine.tastingNote4 === vennLabel[i] ||
+      wine.tastingNote5 === vennLabel[i]
+  );
+
+  const matchingWinesLength = matchingWines.length;
+  let wineMatchList =
+    "\nWine Styles Known for " + vennLabel[i] + " Tasting Notes: \n \n";
+
+  for (let j = 0; j < matchingWinesLength; j++) {
+    wineMatchList = wineMatchList + matchingWines[j].style;
+    wineMatchList = wineMatchList + "\n";
+  }
+  alert(wineMatchList);
+}
+
+function DivDailyFeedback({
+  wineScore,
+  wineScoreLabel,
+  gameBottle,
+  gameSpills,
+  game,
+  gameNotesAcquired,
+  venntdClass,
+  vennLabel,
+  wineData,
+}) {
+  return (
+    <div>
+      <h1 class="h1-background-bubbles">CHEERS!!! </h1>
+      <table class="modalTable">
+        <tr>
+          <td class="td-modalWineScore">
+            {" "}
+            <b> Wine Score </b> &nbsp;
+            <b>{wineScore} </b> &emsp; {wineScoreLabel}
+          </td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <td class="td-modalStats">Bottles Opened: {gameBottle}</td>
+
+          <td class="td-modalStats">Glasses Spilled: {gameSpills} </td>
+        </tr>
+      </table>
+      <table>
+        <div>
+          Tasting #{game} - Notes Found: {gameNotesAcquired}
+          <div class="button_container">
+            <button
+              class={venntdClass[0]}
+              onClick={() => handleClickTastingNote(0, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[0]}
+            </button>
+            <button
+              class={venntdClass[1]}
+              onClick={() => handleClickTastingNote(1, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[1]}
+            </button>
+            <button
+              class={venntdClass[2]}
+              onClick={() => handleClickTastingNote(2, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[2]}
+            </button>
+          </div>
+          <div class="button_container">
+            <button
+              class={venntdClass[3]}
+              onClick={() => handleClickTastingNote(3, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[3]}
+            </button>
+            <button
+              class={venntdClass[4]}
+              onClick={() => handleClickTastingNote(4, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[4]}
+            </button>
+            <button
+              class={venntdClass[5]}
+              onClick={() => handleClickTastingNote(5, wineData, vennLabel)}
+            >
+              {" "}
+              {vennLabel[5]}
+            </button>
+          </div>
+          Click Tasting Notes for Bottle Info
+        </div>
+      </table>
+    </div>
+  );
+}
+export default DivDailyFeedback;
