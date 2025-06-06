@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import getSommCredentials from "./component/getSommCredentials";
 import divCountdownClock from "./component/divCountdownClock";
 import SplashDiv from "./component/splashDiv";
+import DivDailyFeedback from "./component/divDailyFeedback";
 
 const gameTotal = 3;
 
@@ -231,27 +232,6 @@ export default function App() {
     countDownText += " \n \n";
     countDownText += "Bathazar: " + todayBalthazarCount;
     alert(countDownText);
-  }
-
-  function handleClickTastingNote(i) {
-    const matchingWines = wineData.filter(
-      (wine) =>
-        wine.tastingNote1 === vennLabel[i] ||
-        wine.tastingNote2 === vennLabel[i] ||
-        wine.tastingNote3 === vennLabel[i] ||
-        wine.tastingNote4 === vennLabel[i] ||
-        wine.tastingNote5 === vennLabel[i]
-    );
-
-    const matchingWinesLength = matchingWines.length;
-    let wineMatchList =
-      "\nWine Styles Known for " + vennLabel[i] + " Tasting Notes: \n \n";
-
-    for (let j = 0; j < matchingWinesLength; j++) {
-      wineMatchList = wineMatchList + matchingWines[j].style;
-      wineMatchList = wineMatchList + "\n";
-    }
-    alert(wineMatchList);
   }
 
   useEffect(() => {
@@ -812,92 +792,36 @@ export default function App() {
             Next Game
           </button>
         </h2>
-        <h1 class="h1-background-bubbles">CHEERS!!! </h1>
-        <table class="modalTable">
-          <tr>
-            <td class="td-modalWineScore">
-              {" "}
-              <b> Wine Score </b> &nbsp;
-              <b>{wineScore} </b> &emsp; {wineScoreLabel}
-            </td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <td class="td-modalStats">Bottles Opened: {gameBottle}</td>
-
-            <td class="td-modalStats">Glasses Spilled: {gameSpills} </td>
-          </tr>
-        </table>
-        <p></p>
+        {game > 0 && (
+          <DivDailyFeedback
+            wineScore={wineScore}
+            wineScoreLabel={wineScoreLabel}
+            gameBottle={gameBottle}
+            gameSpills={gameSpills}
+            game={game}
+            gameNotesAcquired={gameNotesAcquired}
+            venntdClass={venntdClass}
+            vennLabel={vennLabel}
+            wineData={wineData}
+          />
+        )}
         <div>
-          <table>
-            <div>
-              Tasting #{game} - Notes Found: {gameNotesAcquired}
-              <div class="button_container">
-                <button
-                  class={venntdClass[0]}
-                  onClick={() => handleClickTastingNote(0)}
-                >
-                  {" "}
-                  {vennLabel[0]}
-                </button>
-                <button
-                  class={venntdClass[1]}
-                  onClick={() => handleClickTastingNote(1)}
-                >
-                  {" "}
-                  {vennLabel[1]}
-                </button>
-                <button
-                  class={venntdClass[2]}
-                  onClick={() => handleClickTastingNote(2)}
-                >
-                  {" "}
-                  {vennLabel[2]}
-                </button>
-              </div>
-              <div class="button_container">
-                <button
-                  class={venntdClass[3]}
-                  onClick={() => handleClickTastingNote(3)}
-                >
-                  {" "}
-                  {vennLabel[3]}
-                </button>
-                <button
-                  class={venntdClass[4]}
-                  onClick={() => handleClickTastingNote(4)}
-                >
-                  {" "}
-                  {vennLabel[4]}
-                </button>
-                <button
-                  class={venntdClass[5]}
-                  onClick={() => handleClickTastingNote(5)}
-                >
-                  {" "}
-                  {vennLabel[5]}
-                </button>
-              </div>
-              Click Tasting Notes for Bottle Info
-            </div>
-            <div>
-              {getSommCredentials({
-                LSTastingCount,
-                todayTotalScore,
-                todayAVGScore,
-                todayTastingCount,
-                todayBalthazarCount,
-                todayTotalNotes,
-                LSTotalScore,
-                LSBalthazarCount,
-                LSTotalNotes,
-                lastJulianPlayed,
-                julianDate,
-              })}
-            </div>
-          </table>
+          <div>
+            {getSommCredentials({
+              LSTastingCount,
+              todayTotalScore,
+              todayAVGScore,
+              todayTastingCount,
+              todayBalthazarCount,
+              todayTotalNotes,
+              LSTotalScore,
+              LSBalthazarCount,
+              LSTotalNotes,
+              lastJulianPlayed,
+              julianDate,
+            })}
+          </div>
+
           <div>
             {divCountdownClock({
               timeLeftHH,
@@ -909,11 +833,13 @@ export default function App() {
             })}
           </div>
         </div>
-        <div>
-          <button onClick={() => toggleBottleDiv()}>
-            {showHideBottleDiv} Bottle Details
-          </button>
-        </div>
+        {game > 0 && (
+          <div>
+            <button onClick={() => toggleBottleDiv()}>
+              {showHideBottleDiv} Bottle Details
+            </button>
+          </div>
+        )}
         <div class={divBlockNone}>
           <table>
             <tr>

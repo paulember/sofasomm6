@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function handleClearClick() {
   if (
@@ -14,11 +14,7 @@ function handleClearClick() {
 const QRCodeDiv = () => {
   return (
     <div>
-      <a
-        href="https://sofasomm.vercel.app/"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://sofasomm.vercel.app/" target="_blank" rel="noreferrer">
         https://sofasomm.vercel.app/{" "}
       </a>{" "}
     </div>
@@ -50,6 +46,9 @@ function SplashDiv({ game, julianDate }) {
         <p>You can open up to 6 bottles for each tasting. </p>
         <h2> Happy Tasting!!! </h2>
         <QRCodeDiv />
+        <div>&emsp;</div>
+        <div>&emsp;</div>
+
         <div>
           Data Source: &nbsp;
           <a
@@ -80,7 +79,7 @@ function SplashDiv({ game, julianDate }) {
 
         <table>
           <tr>
-            <td class="td-bottleHistory"> #### {julianDate} ####</td>
+            <td class="td-bottleHistory"> sku #### {julianDate} ####</td>
           </tr>
         </table>
 

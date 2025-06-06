@@ -77,11 +77,7 @@ function getSommCredentials({
     <div>
       <table>
         <tr>
-          <td class="td-bottleHistory">
-            {" "}
-            Sommelier Credentials #### julPlayed:{lastJulianPlayed}
-            ####julDate:{julianDate}
-          </td>
+          <td class="td-bottleHistory"> Sommelier Credentials</td>
         </tr>
       </table>
       <table className="statTable td-statBox alignRight">
