@@ -771,8 +771,10 @@ export default function App() {
                   LSTotalScore,
                   LSBalthazarCount,
                   LSTotalNotes,
-                  julianDate,
                   lastJulianPlayed,
+                  julianDate,
+                  isModalOpen,
+                  game
                 })}
               </div>
             </div>
@@ -792,6 +794,15 @@ export default function App() {
             Next Game
           </button>
         </h2>
+        <div>
+          {divCountdownClock({
+            timeLeftHH,
+            timeLeftMM,
+            timeLeftSS,
+            julianDate,
+            lastJulianPlayed,
+          })}
+        </div>
         {game > 0 && (
           <DivDailyFeedback
             wineScore={wineScore}
@@ -819,17 +830,8 @@ export default function App() {
               LSTotalNotes,
               lastJulianPlayed,
               julianDate,
-            })}
-          </div>
-
-          <div>
-            {divCountdownClock({
-              timeLeftHH,
-              timeLeftMM,
-              timeLeftSS,
-              julianDate,
-              lastJulianPlayed,
-              game,
+              isModalOpen,
+              game
             })}
           </div>
         </div>

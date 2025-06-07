@@ -4,7 +4,6 @@ function divCountdownClock({
   timeLeftSS,
   julianDate,
   lastJulianPlayed,
-  game,
 }) {
   if (julianDate != lastJulianPlayed) {
     return <div></div>;
@@ -12,14 +11,13 @@ function divCountdownClock({
     return (
       <table className="notesTable">
         <tr>
-          <td>sku</td>
-          <td>####{lastJulianPlayed}</td>
-          <td>####{julianDate}</td>
-        </tr>
-        <tr>
-          <td>Next Tasting</td>
-          <td>{`${timeLeftHH}:${timeLeftMM}:${timeLeftSS}`}</td>
-          <td>game#: {game}</td>
+          <td>
+            {" "}
+            <b> Next Tasting: </b>
+          </td>
+          <td style={{ color: "red" }}>
+            <b> {`${timeLeftHH}:${timeLeftMM}:${timeLeftSS}`} </b>{" "}
+          </td>
         </tr>
       </table>
     );

@@ -71,13 +71,25 @@ function getSommCredentials({
   LSTotalNotes,
   lastJulianPlayed,
   julianDate,
+  isModalOpen,
+  game,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
     <div>
       <table>
         <tr>
-          <td class="td-bottleHistory"> Sommelier Credentials</td>
+          <td class="td-bottleHistory">
+            {" "}
+            <b>Sommelier Credentials</b>
+            {game != 1 && game != 2 && isModalOpen && (
+              <ShareButton
+                todayBalthazarCount={todayBalthazarCount}
+                todayAVGScore={todayAVGScore}
+                todayTotalNotes={todayTotalNotes}
+              />
+            )}
+          </td>
         </tr>
       </table>
       <table className="statTable td-statBox alignRight">
@@ -117,13 +129,22 @@ function getSommCredentials({
             <td>{LSTotalNotes}</td>
           </tr>
           <tr>
+            {" "}
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+          </tr>
+
+          <tr>
+            <td>sku</td>
             <td>
-              <ShareButton
-                todayBalthazarCount={todayBalthazarCount}
-                todayAVGScore={todayAVGScore}
-                todayTotalNotes={todayTotalNotes}
-              />
+              <small>#### {lastJulianPlayed}</small>
             </td>
+            <td>
+              <small>#### {julianDate}</small>
+            </td>
+            <td>sku</td>
           </tr>
         </tbody>
       </table>

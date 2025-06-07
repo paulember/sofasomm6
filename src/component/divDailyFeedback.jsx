@@ -36,7 +36,12 @@ function DivDailyFeedback({
 }) {
   return (
     <div>
-      <h1 class="h1-background-bubbles">CHEERS!!! </h1>
+      {game != 1 && game != 2 ? (
+        <h1 class="h1-background-bubbles">CHEERS!!! </h1>
+      ) : (
+        <h2> Tasting {game} of 3 </h2>
+      )}
+
       <table class="modalTable">
         <tr>
           <td class="td-modalWineScore">
