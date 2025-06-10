@@ -58,6 +58,9 @@ export default function App() {
     (cls) => cls === "td-vennMatch"
   ).length;
 
+  const [bottle1Notes, setBottle1Notes] = useState(0);
+  const bottle1Bonus = bottle1Notes <= 3 ? bottle1Notes : 4;
+
   const [startButtonLabel, setStartButtonLabel] = useState("Start");
   const [startMsg, setStartMsg] = useState(" <-- click 'Tasting' to start");
   const [selectedStyle, setSelectedStyle] = useState("");
@@ -294,6 +297,7 @@ export default function App() {
       setWineScore(5);
       setGameBottle(0);
       setGameSpills(0);
+      setBottle1Notes(0);
 
       setLSTotalNotes(localStorage.getItem("TotalNotes") || 0);
       setLSTotalScore(localStorage.getItem("TotalScore") || 0);
@@ -543,22 +547,22 @@ export default function App() {
           baseScore = 100;
           break;
         case 2:
-          baseScore = 99;
+          baseScore = 97;
           break;
         case 3:
-          baseScore = 96;
-          break;
-        case 4:
           baseScore = 93;
           break;
+        case 4:
+          baseScore = 90;
+          break;
         case 5:
-          baseScore = 89;
+          baseScore = 86;
           break;
         default:
-          baseScore = 85;
+          baseScore = 82;
       }
 
-      setWineScore(baseScore - gameSpills * 3);
+      setWineScore(baseScore + bottle1Bonus - gameSpills * 3);
 
       setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
 
@@ -567,28 +571,28 @@ export default function App() {
       }
     } else {
       if (gameBottle > 5) {
-        let baseScore = 63;
+        let baseScore = 60;
         switch (gameNotesAcquired) {
           case 5:
-            baseScore = 85;
+            baseScore = 82;
             break;
           case 4:
-            baseScore = 81;
+            baseScore = 78;
             break;
           case 3:
-            baseScore = 76;
+            baseScore = 73;
             break;
           case 2:
-            baseScore = 71;
+            baseScore = 68;
             break;
           case 1:
-            baseScore = 66;
+            baseScore = 63;
             break;
           default:
-            baseScore = 61;
+            baseScore = 58;
         }
 
-        setWineScore(baseScore - gameSpills * 2);
+        setWineScore(baseScore + bottle1Bonus - gameSpills * 2);
 
         if (!isModalOpen) {
           openModal();
@@ -619,6 +623,10 @@ export default function App() {
 
     if (matchLength < 1) {
       setGameSpills(gameSpills + 1);
+    }
+
+    if (gameBottle == 1) {
+      setBottle1Notes(matchLength);
     }
 
     for (let i = 0; i < matchLength; i++) {
@@ -742,6 +750,7 @@ export default function App() {
             </div>
 
             <WineSelection winePropValue={selectedStyle} />
+            <div>___###__{gameBottle} ### _{bottle1Bonus}###_</div>
             <div>________________________________________</div>
             <div>
               <table>
@@ -774,7 +783,7 @@ export default function App() {
                   lastJulianPlayed,
                   julianDate,
                   isModalOpen,
-                  game
+                  game,
                 })}
               </div>
             </div>
@@ -831,7 +840,7 @@ export default function App() {
               lastJulianPlayed,
               julianDate,
               isModalOpen,
-              game
+              game,
             })}
           </div>
         </div>

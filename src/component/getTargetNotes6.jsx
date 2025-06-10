@@ -35,8 +35,8 @@ async function getTargetNotes6(wineData, redOrWhite) {
       wineMajorURLB = whiteWineMajorURL;
   }
 
-  const wineA7 = await getMajorWineOIDs(wineMajorURLA, 7);
-  const wineB7 = await getMajorWineOIDs(wineMajorURLB, 7);
+  const wineA7 = await getMajorWineOIDs(wineMajorURLA, 12);
+  const wineB7 = await getMajorWineOIDs(wineMajorURLB, 12);
   const index7A = getOid72_From72Key("1", oid72in.slice(0, 2));
   const index7B = getOid72_From72Key("2", oid72in.slice(0, 2));
   const targetABCindex = getOid53_From53Key(oid72in.charAt(2));
@@ -72,9 +72,7 @@ async function getTargetNotes6(wineData, redOrWhite) {
     combinedNotes[3],
     combinedNotes[4],
     combinedNotes[5],
-
-    wineData[2].tastingNote3,
-    combinedNotes[1],
+    wineA7,
   ];
 }
 
