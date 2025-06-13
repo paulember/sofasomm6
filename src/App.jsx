@@ -547,7 +547,7 @@ export default function App() {
           baseScore = 100;
           break;
         case 2:
-          baseScore = 97;
+          baseScore = 96;
           break;
         case 3:
           baseScore = 93;
@@ -750,7 +750,9 @@ export default function App() {
             </div>
 
             <WineSelection winePropValue={selectedStyle} />
-            <div>___###__{gameBottle} ### _{bottle1Bonus}###_</div>
+            <div>
+              ___###__{gameBottle} ### _{bottle1Bonus}###_
+            </div>
             <div>________________________________________</div>
             <div>
               <table>

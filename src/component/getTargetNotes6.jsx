@@ -9,12 +9,25 @@ function getJulianDate(date) {
   return dayOfYear;
 }
 
+function getMajorURLIndexFromJulian(julianDay) {
+  const lastTwoDigits = julianDay % 100;
+  const groupNumber = Math.floor((lastTwoDigits - 1) /2);
+  return groupNumber % 10;
+}
+
 async function getTargetNotes6(wineData, redOrWhite) {
   const keyDate = getJulianDate(new Date());
+  const majorURLIndex = getMajorURLIndexFromJulian(keyDate);
+  console.log("majorURLIndex" + majorURLIndex);
   const redWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor.json";
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor" +
+    majorURLIndex +
+    ".json";
+
   const whiteWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor.json";
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor" +
+    majorURLIndex +
+    ".json";
 
   const oid72in = await getWineOIDfunc(keyDate, redOrWhite);
 
@@ -63,7 +76,7 @@ async function getTargetNotes6(wineData, redOrWhite) {
 
   const tempCombinedNotes = [...targetANotes, ...targetBNotes].filter(Boolean);
   const combinedNotes = tempCombinedNotes.sort((a, b) => a.localeCompare(b));
-  console.log("keyDate:", keyDate);
+  console.log("keyDate_getTargetNotes6:", keyDate);
 
   return [
     combinedNotes[0],
@@ -71,8 +84,7 @@ async function getTargetNotes6(wineData, redOrWhite) {
     combinedNotes[2],
     combinedNotes[3],
     combinedNotes[4],
-    combinedNotes[5],
-    wineA7,
+    combinedNotes[5]
   ];
 }
 
