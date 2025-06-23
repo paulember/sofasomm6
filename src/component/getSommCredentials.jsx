@@ -4,22 +4,10 @@ function copyText(
   todayBalthazarCount,
   todayAVGScore,
   todayTotalNotes,
-  sommTitle
+  sommTitle,
+  dailyBalthazar
 ) {
-  let line = "?⬛?";
-  switch (todayBalthazarCount) {
-    case 1:
-      line = "🍷⬜ ⬜ ";
-      break;
-    case 2:
-      line = "🍷🍷⬜ ";
-      break;
-    case 3:
-      line = "🍷🍷🍷";
-      break;
-    default:
-      line = "⬜ ⬜ ⬜";
-  }
+  const line = dailyBalthazar.map((i) => (i === 1 ? "🍷" : "⬜")).join("");
 
   const avgScoreText = "Daily Score: " + todayAVGScore + " - " + sommTitle;
   const totalNotesText = "Daily Notes: " + todayTotalNotes;
@@ -45,13 +33,24 @@ function copyText(
     });
 }
 
-function ShareButton({ todayBalthazarCount, todayAVGScore, todayTotalNotes }) {
+function ShareButton({
+  todayBalthazarCount,
+  todayAVGScore,
+  todayTotalNotes,
+  dailyBalthazar,
+}) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
     <button
       className="sofaSommHelp"
       onClick={() =>
-        copyText(todayBalthazarCount, todayAVGScore, todayTotalNotes, sommTitle)
+        copyText(
+          todayBalthazarCount,
+          todayAVGScore,
+          todayTotalNotes,
+          sommTitle,
+          dailyBalthazar
+        )
       }
     >
       Share
@@ -73,6 +72,7 @@ function getSommCredentials({
   julianDate,
   isModalOpen,
   game,
+  dailyBalthazar,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
@@ -87,6 +87,7 @@ function getSommCredentials({
                 todayBalthazarCount={todayBalthazarCount}
                 todayAVGScore={todayAVGScore}
                 todayTotalNotes={todayTotalNotes}
+                dailyBalthazar={dailyBalthazar}
               />
             )}
           </td>

@@ -78,6 +78,8 @@ export default function App() {
   const [LSTotalNotes, setLSTotalNotes] = useState(0);
   const [LSTotalScore, setLSTotalScore] = useState(0);
   const [LSBalthazarCount, setLSBalthazarCount] = useState(0);
+  const [dailyBalthazar, setDailyBalthazar] = useState(Array(3).fill(0));
+
   const [LSTastingCount, setLSTastingCount] = useState(0);
   const [resetStats, setResetStats] = useState(0);
 
@@ -566,6 +568,10 @@ export default function App() {
 
       setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
 
+      const updatedArray = [...dailyBalthazar];
+      updatedArray[game - 1] = 1;
+      setDailyBalthazar(updatedArray);
+
       if (!isModalOpen) {
         openModal();
       }
@@ -786,6 +792,7 @@ export default function App() {
                   julianDate,
                   isModalOpen,
                   game,
+                  dailyBalthazar
                 })}
               </div>
             </div>
@@ -843,6 +850,7 @@ export default function App() {
               julianDate,
               isModalOpen,
               game,
+              dailyBalthazar
             })}
           </div>
         </div>

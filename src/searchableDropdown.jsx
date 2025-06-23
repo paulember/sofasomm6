@@ -5,7 +5,7 @@ const SearchableDropdown = ({
   label,
   id,
   selectedVal,
-  handleChange
+  handleChange,
 }) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -60,8 +60,11 @@ const SearchableDropdown = ({
       </div>
 
       <div className={`options ${isOpen ? "open" : ""}`}>
-        {filter(options).map((option, index) => {
-          return (
+        {filter(options)
+          .sort((a, b) =>
+            a[label].toLowerCase().localeCompare(b[label].toLowerCase())
+          )
+          .map((option, index) => (
             <div
               onClick={() => selectOption(option)}
               className={`option ${
@@ -71,8 +74,7 @@ const SearchableDropdown = ({
             >
               {option[label]}
             </div>
-          );
-        })}
+          ))}
       </div>
     </div>
   );
