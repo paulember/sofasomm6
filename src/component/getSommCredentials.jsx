@@ -5,15 +5,22 @@ function copyText(
   todayAVGScore,
   todayTotalNotes,
   sommTitle,
-  dailyBalthazar
+  dailyBalthazar,
+  LSBalthazarCount
 ) {
-  const line = dailyBalthazar.map((i) => (i === 1 ? "🍷" : "⬜")).join("");
+  const emptyBox = "◻️"; // White box (for positions)
+  const wineGlass = "🍷";
+
+  const line = dailyBalthazar.some((i) => i === 1)
+    ? dailyBalthazar.map((i) => (i === 1 ? wineGlass : emptyBox)).join("")
+    : wineGlass.repeat(todayBalthazarCount);
 
   const avgScoreText = "Daily Score: " + todayAVGScore + " - " + sommTitle;
-  const totalNotesText = "Daily Notes: " + todayTotalNotes;
+  const totalNotesText = "Daily Notes: " + todayTotalNotes + "/18";
 
   const shareLink = `https://sofasomm.vercel.app/`;
   const text =
+    "Today's SofaSomm #WineTasting Score \n \n" +
     line +
     " \n \n" +
     avgScoreText +
@@ -38,6 +45,7 @@ function ShareButton({
   todayAVGScore,
   todayTotalNotes,
   dailyBalthazar,
+  LSBalthazarCount,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
@@ -49,7 +57,8 @@ function ShareButton({
           todayAVGScore,
           todayTotalNotes,
           sommTitle,
-          dailyBalthazar
+          dailyBalthazar,
+          LSBalthazarCount
         )
       }
     >
@@ -88,6 +97,7 @@ function getSommCredentials({
                 todayAVGScore={todayAVGScore}
                 todayTotalNotes={todayTotalNotes}
                 dailyBalthazar={dailyBalthazar}
+                LSBalthazarCount={LSBalthazarCount}
               />
             )}
           </td>
