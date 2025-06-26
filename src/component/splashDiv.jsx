@@ -1,4 +1,5 @@
 import React from "react";
+import qrImage from "../component/QRSofaSomm.png";
 
 function handleClearClick() {
   if (
@@ -14,6 +15,9 @@ function handleClearClick() {
 const QRCodeDiv = () => {
   return (
     <div>
+      <div>
+        <img src={qrImage} alt="https://starting9.vercel.app/" />
+      </div>
       <a href="https://sofasomm.vercel.app/" target="_blank" rel="noreferrer">
         https://sofasomm.vercel.app/{" "}
       </a>{" "}
