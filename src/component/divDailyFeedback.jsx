@@ -46,17 +46,18 @@ function DivDailyFeedback({
         <tr>
           <td class="td-modalWineScore">
             {" "}
-            <b> Wine Score </b> &nbsp;
-            <b>{wineScore} </b> &emsp; {wineScoreLabel}
+            <b>{wineScoreLabel} </b>{" "}
           </td>
         </tr>
       </table>
 
       <table>
         <tr>
-          <td class="td-modalStats">Bottles Opened: {gameBottle}</td>
+          <td class="td-modalStats">Score: {wineScore}</td>
 
-          <td class="td-modalStats">Glasses Spilled: {gameSpills} </td>
+          <td class="td-modalStats">
+            Bottles: {gameBottle} / Spills: {gameSpills}{" "}
+          </td>
         </tr>
       </table>
       <table>

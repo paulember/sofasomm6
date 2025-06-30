@@ -61,8 +61,6 @@ export default function App() {
   const [bottle1Notes, setBottle1Notes] = useState(0);
   const bottle1Bonus = bottle1Notes <= 3 ? bottle1Notes : 4;
 
-  const [startButtonLabel, setStartButtonLabel] = useState("Start");
-  const [startMsg, setStartMsg] = useState(" <-- click 'Tasting' to start");
   const [selectedStyle, setSelectedStyle] = useState("");
   const [dropStyle, setDropStyle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,6 +72,15 @@ export default function App() {
   const [dusanBottle, setDusanBottle] = useState(null);
   const [dusanNotes, setDusanNotes] = useState(null);
   const [dusanLink, setDusanLink] = useState(null);
+
+  const tastingLabel =
+    game === 1
+      ? "White Wine"
+      : game === 2
+      ? "Red Wine"
+      : game === 3
+      ? "Wild Card"
+      : ">> START <<";
 
   const [LSTotalNotes, setLSTotalNotes] = useState(0);
   const [LSTotalScore, setLSTotalScore] = useState(0);
@@ -255,20 +262,6 @@ export default function App() {
 
   useEffect(() => {
     if (game !== null) {
-      if (game > 0) {
-        setStartMsg("");
-        switch (game) {
-          case 3:
-            setStartButtonLabel("tasting3: COMBO");
-            break;
-          case 2:
-            setStartButtonLabel("tasting2: RED wine");
-            break;
-          default:
-            setStartButtonLabel("tasting1: WHITE wine");
-        }
-      }
-
       let newVennKey = [
         [targetNotes[game - 1][0]],
         [targetNotes[game - 1][1]],
@@ -463,16 +456,16 @@ export default function App() {
     if (wineScore > 10) {
       switch (true) {
         case wineScore > 94:
-          setWineScoreLabel("Exceptional");
+          setWineScoreLabel("🍷🍷🍷Exceptional🍷🍷🍷");
           break;
         case wineScore > 89:
-          setWineScoreLabel("Superior");
+          setWineScoreLabel("🍷🍷Superior🍷🍷");
           break;
         case wineScore > 84:
-          setWineScoreLabel("Very Good");
+          setWineScoreLabel("🍷Very Good🍷");
           break;
         case wineScore > 79:
-          setWineScoreLabel("Good");
+          setWineScoreLabel("🍷Good🍷");
           break;
         case wineScore > 71:
           setWineScoreLabel("Above Average");
@@ -701,7 +694,7 @@ export default function App() {
             </b>
             <button class={tastingButton} onClick={handleClickNext}>
               {" "}
-              {startButtonLabel}
+              {tastingLabel}
             </button>
             &emsp;
             <button class="sofaSommHelp" onClick={handleClickHelp}>
@@ -718,7 +711,8 @@ export default function App() {
         {game != null ? (
           <div>
             <div>
-              <b> Find Wines that Match these Tasting Notes </b>
+              <b>{tastingLabel}: </b>
+              Find Wines that Match these Tasting Notes
             </div>
             <div>
               <div>
@@ -792,7 +786,7 @@ export default function App() {
                   julianDate,
                   isModalOpen,
                   game,
-                  dailyBalthazar
+                  dailyBalthazar,
                 })}
               </div>
             </div>
@@ -850,7 +844,7 @@ export default function App() {
               julianDate,
               isModalOpen,
               game,
-              dailyBalthazar
+              dailyBalthazar,
             })}
           </div>
         </div>
