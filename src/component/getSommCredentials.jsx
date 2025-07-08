@@ -121,12 +121,7 @@ function getSommCredentials({
             </td>
             <td>{(todayTotalNotes / todayTastingCount).toFixed(1)}</td>
           </tr>
-          <tr>
-            <td>Today Tot</td>
-            <td>{todayTotalScore}</td>
-            <td>{todayBalthazarCount}</td>
-            <td>{todayTotalNotes}</td>
-          </tr>
+
           <tr>
             <td>Career Avg</td>
             <td>{(LSTotalScore / LSTastingCount).toFixed(1)}</td>
@@ -138,24 +133,6 @@ function getSommCredentials({
             <td>{LSTotalScore}</td>
             <td>{LSBalthazarCount}</td>
             <td>{LSTotalNotes}</td>
-          </tr>
-          <tr>
-            {" "}
-            <td>---</td>
-            <td>---</td>
-            <td>---</td>
-            <td>---</td>
-          </tr>
-
-          <tr>
-            <td>sku</td>
-            <td>
-              <small>#### {lastJulianPlayed}</small>
-            </td>
-            <td>
-              <small>#### {julianDate}</small>
-            </td>
-            <td>sku</td>
           </tr>
         </tbody>
       </table>

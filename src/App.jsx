@@ -395,7 +395,8 @@ export default function App() {
 
         setDusanBottle(wineData[largestIndex].style);
         setDusanLink(
-          "https://winefolly.com/grapes/" + wineData[largestIndex].style
+          "https://winefolly.com/grapes/" +
+            wineData[largestIndex].style.lowercase
         );
 
         setDusanNotes(
@@ -879,10 +880,7 @@ export default function App() {
             <tr class="td-bottleHistory"> Bottle 6: {bottleHistory[5]} </tr>
           </table>
         </div>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>.<p></p>.<p></p>.
+        <p></p>.
       </Modal>
     </div>
   );

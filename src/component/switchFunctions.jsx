@@ -3,11 +3,11 @@ function getSommelierTitle(noteCount) {
     case noteCount >= 98:
       return "MASTER SOMMELIER";
     case noteCount >= 90:
-      return "Advanced Sommelier";
+      return "Advanced";
     case noteCount >= 80:
-      return "Certified Sommelier";
+      return "Certified";
     default:
-      return "Beginning Sommelier";
+      return "Beginner";
   }
 }
 
