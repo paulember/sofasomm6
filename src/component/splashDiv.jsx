@@ -52,7 +52,6 @@ function SplashDiv({ game, julianDate }) {
         <QRCodeDiv />
         <div>&emsp;</div>
         <div>&emsp;</div>
-
         <div>
           Data Source: &nbsp;
           <a
@@ -69,6 +68,18 @@ function SplashDiv({ game, julianDate }) {
           <a href="https://tenor.com/" target="_blank" rel="noreferrer">
             tenor.com{" "}
           </a>{" "}
+        </div>{" "}
+        <div>
+          Try Our Baseball Trivia Game:
+          <div>
+            <a
+              href="https://starting9.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              starting9.vercel.app{" "}
+            </a>{" "}
+          </div>
         </div>
         <h2 class="sofaSommTitle ">
           {" "}
@@ -80,13 +91,6 @@ function SplashDiv({ game, julianDate }) {
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-
-        <table>
-          <tr>
-            <td class="td-bottleHistory"> sku #### {julianDate} ####</td>
-          </tr>
-        </table>
-
         <button class="resetButton" onClick={handleClearClick}>
           {" "}
           CC
