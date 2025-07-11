@@ -20,14 +20,14 @@ function copyText(
 
   const shareLink = `https://sofasomm.vercel.app/`;
   const text =
-    "Today's SofaSomm #WineTasting Score \n \n" +
+    "Today's SofaSomm #WineTasting Score \n" +
     line +
     " \n \n" +
     avgScoreText +
-    " \n \n" +
+    " \n" +
     totalNotesText +
-    " \n \n" +
-    "Play SofaSomm \n \n" +
+    " \n" +
+    "Play SofaSomm: " +
     shareLink;
 
   navigator.clipboard
