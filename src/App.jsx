@@ -662,7 +662,11 @@ export default function App() {
 
   function SelectButton({ value, onSelectWineClick }) {
     return (
-      <button disabled={selectWineDisabled} onClick={onSelectWineClick}>
+      <button
+        class="openBottleButton"
+        disabled={selectWineDisabled}
+        onClick={onSelectWineClick}
+      >
         {value}
       </button>
     );
@@ -742,6 +746,7 @@ export default function App() {
                 handleChange={(val) => BuildSelectionRow(val)}
               />
 
+              <p></p>
               <div>
                 <SelectButton
                   value={"Open Bottle?"}
