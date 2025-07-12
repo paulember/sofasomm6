@@ -674,6 +674,7 @@ export default function App() {
 
   function handleWineSelection({ dropStyle }) {
     setSelectedStyle(dropStyle);
+    setSelectWineDisabled(true);
   }
 
   function toggleBottleDiv() {
@@ -745,11 +746,10 @@ export default function App() {
                 selectedVal={dropStyle}
                 handleChange={(val) => BuildSelectionRow(val)}
               />
-
               <p></p>
               <div>
                 <SelectButton
-                  value={"Open Bottle?"}
+                  value={selectWineDisabled ? "⮝⮝ ⮝⮝ ⮝⮝" : "Open Bottle"}
                   onSelectWineClick={() => handleWineSelection({ dropStyle })}
                 />
               </div>
