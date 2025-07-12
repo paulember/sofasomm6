@@ -14,6 +14,24 @@ button {
   flex-wrap: wrap;
 }
 
+.openBottleButton {
+  background-image: linear-gradient(180deg, pink, rgb(181, 49, 181));
+  color: white;
+  cursor: pointer;
+  height: 45px;
+  text-shadow: 1px 1px 4px black;
+
+  border-radius: 15px;
+  padding: 0 10px;
+}
+
+.openBottleButton:disabled {
+  color: lightgrey;
+  background: lightgray;
+  cursor: not-allowed;
+  text-shadow: 1px 1px 1px grey;
+}
+
 .buttonOFF {
   width: 30px;
   background-color: lightgrey;
