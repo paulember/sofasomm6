@@ -26,10 +26,7 @@ button {
 }
 
 .openBottleButton:disabled {
-  color: lightgrey;
-  background: lightgray;
-  cursor: not-allowed;
-  text-shadow: 1px 1px 1px grey;
+  display: none;
 }
 
 .buttonOFF {
