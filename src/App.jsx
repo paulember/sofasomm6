@@ -2,7 +2,10 @@ import "./App.css";
 import "./styles.css";
 import SearchableDropdown from "./searchableDropdown";
 import { getTargetNotes6, getJulianDate } from "./component/getTargetNotes6";
-import { getTimeUntilDailyReset } from "./component/getTimeUntilDailyReset";
+import {
+  getTimeUntilDailyReset,
+  getMMMDD,
+} from "./component/getTimeUntilDailyReset";
 
 import Modal from "./Modal";
 
@@ -17,13 +20,16 @@ import DivDailyFeedback from "./component/divDailyFeedback";
 const gameTotal = 3;
 
 import useFetchWine from "./component/useFetchWine";
+import fetchDailyWineMessages from "./component/fetchDailyWineMessages";
 
 export default function App() {
-  const julianDate = new Date().getFullYear() + "_" + getJulianDate(new Date());
+  const currentTime = new Date();
+  const julianDate =
+    currentTime.getFullYear() + "_" + getJulianDate(new Date());
   const lastJulianPlayed =
     localStorage.getItem("lastJulianPlayed") ?? "0000_000";
 
-  const currentTime = new Date();
+  const todayMMMDD = getMMMDD(currentTime);
 
   const [timeLeftSS, setTimeLeftSS] = useState(0);
   const [timeLeftMM, setTimeLeftMM] = useState(0);
@@ -46,6 +52,18 @@ export default function App() {
   const ss = pad(currentTime.getSeconds());
 
   const { wineData, loading, error } = useFetchWine();
+
+  const {
+    data: dailyWineMessageData,
+    isLoading: isLoadingDailyWineMsg,
+    error: errorDailyWineMsg,
+  } = fetchDailyWineMessages();
+
+  const todayWineMessageData = dailyWineMessageData?.find(
+    (msg) => msg.date == todayMMMDD
+  );
+
+  const openingMessage = todayWineMessageData?.openingMessage || "";
 
   const [targetNotes, setTargetNotes] = useState(() =>
     Array.from({ length: 3 }, () => new Array(6).fill("nullTargetNote"))
@@ -131,6 +149,12 @@ export default function App() {
 
   const [selectWineDisabled, setSelectWineDisabled] = useState(true);
 
+  function TextBoxDailyMessage() {
+    if (selectWineDisabled && game <= 1) {
+      return <div>{openingMessage}</div>;
+    }
+  }
+
   function WineSelection({ winePropValue }) {
     try {
       const selectedWine =
@@ -170,8 +194,9 @@ export default function App() {
         </>
       );
     } catch (error) {
-      console.error("An error occurred:", error);
-      return "No Wine Selected"; // Return an empty string in case of an error
+      console.error("No Wine Selected:", error);
+
+      return <TextBoxDailyMessage />;
     }
   }
 
@@ -720,6 +745,7 @@ export default function App() {
               <b>{tastingLabel}: </b>
               Find Wines that Match these Tasting Notes
             </div>
+
             <div>
               <div>
                 <table class="notesTable">
@@ -749,16 +775,14 @@ export default function App() {
               <p></p>
               <div>
                 <SelectButton
-                  value={selectWineDisabled ? "⮝⮝ ⮝⮝ ⮝⮝" : "Open Bottle"}
+                  value={selectWineDisabled ? "" : "Open Bottle"}
                   onSelectWineClick={() => handleWineSelection({ dropStyle })}
                 />
               </div>
             </div>
 
             <WineSelection winePropValue={selectedStyle} />
-            <div>
-              ___###__{gameBottle} ### _{bottle1Bonus}###_
-            </div>
+
             <div>________________________________________</div>
             <div>
               <table>
@@ -780,7 +804,6 @@ export default function App() {
               <div>
                 {getSommCredentials({
                   LSTastingCount,
-                  todayTotalScore,
                   todayAVGScore,
                   todayTastingCount,
                   todayBalthazarCount,
@@ -788,8 +811,7 @@ export default function App() {
                   LSTotalScore,
                   LSBalthazarCount,
                   LSTotalNotes,
-                  lastJulianPlayed,
-                  julianDate,
+                  todayMMMDD,
                   isModalOpen,
                   game,
                   dailyBalthazar,
@@ -838,7 +860,6 @@ export default function App() {
           <div>
             {getSommCredentials({
               LSTastingCount,
-              todayTotalScore,
               todayAVGScore,
               todayTastingCount,
               todayBalthazarCount,
@@ -846,8 +867,7 @@ export default function App() {
               LSTotalScore,
               LSBalthazarCount,
               LSTotalNotes,
-              lastJulianPlayed,
-              julianDate,
+              todayMMMDD,
               isModalOpen,
               game,
               dailyBalthazar,

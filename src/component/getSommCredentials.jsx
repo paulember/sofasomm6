@@ -6,7 +6,7 @@ function copyText(
   todayTotalNotes,
   sommTitle,
   dailyBalthazar,
-  LSBalthazarCount
+  todayMMMDD
 ) {
   const emptyBox = "◻️"; // White box (for positions)
   const wineGlass = "🍷";
@@ -20,7 +20,9 @@ function copyText(
 
   const shareLink = `https://sofasomm.vercel.app/`;
   const text =
-    "Today's SofaSomm #WineTasting Score \n" +
+    "SofaSomm #WineTasting Score for " +
+    todayMMMDD +
+    " \n" +
     line +
     " \n \n" +
     avgScoreText +
@@ -45,7 +47,7 @@ function ShareButton({
   todayAVGScore,
   todayTotalNotes,
   dailyBalthazar,
-  LSBalthazarCount,
+  todayMMMDD,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
@@ -58,7 +60,7 @@ function ShareButton({
           todayTotalNotes,
           sommTitle,
           dailyBalthazar,
-          LSBalthazarCount
+          todayMMMDD
         )
       }
     >
@@ -69,7 +71,6 @@ function ShareButton({
 
 function getSommCredentials({
   LSTastingCount,
-  todayTotalScore,
   todayAVGScore,
   todayTastingCount,
   todayBalthazarCount,
@@ -77,8 +78,7 @@ function getSommCredentials({
   LSTotalScore,
   LSBalthazarCount,
   LSTotalNotes,
-  lastJulianPlayed,
-  julianDate,
+  todayMMMDD,
   isModalOpen,
   game,
   dailyBalthazar,
@@ -97,7 +97,7 @@ function getSommCredentials({
                 todayAVGScore={todayAVGScore}
                 todayTotalNotes={todayTotalNotes}
                 dailyBalthazar={dailyBalthazar}
-                LSBalthazarCount={LSBalthazarCount}
+                todayMMMDD={todayMMMDD}
               />
             )}
           </td>
@@ -107,7 +107,7 @@ function getSommCredentials({
         <tbody>
           <tr>
             <td>Tastings: {LSTastingCount}</td>
-            <td>Somm Rating</td>
+            <td>Somm Rating </td>
             <td>Balthazar</td>
             <td>Notes</td>
           </tr>
