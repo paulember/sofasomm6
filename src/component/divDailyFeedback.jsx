@@ -23,6 +23,25 @@ function handleClickTastingNote(i, wineData, vennLabel) {
   alert(wineMatchList);
 }
 
+const DivDusanBottle = ({ wineData, dusanBottle, dusanNotes }) => {
+  const dusanBottleDash = dusanBottle.replace(/ /g, "-").toLowerCase();
+  const dusanLink = "https://winefolly.com/grapes/" + dusanBottleDash;
+  return (
+    <table>
+      <tr>
+        <td class="td-magnum">
+          {" "}
+          Magnum Bottle:{" "}
+          <a href={dusanLink} target="_blank" rel="noreferrer">
+            {dusanBottle}{" "}
+          </a>{" "}
+          {dusanNotes}{" "}
+        </td>
+      </tr>
+    </table>
+  );
+};
+
 function DivDailyFeedback({
   wineScore,
   wineScoreLabel,
@@ -33,7 +52,13 @@ function DivDailyFeedback({
   venntdClass,
   vennLabel,
   wineData,
+  dusanBottle,
+  dusanNotes,
 }) {
+  const dusanBottleDash = dusanBottle.replace(/ /g, "-").toLowerCase();
+
+  const dusanLink = "https://winefolly.com/grapes/" + dusanBottleDash;
+
   return (
     <div>
       {game != 1 && game != 2 ? (
@@ -62,7 +87,7 @@ function DivDailyFeedback({
       </table>
       <table>
         <div>
-          Tasting #{game} - Notes Found: {gameNotesAcquired}
+          Click Tasting Notes for Bottle Info
           <div class="button_container">
             <button
               class={venntdClass[0]}
@@ -109,10 +134,16 @@ function DivDailyFeedback({
               {vennLabel[5]}
             </button>
           </div>
-          Click Tasting Notes for Bottle Info
+        </div>
+        <div>
+          <DivDusanBottle
+            wineData={wineData}
+            dusanBottle={dusanBottle}
+            dusanNotes={dusanNotes}
+          />
         </div>
       </table>
     </div>
   );
 }
-export default DivDailyFeedback;
+export { DivDailyFeedback, DivDusanBottle };

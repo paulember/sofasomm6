@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import getSommCredentials from "./component/getSommCredentials";
 import divCountdownClock from "./component/divCountdownClock";
 import SplashDiv from "./component/splashDiv";
-import DivDailyFeedback from "./component/divDailyFeedback";
+import { DivDailyFeedback } from "./component/divDailyFeedback";
 
 const gameTotal = 3;
 
@@ -89,7 +89,6 @@ export default function App() {
   const [wineScoreLabel, setWineScoreLabel] = useState(null);
   const [dusanBottle, setDusanBottle] = useState(null);
   const [dusanNotes, setDusanNotes] = useState(null);
-  const [dusanLink, setDusanLink] = useState(null);
 
   const tastingLabel =
     game === 1
@@ -419,10 +418,6 @@ export default function App() {
         }
 
         setDusanBottle(wineData[largestIndex].style);
-        setDusanLink(
-          "https://winefolly.com/grapes/" +
-            wineData[largestIndex].style.lowercase
-        );
 
         setDusanNotes(
           "(" +
@@ -854,6 +849,8 @@ export default function App() {
             venntdClass={venntdClass}
             vennLabel={vennLabel}
             wineData={wineData}
+            dusanBottle={dusanBottle}
+            dusanNotes={dusanNotes}
           />
         )}
         <div>
@@ -883,16 +880,6 @@ export default function App() {
         )}
         <div class={divBlockNone}>
           <table>
-            <tr>
-              <td class="td-bottleHistory">
-                {" "}
-                Magnum Bottle:{" "}
-                <a href={dusanLink} target="_blank" rel="noreferrer">
-                  {dusanBottle}{" "}
-                </a>{" "}
-                {dusanNotes}{" "}
-              </td>
-            </tr>
             <tr>
               {" "}
               <td class="td-bottleHistory"> Bottles Opened </td>{" "}
