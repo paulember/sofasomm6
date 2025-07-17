@@ -87,7 +87,6 @@ function DivDailyFeedback({
       </table>
       <table>
         <div>
-          Click Tasting Notes for Bottle Info
           <div class="button_container">
             <button
               class={venntdClass[0]}
@@ -134,6 +133,7 @@ function DivDailyFeedback({
               {vennLabel[5]}
             </button>
           </div>
+          Click Tasting Notes for Bottle Info
         </div>
         <div>
           <DivDusanBottle
