@@ -11,8 +11,8 @@ function getJulianDate(date) {
 
 function getMajorURLIndexFromJulian(julianDay) {
   const lastTwoDigits = julianDay % 100;
-  const groupNumber = Math.floor((lastTwoDigits - 1) /2);
-  return groupNumber % 10;
+  const groupNumber = Math.floor((lastTwoDigits - 1) / 2);
+  return ((groupNumber % 10) + 10) % 10;
 }
 
 async function getTargetNotes6(wineData, redOrWhite) {
@@ -84,7 +84,7 @@ async function getTargetNotes6(wineData, redOrWhite) {
     combinedNotes[2],
     combinedNotes[3],
     combinedNotes[4],
-    combinedNotes[5]
+    combinedNotes[5],
   ];
 }
 
