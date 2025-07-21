@@ -149,7 +149,7 @@ export default function App() {
   const [selectWineDisabled, setSelectWineDisabled] = useState(true);
 
   function TextBoxDailyMessage() {
-    if (selectWineDisabled && game <= 1) {
+    if (selectWineDisabled && game <= 3) {
       return <div>{openingMessage}</div>;
     }
   }

@@ -29,7 +29,7 @@ function copyText(
     " \n" +
     totalNotesText +
     " \n" +
-    "Play SofaSomm: " +
+    "Play #SofaSomm: " +
     shareLink;
 
   navigator.clipboard
