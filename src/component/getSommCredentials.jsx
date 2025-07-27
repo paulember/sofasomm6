@@ -6,7 +6,8 @@ function copyText(
   todayTotalNotes,
   sommTitle,
   dailyBalthazar,
-  todayMMMDD
+  todayMMMDD,
+  openingMessage
 ) {
   const emptyBox = "◻️"; // White box (for positions)
   const wineGlass = "🍷";
@@ -20,6 +21,8 @@ function copyText(
 
   const shareLink = `https://sofasomm.vercel.app/`;
   const text =
+    openingMessage +
+    " \n" +
     "SofaSomm #WineTasting Score for " +
     todayMMMDD +
     " \n" +
@@ -29,7 +32,7 @@ function copyText(
     " \n" +
     totalNotesText +
     " \n" +
-    "Play #SofaSomm: " +
+    "Play #SofaSomm -> " +
     shareLink;
 
   navigator.clipboard
@@ -48,6 +51,7 @@ function ShareButton({
   todayTotalNotes,
   dailyBalthazar,
   todayMMMDD,
+  openingMessage,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
@@ -60,7 +64,8 @@ function ShareButton({
           todayTotalNotes,
           sommTitle,
           dailyBalthazar,
-          todayMMMDD
+          todayMMMDD,
+          openingMessage
         )
       }
     >
@@ -82,6 +87,7 @@ function getSommCredentials({
   isModalOpen,
   game,
   dailyBalthazar,
+  openingMessage,
 }) {
   const sommTitle = getSommelierTitle(todayAVGScore);
   return (
@@ -98,6 +104,7 @@ function getSommCredentials({
                 todayTotalNotes={todayTotalNotes}
                 dailyBalthazar={dailyBalthazar}
                 todayMMMDD={todayMMMDD}
+                openingMessage={openingMessage}
               />
             )}
           </td>

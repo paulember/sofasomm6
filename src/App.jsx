@@ -810,6 +810,7 @@ export default function App() {
                   isModalOpen,
                   game,
                   dailyBalthazar,
+                  openingMessage,
                 })}
               </div>
             </div>
@@ -868,6 +869,7 @@ export default function App() {
               isModalOpen,
               game,
               dailyBalthazar,
+              openingMessage,
             })}
           </div>
         </div>
