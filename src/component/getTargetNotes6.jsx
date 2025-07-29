@@ -1,6 +1,15 @@
 import getWineOIDfunc from "./getWineOIDfunc";
 import getMajorWineOIDs from "./getMajorWineOIDs";
 import { getOid72_From72Key, getOid53_From53Key } from "./getGroupPicks";
+import getDefaultNotes from "./getDefaultNotes";
+
+async function loadDefaultNotes() {
+  const [defaultWhiteNotes, defaultRedNotes] = await Promise.all([
+    getDefaultNotes("white"),
+    getDefaultNotes("red"),
+  ]);
+  return { defaultWhiteNotes, defaultRedNotes };
+}
 
 function getJulianDate(date) {
   const startOfYear = new Date(date.getFullYear(), 0, 1);
@@ -16,6 +25,7 @@ function getMajorURLIndexFromJulian(julianDay) {
 }
 
 async function getTargetNotes6(wineData, redOrWhite) {
+  const { defaultWhiteNotes, defaultRedNotes } = await loadDefaultNotes();
   const keyDate = getJulianDate(new Date());
   const majorURLIndex = getMajorURLIndexFromJulian(keyDate);
   console.log("majorURLIndex" + majorURLIndex);
@@ -33,19 +43,23 @@ async function getTargetNotes6(wineData, redOrWhite) {
 
   let wineMajorURLA = whiteWineMajorURL;
   let wineMajorURLB = whiteWineMajorURL;
+  let defaultNotes = defaultWhiteNotes;
 
   switch (redOrWhite) {
     case "RED":
       wineMajorURLA = redWineMajorURL;
       wineMajorURLB = redWineMajorURL;
+      defaultNotes = defaultRedNotes;
       break;
     case "SPLIT":
       wineMajorURLA = whiteWineMajorURL;
       wineMajorURLB = redWineMajorURL;
+      defaultNotes = defaultRedNotes;
       break;
     default:
       wineMajorURLA = whiteWineMajorURL;
       wineMajorURLB = whiteWineMajorURL;
+      defaultNotes = defaultWhiteNotes;
   }
 
   const wineA7 = await getMajorWineOIDs(wineMajorURLA, 12);
@@ -75,8 +89,16 @@ async function getTargetNotes6(wineData, redOrWhite) {
   const targetBNotes = targetBIndices.map((i) => BTarget_Notes[Number(i)]);
 
   const tempCombinedNotes = [...targetANotes, ...targetBNotes].filter(Boolean);
-  const combinedNotes = tempCombinedNotes.sort((a, b) => a.localeCompare(b));
-  console.log("keyDate_getTargetNotes6:", keyDate);
+  let uniqueCombinedNotes = [...new Set(tempCombinedNotes)];
+
+  for (const note of defaultNotes) {
+    if (uniqueCombinedNotes.length >= 6) break;
+    if (!uniqueCombinedNotes.includes(note)) {
+      uniqueCombinedNotes.push(note);
+    }
+  }
+
+  const combinedNotes = uniqueCombinedNotes.sort((a, b) => a.localeCompare(b));
 
   return [
     combinedNotes[0],
