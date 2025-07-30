@@ -65,6 +65,12 @@ export default function App() {
 
   const openingMessage = todayWineMessageData?.openingMessage || "";
 
+  const postgameMessage = [
+    todayWineMessageData?.whitePostgameMsg || "",
+    todayWineMessageData?.redPostgameMsg || "",
+    todayWineMessageData?.comboPostgameMsg || "",
+  ];
+
   const [targetNotes, setTargetNotes] = useState(() =>
     Array.from({ length: 3 }, () => new Array(6).fill("nullTargetNote"))
   );
@@ -852,6 +858,7 @@ export default function App() {
             wineData={wineData}
             dusanBottle={dusanBottle}
             dusanNotes={dusanNotes}
+            postgameMessage={postgameMessage}
           />
         )}
         <div>

@@ -365,15 +365,30 @@ td {
   border-color: lightgrey;
 }
 
-
-
 .td-modalStats {
   width: 153px;
+  height: 20px;
   border: none;
 }
 .td-modalWineScore {
-  width: 310px;
+  font-size: 12px;
+  width: 315px;
+  height: 20px;
   border: none;
+}
+.td-postgameMsg {
+  width: 310px;
+  height: 25px;
+  background-color: orangered;
+  background-image: linear-gradient(180deg, lightgreen, yellow);
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  font-style: italic;
+  color: darkslategreywhit;
+  text-shadow: 2px 2px 2px lightskyblue;
+  border-width: 3px;
+  border-color: lightgrey;
 }
 
 .modalTable {

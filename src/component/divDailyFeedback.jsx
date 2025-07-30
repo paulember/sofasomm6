@@ -54,6 +54,7 @@ function DivDailyFeedback({
   wineData,
   dusanBottle,
   dusanNotes,
+  postgameMessage,
 }) {
   const dusanBottleDash = dusanBottle.replace(/ /g, "-").toLowerCase();
 
@@ -67,21 +68,26 @@ function DivDailyFeedback({
         <h2> Tasting {game} of 3 </h2>
       )}
 
-      <table class="modalTable">
+      {postgameMessage[game - 1] && (
+        <table className="modalTable">
+          <tr>
+            <td className="td-postgameMsg">
+              <b>{postgameMessage[game - 1]}</b>
+            </td>
+          </tr>
+        </table>
+      )}
+
+      <table>
         <tr>
           <td class="td-modalWineScore">
             {" "}
             <b>{wineScoreLabel} </b>{" "}
           </td>
         </tr>
-      </table>
-
-      <table>
         <tr>
-          <td class="td-modalStats">Score: {wineScore}</td>
-
-          <td class="td-modalStats">
-            Bottles: {gameBottle} / Spills: {gameSpills}{" "}
+          <td class="td-modalWineScore">
+            Score: {wineScore} Bottles: {gameBottle} / Spills: {gameSpills}{" "}
           </td>
         </tr>
       </table>
