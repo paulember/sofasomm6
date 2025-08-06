@@ -27,8 +27,9 @@ function getMajorURLIndexFromJulian(julianDay) {
 async function getTargetNotes6(wineData, redOrWhite) {
   const { defaultWhiteNotes, defaultRedNotes } = await loadDefaultNotes();
   const keyDate = getJulianDate(new Date());
+  const defaultNoteIndex = keyDate % 10;
   const majorURLIndex = getMajorURLIndexFromJulian(keyDate);
-  console.log("majorURLIndex" + majorURLIndex);
+  console.log("keyDate: " + keyDate + " majorURLIndex: " + majorURLIndex);
   const redWineMajorURL =
     "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor" +
     majorURLIndex +
@@ -91,8 +92,12 @@ async function getTargetNotes6(wineData, redOrWhite) {
   const tempCombinedNotes = [...targetANotes, ...targetBNotes].filter(Boolean);
   let uniqueCombinedNotes = [...new Set(tempCombinedNotes)];
 
-  for (const note of defaultNotes) {
-    if (uniqueCombinedNotes.length >= 6) break;
+  for (
+    let i = defaultNoteIndex;
+    i < defaultNotes.length && uniqueCombinedNotes.length < 6;
+    i++
+  ) {
+    const note = defaultNotes[i];
     if (!uniqueCombinedNotes.includes(note)) {
       uniqueCombinedNotes.push(note);
     }
