@@ -12,6 +12,20 @@ function handleClearClick() {
   }
 }
 
+function handleDateOverrideClick() {
+  const code = prompt(
+    "Enter Code to Override Date Processing: 1234.\n\nTHIS MAY REMOVE RECORDS FROM YOUR PREVIOUS GAMES.\n\nLeave blank or press Cancel to return to the Splash Screen."
+  );
+
+  if (code && code.substring(0, 2) === "52") {
+    // Get characters 3 to 5 (i.e., index 2, 3, and 4)
+    const overrideValue = code.substring(2, 5);
+    localStorage.setItem("dateOverride", overrideValue);
+  } else {
+    localStorage.setItem("dateOverride", "0");
+  }
+}
+
 const QRCodeDiv = () => {
   return (
     <div>
@@ -94,6 +108,10 @@ function SplashDiv({ game, julianDate }) {
         <button class="resetButton" onClick={handleClearClick}>
           {" "}
           CC
+        </button>
+        <button class="resetButton" onClick={handleDateOverrideClick}>
+          {" "}
+          DT
         </button>
       </div>
     );

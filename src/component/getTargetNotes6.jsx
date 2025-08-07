@@ -12,6 +12,12 @@ async function loadDefaultNotes() {
 }
 
 function getJulianDate(date) {
+  const override = localStorage.getItem("dateOverride");
+
+  if (override && override != "0") {
+    return override; // use override value (already stored in YYDDD or similar format)
+  }
+
   const startOfYear = new Date(date.getFullYear(), 0, 1);
   const diff = date - startOfYear;
   const dayOfYear = Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;

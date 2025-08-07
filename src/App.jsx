@@ -23,7 +23,19 @@ import useFetchWine from "./component/useFetchWine";
 import fetchDailyWineMessages from "./component/fetchDailyWineMessages";
 
 export default function App() {
-  const currentTime = new Date();
+  let currentTime;
+
+  const override = localStorage.getItem("dateOverride");
+
+  if (override && override !== "0") {
+    // If override is in DDD format (e.g., "225" for August 13 in a non-leap year)
+    const currentYear = new Date().getFullYear();
+    const dayOfYear = parseInt(override, 10);
+    currentTime = new Date(currentYear, 0, dayOfYear);
+  } else {
+    currentTime = new Date();
+  }
+
   const julianDate =
     currentTime.getFullYear() + "_" + getJulianDate(new Date());
   const lastJulianPlayed =
@@ -732,6 +744,7 @@ export default function App() {
             <button class="sofaSommHelp" onClick={handleClickHelp}>
               about
             </button>
+            {override && override !== "0" && <div>ddd = {override}</div>}
           </h2>
         </p>
       </div>
