@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 function useFetchWine() {
   const [wineData, setWineData] = useState([]);
@@ -8,18 +8,21 @@ function useFetchWine() {
   useEffect(() => {
     const fetchWineData = async () => {
       try {
-       // const response = await fetch('https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/wineData.json');
-       const response = await fetch('https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/wineData30.json');
-        
+        const response = await fetch(
+          "https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/sofasomm/wineData30.json"
+        );
+
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(
+            "Network response was not ok for useFetchWine wineDate30.json"
+          );
         }
 
         const dataWines = await response.json();
-        setWineData(dataWines); // Store the entire wine object
-        console.log("Fetch of Wine Data completed at:", new Date());
+        setWineData(dataWines);
+        console.log("useFetchWine of Wine Data completed at:", new Date());
       } catch (error) {
-        console.error('Error fetching wine data:', error);
+        console.error("Error useFetchWine.jsx wine data:", error);
         setError(error);
       } finally {
         setLoading(false);

@@ -13,7 +13,6 @@ async function loadDefaultNotes() {
 
 function getJulianDate(date) {
   const override = localStorage.getItem("dateOverride");
-
   if (override && override != "0") {
     return override; // use override value (already stored in YYDDD or similar format)
   }
@@ -37,12 +36,12 @@ async function getTargetNotes6(wineData, redOrWhite) {
   const majorURLIndex = getMajorURLIndexFromJulian(keyDate);
   console.log("keyDate: " + keyDate + " majorURLIndex: " + majorURLIndex);
   const redWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/redWineMajor" +
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/sofasomm/redWineMajor" +
     majorURLIndex +
     ".json";
 
   const whiteWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/whiteWineMajor" +
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/sofasomm/whiteWineMajor" +
     majorURLIndex +
     ".json";
 
