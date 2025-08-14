@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function useFetchWine() {
+function useFetchWine(dataLibrary) {
   const [wineData, setWineData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,10 +8,11 @@ function useFetchWine() {
   useEffect(() => {
     const fetchWineData = async () => {
       try {
-        const response = await fetch(
-          "https://raw.githubusercontent.com/paulember/paulember.github.io/main/src/data/sofasomm/wineData30.json"
-        );
-
+        const responseURL =
+          "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/" +
+          dataLibrary +
+          "/wineData30.json";
+        const response = await fetch(responseURL);
         if (!response.ok) {
           throw new Error(
             "Network response was not ok for useFetchWine wineDate30.json"

@@ -3,10 +3,10 @@ import getMajorWineOIDs from "./getMajorWineOIDs";
 import { getOid72_From72Key, getOid53_From53Key } from "./getGroupPicks";
 import getDefaultNotes from "./getDefaultNotes";
 
-async function loadDefaultNotes() {
+async function loadDefaultNotes(dataLibrary) {
   const [defaultWhiteNotes, defaultRedNotes] = await Promise.all([
-    getDefaultNotes("white"),
-    getDefaultNotes("red"),
+    getDefaultNotes("white", dataLibrary),
+    getDefaultNotes("red", dataLibrary),
   ]);
   return { defaultWhiteNotes, defaultRedNotes };
 }
@@ -23,29 +23,51 @@ function getJulianDate(date) {
   return dayOfYear;
 }
 
-function getMajorURLIndexFromJulian(julianDay) {
+function getMajorURLIndexFromJulian(julianDay, numberOfFiles) {
   const lastTwoDigits = julianDay % 100;
   const groupNumber = Math.floor((lastTwoDigits - 1) / 2);
-  return ((groupNumber % 10) + 10) % 10;
+  return ((groupNumber % numberOfFiles) + numberOfFiles) % numberOfFiles;
 }
 
-async function getTargetNotes6(wineData, redOrWhite) {
-  const { defaultWhiteNotes, defaultRedNotes } = await loadDefaultNotes();
+async function getTargetNotes6(wineData, redOrWhite, dataLibrary) {
+  const { defaultWhiteNotes, defaultRedNotes } = await loadDefaultNotes(
+    dataLibrary
+  );
   const keyDate = getJulianDate(new Date());
   const defaultNoteIndex = keyDate % 10;
-  const majorURLIndex = getMajorURLIndexFromJulian(keyDate);
-  console.log("keyDate: " + keyDate + " majorURLIndex: " + majorURLIndex);
+  const redMajorURLIndex = getMajorURLIndexFromJulian(keyDate, 10);
+  const whiteMajorURLIndex = getMajorURLIndexFromJulian(keyDate, 11);
+
+  console.log(
+    "keyDate: " +
+      keyDate +
+      " redMajorURLIndex: " +
+      redMajorURLIndex +
+      " whiteMajorURLIndex: " +
+      whiteMajorURLIndex
+  );
+
+  console.log(
+    "defaultWhiteNotes: " +
+      defaultWhiteNotes +
+      " defaultRedNotes: " +
+      defaultRedNotes
+  );
+
   const redWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/sofasomm/redWineMajor" +
-    majorURLIndex +
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/" +
+    dataLibrary +
+    "/redWineMajor" +
+    redMajorURLIndex +
     ".json";
-
   const whiteWineMajorURL =
-    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/sofasomm/whiteWineMajor" +
-    majorURLIndex +
+    "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/" +
+    dataLibrary +
+    "/whiteWineMajor" +
+    whiteMajorURLIndex +
     ".json";
 
-  const oid72in = await getWineOIDfunc(keyDate, redOrWhite);
+  const oid72in = await getWineOIDfunc(keyDate, redOrWhite, dataLibrary);
 
   let wineMajorURLA = whiteWineMajorURL;
   let wineMajorURLB = whiteWineMajorURL;

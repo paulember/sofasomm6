@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-function fetchDailyWineMessages() {
+function fetchDailyWineMessages(dataLibrary) {
   return useQuery({
     queryKey: ["dailyWineMessages"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/sofasomm/dailyWineMessages.json"
-      );
+      const responseURL =
+        "https://raw.githubusercontent.com/paulember/paulember.github.io/refs/heads/main/src/data/" +
+        dataLibrary +
+        "/dailyWineMessages.json";
+      const res = await fetch(responseURL);
       return res.json();
     },
   });

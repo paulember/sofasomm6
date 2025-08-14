@@ -9,8 +9,6 @@ import {
 
 import Modal from "./Modal";
 
-import { vennCriteria } from "./data/vennCategory";
-import { vennGames } from "./data/vennCategory";
 import { useState, useEffect } from "react";
 import getSommCredentials from "./component/getSommCredentials";
 import divCountdownClock from "./component/divCountdownClock";
@@ -26,6 +24,8 @@ export default function App() {
   let currentTime;
 
   const override = localStorage.getItem("dateOverride");
+
+  const dataLibrary = "sofasomm";
 
   if (override && override !== "0") {
     // If override is in DDD format (e.g., "225" for August 13 in a non-leap year)
@@ -63,13 +63,13 @@ export default function App() {
   const mm = pad(currentTime.getMinutes());
   const ss = pad(currentTime.getSeconds());
 
-  const { wineData, loading, error } = useFetchWine();
+  const { wineData, loading, error } = useFetchWine(dataLibrary);
 
   const {
     data: dailyWineMessageData,
     isLoading: isLoadingDailyWineMsg,
     error: errorDailyWineMsg,
-  } = fetchDailyWineMessages();
+  } = fetchDailyWineMessages(dataLibrary);
 
   const todayWineMessageData = dailyWineMessageData?.find(
     (msg) => msg.date == todayMMMDD
@@ -225,12 +225,6 @@ export default function App() {
     setDropStyle(val);
   }
 
-  function getVennGame() {
-    //let newRet = vennGames.find((vennSet) => vennSet.id === game) || null;
-    //console.log ("newRet: " + newRet.venn_A)
-    return vennGames.find((vennSet) => vennSet.id == game) || null;
-  }
-
   function handleClickNext() {
     if (julianDate == lastJulianPlayed) {
       if (isModalOpen) {
@@ -292,9 +286,9 @@ export default function App() {
     if (!Array.isArray(wineData) || wineData.length === 0) return;
 
     const fetchData = async () => {
-      const target0 = await getTargetNotes6(wineData, "WHITE");
-      const target1 = await getTargetNotes6(wineData, "RED");
-      const target2 = await getTargetNotes6(wineData, "SPLIT");
+      const target0 = await getTargetNotes6(wineData, "WHITE", dataLibrary);
+      const target1 = await getTargetNotes6(wineData, "RED", dataLibrary);
+      const target2 = await getTargetNotes6(wineData, "SPLIT", dataLibrary);
       const resultArray = [target0, target1, target2];
       setTargetNotes(resultArray);
     };
@@ -384,44 +378,24 @@ export default function App() {
       vennKey[2] = null;
     }
     if (vennKey[0] !== null && vennKey[1] !== null && vennKey[2] !== null) {
-      // Initialize vennCriteria as an empty array
-
-      const criteria = [];
-      const labels = [];
-      const los = [];
-      const his = [];
-
       const wineDataLength = wineData.length;
       const dusanArray = new Array(wineDataLength).fill(0);
 
       for (let i = 0; i <= 5; i++) {
-        criteria[i] =
-          vennCriteria.find((vennSet) => vennSet.key == vennKey[i]) || null;
-
-        if ((criteria[i].label == null) | (criteria[i].label == undefined)) {
-          labels[i] = criteria[i].key;
-          los[i] = criteria[i].key;
-          his[i] = criteria[i].key;
-        } else {
-          labels[i] = criteria[i].label;
-          los[i] = criteria[i].lo;
-          his[i] = criteria[i].hi;
-        }
-
         for (let j = 0; j < wineDataLength; j++) {
-          if (wineData[j].tastingNote1 == labels[i]) {
+          if (wineData[j].tastingNote1 == vennKey[i]) {
             dusanArray[j]++;
           }
-          if (wineData[j].tastingNote2 == labels[i]) {
+          if (wineData[j].tastingNote2 == vennKey[i]) {
             dusanArray[j]++;
           }
-          if (wineData[j].tastingNote3 == labels[i]) {
+          if (wineData[j].tastingNote3 == vennKey[i]) {
             dusanArray[j]++;
           }
-          if (wineData[j].tastingNote4 == labels[i]) {
+          if (wineData[j].tastingNote4 == vennKey[i]) {
             dusanArray[j]++;
           }
-          if (wineData[j].tastingNote5 == labels[i]) {
+          if (wineData[j].tastingNote5 == vennKey[i]) {
             dusanArray[j]++;
           }
         }
@@ -453,14 +427,7 @@ export default function App() {
         );
       }
 
-      setVennLabel([
-        labels[0],
-        labels[1],
-        labels[2],
-        labels[3],
-        labels[4],
-        labels[5],
-      ]);
+      setVennLabel(vennKey.flat());
     }
   }, [vennKey]);
 
