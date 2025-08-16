@@ -167,9 +167,10 @@ export default function App() {
   const [selectWineDisabled, setSelectWineDisabled] = useState(true);
 
   function TextBoxDailyMessage() {
-    if (selectWineDisabled && game <= 3) {
-      return <div class="dailyMessage">{openingMessage}</div>;
+    if (selectWineDisabled && game <= 3 && openingMessage) {
+      return <div className="dailyMessage">{openingMessage}</div>;
     }
+    return null;
   }
 
   function WineSelection({ winePropValue }) {

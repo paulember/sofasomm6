@@ -154,16 +154,12 @@ button {
 }
 
 .dailyMessage {
-  width: 315px;
-
-  background: linear-gradient(270deg, yellow, lightgreen, yellow);
-  background-size: 600% 600%;
-  animation: gradientShift 45s ease infinite;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
+  background-image: linear-gradient(270deg, lightgreen, yellow, yellow, green);
+  color: white;
+  border-radius: 5px;
   text-align: center;
   vertical-align: middle;
-  font-size: 15px;
+  font-size: 14px;
   font-style: italic;
   font-weight: bold;
   color: purple;
@@ -171,18 +167,6 @@ button {
   border-width: 5px;
   padding: 5px;
   border-color: grey;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 /* Modal.css */
