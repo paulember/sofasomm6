@@ -168,7 +168,7 @@ export default function App() {
 
   function TextBoxDailyMessage() {
     if (selectWineDisabled && game <= 3) {
-      return <div>{openingMessage}</div>;
+      return <div class="dailyMessage">{openingMessage}</div>;
     }
   }
 
