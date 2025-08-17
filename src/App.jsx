@@ -287,9 +287,24 @@ export default function App() {
     if (!Array.isArray(wineData) || wineData.length === 0) return;
 
     const fetchData = async () => {
-      const target0 = await getTargetNotes6(wineData, "WHITE", dataLibrary);
-      const target1 = await getTargetNotes6(wineData, "RED", dataLibrary);
-      const target2 = await getTargetNotes6(wineData, "SPLIT", dataLibrary);
+      const target0 = await getTargetNotes6(
+        wineData,
+        "WHITE",
+        dataLibrary,
+        todayWineMessageData
+      );
+      const target1 = await getTargetNotes6(
+        wineData,
+        "RED",
+        dataLibrary,
+        todayWineMessageData
+      );
+      const target2 = await getTargetNotes6(
+        wineData,
+        "SPLIT",
+        dataLibrary,
+        todayWineMessageData
+      );
       const resultArray = [target0, target1, target2];
       setTargetNotes(resultArray);
     };

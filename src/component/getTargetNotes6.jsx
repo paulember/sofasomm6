@@ -19,7 +19,7 @@ function getJulianDate(date) {
 
   const startOfYear = new Date(date.getFullYear(), 0, 1);
   const diff = date - startOfYear;
-  const dayOfYear = Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;
+  const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
   return dayOfYear;
 }
 
@@ -29,11 +29,18 @@ function getMajorURLIndexFromJulian(julianDay, numberOfFiles) {
   return ((groupNumber % numberOfFiles) + numberOfFiles) % numberOfFiles;
 }
 
-async function getTargetNotes6(wineData, redOrWhite, dataLibrary) {
+async function getTargetNotes6(
+  wineData,
+  redOrWhite,
+  dataLibrary,
+  todayWineMessageData
+) {
   const { defaultWhiteNotes, defaultRedNotes } = await loadDefaultNotes(
     dataLibrary
   );
   const keyDate = getJulianDate(new Date());
+  const oid72Julian = keyDate + (new Date().getFullYear() % 10) * 10;
+
   const defaultNoteIndex = keyDate % 10;
   const redMajorURLIndex = getMajorURLIndexFromJulian(keyDate, 10);
   const whiteMajorURLIndex = getMajorURLIndexFromJulian(keyDate, 11);
@@ -67,7 +74,11 @@ async function getTargetNotes6(wineData, redOrWhite, dataLibrary) {
     whiteMajorURLIndex +
     ".json";
 
-  const oid72in = await getWineOIDfunc(keyDate, redOrWhite, dataLibrary);
+  const overrideVarName = `todayWineMessageData.oRide${redOrWhite}`;
+  const overrideValue = globalThis[overrideVarName];
+  const oid72in =
+    overrideValue ??
+    (await getWineOIDfunc(oid72Julian, redOrWhite, dataLibrary));
 
   let wineMajorURLA = whiteWineMajorURL;
   let wineMajorURLB = whiteWineMajorURL;
