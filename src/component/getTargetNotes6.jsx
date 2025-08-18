@@ -74,32 +74,38 @@ async function getTargetNotes6(
     whiteMajorURLIndex +
     ".json";
 
-  const overrideVarName = `todayWineMessageData.oRide${redOrWhite}`;
-  const overrideValue = globalThis[overrideVarName];
-  const oid72in =
-    overrideValue ??
-    (await getWineOIDfunc(oid72Julian, redOrWhite, dataLibrary));
-
   let wineMajorURLA = whiteWineMajorURL;
   let wineMajorURLB = whiteWineMajorURL;
   let defaultNotes = defaultWhiteNotes;
+let overrideDailyOID = null;
 
-  switch (redOrWhite) {
-    case "RED":
-      wineMajorURLA = redWineMajorURL;
-      wineMajorURLB = redWineMajorURL;
-      defaultNotes = defaultRedNotes;
-      break;
-    case "SPLIT":
-      wineMajorURLA = whiteWineMajorURL;
-      wineMajorURLB = redWineMajorURL;
-      defaultNotes = defaultRedNotes;
-      break;
-    default:
-      wineMajorURLA = whiteWineMajorURL;
-      wineMajorURLB = whiteWineMajorURL;
-      defaultNotes = defaultWhiteNotes;
-  }
+switch (redOrWhite) {
+  case "RED":
+    wineMajorURLA = redWineMajorURL;
+    wineMajorURLB = redWineMajorURL;
+    defaultNotes = defaultRedNotes;
+    overrideDailyOID = todayWineMessageData.oRideRED ?? null;
+    break;
+
+  case "SPLIT":
+    wineMajorURLA = whiteWineMajorURL;
+    wineMajorURLB = redWineMajorURL;
+    defaultNotes = defaultRedNotes;
+    overrideDailyOID = todayWineMessageData.oRideSPLIT ?? null;
+    break;
+
+  case "WHITE":
+  default:
+    wineMajorURLA = whiteWineMajorURL;
+    wineMajorURLB = whiteWineMajorURL;
+    defaultNotes = defaultWhiteNotes;
+    overrideDailyOID = todayWineMessageData.oRideWHITE ?? null;
+    break;
+}
+
+let oid72in =
+  overrideDailyOID ??
+  (await getWineOIDfunc(oid72Julian, redOrWhite, dataLibrary));
 
   const wineA7 = await getMajorWineOIDs(wineMajorURLA, 12);
   const wineB7 = await getMajorWineOIDs(wineMajorURLB, 12);
