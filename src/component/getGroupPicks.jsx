@@ -169,22 +169,4 @@ function getOid72_From72Key(bottleOrdinal, in72Key) {
   return "0";
 }
 
-function getWineInfo(key, dataTable, wineData) {
-  const targetOid = dataTable?.[Number(key)];
-  const targetWine = targetOid != null ? wineData?.[targetOid] : null;
-
-  return {
-    style: targetWine?.style ?? "N/A",
-    notes: targetWine
-      ? [
-          targetWine.tastingNote1,
-          targetWine.tastingNote2,
-          targetWine.tastingNote3,
-          targetWine.tastingNote4,
-          targetWine.tastingNote5,
-        ]
-      : [],
-  };
-}
-
-export { getOid72_From72Key, getOid53_From53Key, getWineInfo };
+export { getOid72_From72Key, getOid53_From53Key };

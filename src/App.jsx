@@ -180,8 +180,8 @@ export default function App() {
 
       if (
         !selectedWine ||
-        !selectedWine.tastingNote1 ||
-        !selectedWine.tastingNote2
+        !Array.isArray(selectedWine.tastingNote) ||
+        selectedWine.tastingNote.length < 2
       ) {
         throw new Error("Invalid wine data");
       }
@@ -199,14 +199,16 @@ export default function App() {
           </table>
           <table>
             <tr>
-              <td class={winetdClass[0]}> {selectedWine.tastingNote1} </td>
-              <td class={winetdClass[1]}> {selectedWine.tastingNote2} </td>
-              <td class={winetdClass[2]}> {selectedWine.tastingNote3} </td>
+              {selectedWine.tastingNote.slice(0, 3).map((note, i) => (
+                <td key={i} className={winetdClass[i]}>
+                  {note}
+                </td>
+              ))}
             </tr>
             <tr>
-              <td class={winetdClass[3]}> {selectedWine.tastingNote4} </td>
-              <td class="td-wineMiss"> </td>
-              <td class={winetdClass[4]}> {selectedWine.tastingNote5} </td>
+              <td className={winetdClass[3]}>{selectedWine.tastingNote[3]}</td>
+              <td className="td-wineMiss"></td>
+              <td className={winetdClass[4]}>{selectedWine.tastingNote[4]}</td>
             </tr>
           </table>
         </>
@@ -395,25 +397,16 @@ export default function App() {
     }
     if (vennKey[0] !== null && vennKey[1] !== null && vennKey[2] !== null) {
       const wineDataLength = wineData.length;
+      console.log("wineData[1]:", JSON.stringify(wineData[1], null, 2));
       const dusanArray = new Array(wineDataLength).fill(0);
 
       for (let i = 0; i <= 5; i++) {
         for (let j = 0; j < wineDataLength; j++) {
-          if (wineData[j].tastingNote1 == vennKey[i]) {
-            dusanArray[j]++;
-          }
-          if (wineData[j].tastingNote2 == vennKey[i]) {
-            dusanArray[j]++;
-          }
-          if (wineData[j].tastingNote3 == vennKey[i]) {
-            dusanArray[j]++;
-          }
-          if (wineData[j].tastingNote4 == vennKey[i]) {
-            dusanArray[j]++;
-          }
-          if (wineData[j].tastingNote5 == vennKey[i]) {
-            dusanArray[j]++;
-          }
+          const tastingNoteLength = wineData[j].tastingNote.length;
+          for (let jNote = 0; jNote < tastingNoteLength; jNote++)
+            if (wineData[j].tastingNote[jNote] == vennKey[i]) {
+              dusanArray[j]++;
+            }
         }
 
         let largestNumber = dusanArray[0];
@@ -428,18 +421,9 @@ export default function App() {
         setDusanBottle(wineData[largestIndex].style);
 
         setDusanNotes(
-          "(" +
-            largestNumber +
-            ") - " +
-            wineData[largestIndex].tastingNote1 +
-            ", " +
-            wineData[largestIndex].tastingNote2 +
-            ", " +
-            wineData[largestIndex].tastingNote3 +
-            ", " +
-            wineData[largestIndex].tastingNote4 +
-            ", " +
-            wineData[largestIndex].tastingNote5
+          `(${largestNumber}) - ${wineData[largestIndex].tastingNote.join(
+            ", "
+          )}`
         );
       }
 
@@ -453,14 +437,9 @@ export default function App() {
         wineData.find((wine) => wine.style == selectedStyle) || null;
 
       if (selectedWine !== null) {
-        const tastingNotes = [];
-
         appendBottleHistory(selectedStyle);
-        tastingNotes[0] = selectedWine.tastingNote1;
-        tastingNotes[1] = selectedWine.tastingNote2;
-        tastingNotes[2] = selectedWine.tastingNote3;
-        tastingNotes[3] = selectedWine.tastingNote4;
-        tastingNotes[4] = selectedWine.tastingNote5;
+
+        const tastingNotes = selectedWine.tastingNote || [];
 
         setWineNotes([
           tastingNotes[0],

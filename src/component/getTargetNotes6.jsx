@@ -108,20 +108,8 @@ async function getTargetNotes6(
   const index7B = getOid72_From72Key("2", oid72in.slice(0, 2));
   const targetABCindex = getOid53_From53Key(oid72in.charAt(2));
   const targetDEFindex = getOid53_From53Key(oid72in.charAt(3));
-  const ATarget_Notes = [
-    wineData[wineA7[index7A]].tastingNote1,
-    wineData[wineA7[index7A]].tastingNote2,
-    wineData[wineA7[index7A]].tastingNote3,
-    wineData[wineA7[index7A]].tastingNote4,
-    wineData[wineA7[index7A]].tastingNote5,
-  ];
-  const BTarget_Notes = [
-    wineData[wineB7[index7B]].tastingNote1,
-    wineData[wineB7[index7B]].tastingNote2,
-    wineData[wineB7[index7B]].tastingNote3,
-    wineData[wineB7[index7B]].tastingNote4,
-    wineData[wineB7[index7B]].tastingNote5,
-  ];
+  const ATarget_Notes = wineData[wineA7[index7A]].tastingNote || [];
+  const BTarget_Notes = wineData[wineB7[index7B]].tastingNote || [];
 
   const targetAIndices = targetABCindex.split("").slice(0, 3);
   const targetBIndices = targetDEFindex.split("").slice(0, 3);
