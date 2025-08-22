@@ -53,15 +53,21 @@ function SplashDiv({ game, julianDate }) {
         </table>
         <p>
           {" "}
-          Each TASTING consists of 6 notes displayed at the top of the screen.{" "}
+          For Instructions on How to Play and additional details check the
+          Documentation{" "}
+          <a
+            href="https://phungo.blogspot.com/2024/01/sofasomm-wine-tasting-game.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            here
+          </a>
+          .{" "}
         </p>
         <p>
-          Find these tasting notes by SELECTING and OPENING a BOTTLE from the
-          Wine(Varietal) list dropdown.{" "}
+          The link can also be used to report issues or give the Sofa Somm Team
+          feedback. We would love to hear from you.
         </p>
-        <p> Notes that MATCH the opened bottle will switch to GREEN. </p>
-        <p> Your goal is to find all 6 Notes in as few bottles as possible. </p>
-        <p>You can open up to 6 bottles for each tasting. </p>
         <h2> Happy Tasting!!! </h2>
         <QRCodeDiv />
         <div>&emsp;</div>
