@@ -4,7 +4,7 @@ import qrImage from "../component/QRSofaSomm.png";
 function handleClearClick() {
   if (
     confirm(
-      "Press OK to Clear Your SofaSomm Cache.\n \n THIS WILL REMOVE ALL RECORDS OF YOUR PREVIOUS TASTINGS. \n \n Press Cancel to return to the Splash Screen. "
+      "Press OK to Clear Your Application Cache.\n \n THIS WILL REMOVE ALL RECORDS OF YOUR PREVIOUS GAMES. \n \n Press Cancel to return to the Splash Screen. "
     )
   ) {
     localStorage.removeItem("lastJulianPlayed", 0);
@@ -30,7 +30,7 @@ const QRCodeDiv = () => {
   return (
     <div>
       <div>
-        <img src={qrImage} alt="https://starting9.vercel.app/" />
+        <img src={qrImage} alt="https://sofasomm.vercel.app/" />
       </div>
       <a href="https://sofasomm.vercel.app/" target="_blank" rel="noreferrer">
         https://sofasomm.vercel.app/{" "}
@@ -39,12 +39,12 @@ const QRCodeDiv = () => {
   );
 };
 
-function SplashDiv({ game, julianDate }) {
+function SplashDiv({ game, julianDate, appTxt }) {
   if (game == null) {
     return (
       <div>
-        <h3> Welcome Sofa Sommelier! </h3>
-        <p> Sofa Somm is a tool to help build your wine tasting skills. </p>
+        <h3> Welcome to Sofa Sommelier! </h3>
+        <p> {appTxt} is a tool to help build your wine tasting skills. </p>
         <p> Begin your tasting by clicking the Yellow START button above. </p>
         <table>
           <td class="splashQuote">

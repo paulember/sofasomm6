@@ -1,14 +1,10 @@
-function getSommelierTitle(noteCount) {
-  switch (true) {
-    case noteCount >= 98:
-      return "MASTER SOMMELIER";
-    case noteCount >= 90:
-      return "Advanced";
-    case noteCount >= 80:
-      return "Certified";
-    default:
-      return "Beginner";
+function getSommelierTitle(noteCount, appScoreFloors) {
+  for (let [floor, grade] of appScoreFloors) {
+    if (noteCount >= floor) {
+      return grade;
+    }
   }
+  return "none";
 }
 
 export { getSommelierTitle };

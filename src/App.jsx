@@ -19,14 +19,13 @@ const gameTotal = 3;
 
 import useFetchWine from "./component/useFetchWine";
 import fetchDailyWineMessages from "./component/fetchDailyWineMessages";
+import fetchAppProps from "./component/fetchAppProps";
 
 export default function App() {
-  let currentTime;
-
-  const override = localStorage.getItem("dateOverride");
-
   const dataLibrary = "sofasomm";
 
+  let currentTime;
+  const override = localStorage.getItem("dateOverride");
   if (override && override !== "0") {
     // If override is in DDD format (e.g., "225" for August 13 in a non-leap year)
     const currentYear = new Date().getFullYear();
@@ -66,6 +65,16 @@ export default function App() {
   const { wineData, loading, error } = useFetchWine(dataLibrary);
 
   const {
+    data: appPropData,
+    isLoading: isLoadingAppPropsMsg,
+    error: errorAppPropsMsg,
+  } = fetchAppProps(dataLibrary);
+
+  const appProp = appPropData?.find((prop) => prop.appPropsKey == 0);
+  const appTxt = appProp?.appTxt || "";
+  const appScoreFloors = appProp?.scoreFloors || [];
+
+  const {
     data: dailyWineMessageData,
     isLoading: isLoadingDailyWineMsg,
     error: errorDailyWineMsg,
@@ -74,9 +83,7 @@ export default function App() {
   const todayWineMessageData = dailyWineMessageData?.find(
     (msg) => msg.date == todayMMMDD
   );
-
   const openingMessage = todayWineMessageData?.openingMessage || "";
-
   const postgameMessage = [
     todayWineMessageData?.whitePostgameMsg || "",
     todayWineMessageData?.redPostgameMsg || "",
@@ -151,9 +158,9 @@ export default function App() {
 
   const [vennLabel, setVennLabel] = useState([Array(6).fill(null)]);
   const [vennBackIcon, setVennBackIcon] = useState([Array(6).fill(null)]);
-  const [wineNotes, setWineNotes] = useState([Array(5).fill(null)]);
 
-  const [winetdClass, setWinetdClass] = useState([Array(6).fill(null)]);
+  const [wineNotes, setWineNotes] = useState([]);
+  const [winetdClass, setWinetdClass] = useState([]);
 
   const [showHideBottleDiv, setShowHideBottleDiv] = useState("Show ");
   const [divBlockNone, setDivBlockNone] = useState("divDisplayNone");
@@ -250,8 +257,8 @@ export default function App() {
 
   function handleClickHelp() {
     let helpText = "Welcome to Sofa Sommelier! \n \n";
-    helpText +=
-      "Sofa Somm is a tool to help build your wine tasting skills. \n \n";
+    helpText += appTxt;
+    helpText += " is a tool to help build your wine tasting skills. \n \n";
 
     helpText += "-Begin your tasting by clicking the START button. \n";
     helpText +=
@@ -419,14 +426,12 @@ export default function App() {
         }
 
         setDusanBottle(wineData[largestIndex].style);
-
         setDusanNotes(
           `(${largestNumber}) - ${wineData[largestIndex].tastingNote.join(
             ", "
           )}`
         );
       }
-
       setVennLabel(vennKey.flat());
     }
   }, [vennKey]);
@@ -439,16 +444,14 @@ export default function App() {
       if (selectedWine !== null) {
         appendBottleHistory(selectedStyle);
 
-        const tastingNotes = selectedWine.tastingNote || [];
+        const tastingNotes = Array.isArray(selectedWine.tastingNote)
+          ? selectedWine.tastingNote
+          : selectedWine.tastingNote
+          ? [selectedWine.tastingNote]
+          : [];
 
-        setWineNotes([
-          tastingNotes[0],
-          tastingNotes[1],
-          tastingNotes[2],
-          tastingNotes[3],
-          tastingNotes[4],
-        ]);
-        setGameBottle(gameBottle + 1);
+        setWineNotes(tastingNotes);
+        setGameBottle((prev) => prev + 1);
       }
     }
   }, [selectedStyle]);
@@ -695,7 +698,7 @@ export default function App() {
             {" "}
             <b>
               {" "}
-              <i> Sofa Somm </i>
+              <i> {appTxt} </i>
               &emsp;&emsp;
             </b>
             <button class={tastingButton} onClick={handleClickNext}>
@@ -711,7 +714,7 @@ export default function App() {
         </p>
       </div>
       <div>
-        <SplashDiv game={game} julianDate={julianDate} />
+        <SplashDiv game={game} julianDate={julianDate} appTxt={appTxt} />
       </div>
 
       <div>
@@ -792,6 +795,7 @@ export default function App() {
                   game,
                   dailyBalthazar,
                   openingMessage,
+                  appScoreFloors,
                 })}
               </div>
             </div>
@@ -804,7 +808,7 @@ export default function App() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 class="sofaSommTitle">
           <b>
-            <i> Sofa Somm </i>{" "}
+            <i> {appTxt}</i>{" "}
           </b>{" "}
           &emsp;&emsp;
           <button class="sofaSommTitle" onClick={closeModal}>
@@ -852,6 +856,7 @@ export default function App() {
               game,
               dailyBalthazar,
               openingMessage,
+              appScoreFloors,
             })}
           </div>
         </div>

@@ -52,8 +52,9 @@ function ShareButton({
   dailyBalthazar,
   todayMMMDD,
   openingMessage,
+  appScoreFloors,
 }) {
-  const sommTitle = getSommelierTitle(todayAVGScore);
+  const sommTitle = getSommelierTitle(todayAVGScore, appScoreFloors);
   return (
     <button
       className="sofaSommHelp"
@@ -65,7 +66,8 @@ function ShareButton({
           sommTitle,
           dailyBalthazar,
           todayMMMDD,
-          openingMessage
+          openingMessage,
+          appScoreFloors
         )
       }
     >
@@ -88,8 +90,9 @@ function getSommCredentials({
   game,
   dailyBalthazar,
   openingMessage,
+  appScoreFloors,
 }) {
-  const sommTitle = getSommelierTitle(todayAVGScore);
+  const sommTitle = getSommelierTitle(todayAVGScore, appScoreFloors);
   return (
     <div>
       <table>
@@ -105,6 +108,7 @@ function getSommCredentials({
                 dailyBalthazar={dailyBalthazar}
                 todayMMMDD={todayMMMDD}
                 openingMessage={openingMessage}
+                appScoreFloors={appScoreFloors}
               />
             )}
           </td>
