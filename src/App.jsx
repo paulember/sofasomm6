@@ -269,7 +269,7 @@ export default function App() {
       "Notes that MATCH the opened bottle will switch to GREEN. \n \n";
     helpText +=
       "-Your goal is to find all 6 Notes in as few bottles as possible. \n";
-    helpText += "-You can open up to 6 bottles for each tasting.\n \n";
+    helpText += "-You can open up to 6 bottles per tasting.\n \n";
     helpText += "Happy Tasting!!!\n \n";
     helpText += "Sources: \n";
     helpText += "WineFolly.com\n";
