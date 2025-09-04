@@ -370,6 +370,7 @@ export default function App() {
       setWineScoreLabel(null);
       setDusanBottle(null);
       setBottleHistory([]);
+      setWineNotes([]);
       setShowHideBottleDiv("Show ");
       setDivBlockNone("divDisplayNone");
       setTastingButton("sofaSommTitle");
