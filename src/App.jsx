@@ -269,7 +269,7 @@ export default function App() {
       "Notes that MATCH the opened bottle will switch to GREEN. \n \n";
     helpText +=
       "-Your goal is to find all 6 Notes in as few bottles as possible. \n";
-    helpText += "-You can open up to 6 bottles per tasting.\n \n";
+    helpText += "-You can open up to 6 bottles for each tasting.\n \n";
     helpText += "Happy Tasting!!!\n \n";
     helpText += "Sources: \n";
     helpText += "WineFolly.com\n";
@@ -562,6 +562,10 @@ export default function App() {
           baseScore = 82;
       }
 
+      console.log("bottle1Notes: " + bottle1Notes);
+      console.log("gameSpills: " + gameSpills);
+
+      console.log("bottle1Bonus: " + bottle1Bonus);
       setWineScore(baseScore + bottle1Bonus - gameSpills * 3);
 
       setLSBalthazarCount(parseInt(LSBalthazarCount) + parseInt(1));
@@ -625,7 +629,7 @@ export default function App() {
     let matchLength = matchingElements.length;
     const tempArray = Array.from(venntdClass);
 
-    if (matchLength < 1) {
+    if ((matchLength < 1) & (gameBottle > 0)) {
       setGameSpills(gameSpills + 1);
     }
 
